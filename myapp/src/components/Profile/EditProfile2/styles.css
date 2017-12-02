@@ -1,0 +1,89 @@
+.editprofile2_centerContent {
+    width: 600px;
+    padding-top: 10px;
+    text-align: center;
+    display: inline-block;
+}
+
+.editprofile2_centerContent1 {
+    width: 600px;
+    padding-top: 10px;
+    text-align: center;
+    display: inline-block;
+    margin-left: calc(50vw - 300px);
+}
+
+.editprofile2_addskills {
+    width: 600px;
+    text-align: left;
+    display: inline-block;
+}
+
+.editprofile2_policecheck {
+    width: 600px;
+    text-align: left;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 5px;
+    margin-top: 2px;
+}
+
+.editprofile2_input {
+    width: 600px;
+    text-align: left;
+    display: inline-block;
+}
+
+.item1 {
+    display: inline-block;
+    width: 150px;
+    line-height: 30px;
+    margin: 10px;
+    border-radius: 15px;
+    border: solid 1px #05978b;
+    text-align: center;
+    box-shadow: 1px 1px 10px 1px #888888;
+}
+
+.item1:hover {
+    cursor: pointer;
+}
+
+.item1_X {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.editprofile2_divider {
+    width: 650px;
+    height: 1px;
+    text-align: left;
+    display: inline-block;
+    background: lightgray;
+}
+
+.policecheck_editprofile2 {
+    background: url("./../../../assets/checkon.png");
+    width: 20px;
+    height: 20px;
+    background-size: 100% 100%;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.policecheck_editprofile2:hover {
+    cursor: pointer;
+}
+
+.policecheck_editprofile2_off {
+    background: url("./../../../assets/checkoff.png");
+    width: 20px;
+    height: 20px;
+    background-size: 100% 100%;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.policecheck_editprofile2_off:hover {
+    cursor: pointer;
+}

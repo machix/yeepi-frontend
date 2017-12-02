@@ -1,0 +1,190 @@
+
+.signupstripcontent {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.centerContent {
+    padding-top: 30px;
+    text-align: center;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    background: url("./../../../assets/testavatar.png");
+    background-size: 100% 100%;
+    display: inline-block;
+}
+
+.avatar_null {
+    width: 100px;
+    height: 100px;
+    background: url("./../../../assets/uploadavatar.png");
+    background-size: 100% 100%;
+    display: inline-block;
+}
+
+.usernameContent {
+    padding-top: 10px;
+    text-align: center;
+}
+
+.username {
+    color: black;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.username_red {
+    color: red;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.leftSideContainer {
+    width: 400px;
+    display: inline-block;
+    text-align: left;
+    padding: 10px 15px;
+}
+
+.rightSideContainer {
+    width: 400px;
+    display: inline-block;
+    text-align: left;
+    padding: 10px 15px;
+}
+
+.redLabel {
+    color: red;
+    font-size: large;
+}
+
+.rightDivider1 {
+    width: 60%;
+    display: inline-block;
+    padding-right: 10px;
+}
+
+.rightDivider2 {
+    width: 40%;
+    display: inline-block;
+}
+
+.smallbar {
+    width: 400px;
+    height: 1px;
+    background: #ebebeb;
+    display: inline-block;
+}
+
+.barContent {
+    text-align: center;
+}
+
+.tax1 {
+    width: 50%;
+    padding-right: 5px;
+    display: inline-block;
+}
+
+.tax2 {
+    width: 50%;
+    padding-left: 5px;
+    display: inline-block;
+}
+
+.checkon {
+    background: url("./../../../assets/checkon.png");
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-size: 100% 100%;
+    margin-left: 10px;
+}
+
+.checkon:hover {
+    cursor: pointer;
+}
+
+.checkoff {
+    background: url("./../../../assets/checkoff.png");
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-size: 100% 100%;
+    margin-left: 10px;
+}
+
+.checkoff:hover {
+    cursor: pointer;
+}
+
+.bottomContent {
+    height: 80px;
+    box-shadow: 5px 0px 10px #888888;
+    text-align: center;
+}
+
+.clear {
+    display: inline-block;
+    width: 150px;
+    line-height: 34px;
+    border-radius: 17px;
+    border: 1px solid #05978b;
+    color: #05978b;
+    box-shadow: 1px 1px 10px 1px #888888;
+    margin-right: 15px;
+    margin-top: 23px;
+    -webkit-transition: all 1s ease;
+}
+
+.next {
+    display: inline-block;
+    width: 150px;
+    line-height: 34px;
+    border-radius: 17px;
+    border: 1px solid #ff2165;
+    background: #ff2165;
+    color: #ffffff;
+    box-shadow: 1px 1px 10px 1px #888888;
+    margin-left: 15px;
+    -webkit-transition: all 1s ease;
+}
+
+.clear:hover {
+    border: 1px solid #05978b;
+    background: #05978b;
+    color: white;
+    transition: 1s ease;
+    cursor: pointer;
+}
+
+.next:hover {
+    border: 1px solid #05978b;
+    background: #05978b;
+    transition: 1s ease;
+    cursor: pointer;
+}
+
+.bankaddr {
+    /*box-shadow: 0 0 1px #888888;*/
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: 38px;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+.react-datepicker__input-container {
+    width: 100%;
+}
+
+#PlacesAutocomplete__root input {
+    padding: 0;
+    height: 40px;
+}

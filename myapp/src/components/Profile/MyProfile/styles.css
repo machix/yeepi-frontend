@@ -1,0 +1,313 @@
+.myprofileContent {
+    padding-bottom: 100px;
+    overflow-x: hidden;
+    width: 100vw;
+}
+
+.centerContent {
+    padding-top: 30px;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.usernameContent {
+    padding-top: 10px;
+    text-align: center;
+}
+
+.smallbar1 {
+    width: 90%;
+    height: 1px;
+    background: lightgray;
+    display: inline-block;
+    margin-top: 40px;
+}
+
+.leftRangeContainer {
+    width: 45%;
+    text-align: right;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    border-right: 1px solid lightgray;
+    margin-top: 20px;
+    padding-left: 30px;
+}
+
+.rightRangeContainer {
+    width: 55%;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    padding-left: 10px;
+}
+
+.leftRange {
+    width: 80%;
+    display: inline-block;
+    text-align: left;
+}
+
+.rightRange {
+    width: 80%;
+    display: inline-block;
+    text-align: left;
+}
+
+.about {
+    display: inline-block;
+    color: gray;
+    margin-top: 10px;
+}
+
+.rightabout {
+    display: inline-block;
+    color: gray;
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
+.rightaboutcontent {
+    display: inline-block;
+    margin-top: 15px;
+    width: 150px;
+    line-height: 30px;
+    text-align: center;
+    margin-left: 30px;
+    border-radius: 15px;
+    border: 1px solid #36aba2;
+}
+
+.aboutcontent {
+    display: inline-block;
+    margin-top: 5px;
+    padding-right: 20px;
+}
+
+.aboutcontent2 {
+    display: inline-block;
+    margin-top: 5px;
+    margin-left: 35px;
+}
+
+.aboutcontent3 {
+    display: inline-block;
+    margin-top: 13px;
+    margin-left: 60px;
+    color: gray;
+}
+
+.aboutcontent4 {
+    display: inline-block;
+    margin-top: 5px;
+    margin-left: 60px;
+}
+
+.smallbar2 {
+    width: 95%;
+    height: 1px;
+    background: lightgray;
+    display: inline-block;
+    margin-top: 40px;
+}
+
+.emailverify {
+    position: absolute;
+    display: inline-block;
+    margin-left: 250px;
+    margin-top: 20px;
+    text-align: center;
+
+    width: 120px;
+    line-height: 34px;
+    border-radius: 17px;
+    border: 1px solid #ff2165;
+    background: #ff2165;
+    color: #ffffff;
+    box-shadow: 1px 1px 10px 1px #888888;
+    -webkit-transition: all 1s ease;
+}
+
+.verifyContainer {
+    width: 100%;
+    text-align: center;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.secode{
+    display: inline-block;
+}
+.modalverify {
+    width: 120px;
+    text-align: center;
+    line-height: 34px;
+    border-radius: 17px;
+    border: 1px solid #ff2165;
+    background: #ff2165;
+    color: #ffffff;
+    box-shadow: 1px 1px 10px 1px #888888;
+    -webkit-transition: all 1s ease;
+    display: inline-block;
+}
+.modalverify:hover {
+    border: 1px solid #05978b;
+    background: #05978b;
+    transition: 1s ease;
+    cursor: pointer;
+}
+.emailverify:hover {
+    border: 1px solid #05978b;
+    background: #05978b;
+    transition: 1s ease;
+    cursor: pointer;
+}
+
+.phoneverify {
+    position: absolute;
+    display: inline-block;
+    margin-left: 180px;
+    margin-top: 20px;
+    text-align: center;
+
+    width: 120px;
+    line-height: 34px;
+    border-radius: 17px;
+    border: 1px solid #ff2165;
+    background: #ff2165;
+    color: #ffffff;
+    box-shadow: 1px 1px 10px 1px #888888;
+    -webkit-transition: all 1s ease;
+}
+
+.phoneverify:hover {
+    border: 1px solid #05978b;
+    background: #05978b;
+    transition: 1s ease;
+    cursor: pointer;
+}
+
+.roundCheck1 {
+    position: absolute;
+    display: inline-block;
+    background: url("./../../../assets/roundcheckon.png");
+    width: 20px;
+    height: 20px;
+    background-size: 100% 100%;
+    margin-top: -3px;
+    margin-left: 300px;
+}
+
+.emailconfirmedtext {
+    position: absolute;
+    display: inline-block;
+    margin-top: -2px;
+    margin-left: 330px;
+}
+
+.roundCheck2 {
+    position: absolute;
+    display: inline-block;
+    background: url("./../../../assets/roundcheckon.png");
+    width: 20px;
+    height: 20px;
+    background-size: 100% 100%;
+    margin-top: -3px;
+    margin-left: 300px;
+}
+
+.phoneconfirmedtext {
+    position: absolute;
+    display: inline-block;
+    margin-top: -5px;
+    margin-left: 330px;
+}
+
+.fb {
+    background: url("./../../../assets/fb.png");
+    width: 30px;
+    height: 30px;
+    background-size: 100% 100%;
+    margin-top: 30px;
+}
+
+.fbText {
+    margin-top: 28px;
+    color: #3b5998;
+}
+
+.fbConnect {
+    position: absolute;
+    display: inline-block;
+    margin-left: 140px;
+    margin-top: 30px;
+    text-align: center;
+
+    width: 120px;
+    line-height: 34px;
+    border-radius: 17px;
+    border: 1px solid #3b5998;
+    background: #3b5998;
+    color: #ffffff;
+    box-shadow: 1px 1px 10px 1px #888888;
+    -webkit-transition: all 1s ease;
+}
+
+.fbConnect:hover {
+    border: 1px solid #05978b;
+    background: #05978b;
+    transition: 1s ease;
+    cursor: pointer;
+}
+
+.policecheck {
+    position: absolute;
+    background: url("./../../../assets/checkon.png");
+    width: 20px;
+    height: 20px;
+    background-size: 100% 100%;
+    margin-left: 30px;
+    margin-top: 12px;
+}
+
+.policecheckoff {
+    position: absolute;
+    background: url("./../../../assets/checkoff.png");
+    width: 20px;
+    height: 20px;
+    background-size: 100% 100%;
+    margin-left: 30px;
+    margin-top: 12px;
+}
+
+.bottomMargin {
+    height: 30px;
+}
+
+.editprofile {
+    position: absolute;
+    text-align: center;
+    right: 150px;
+    top: 150px;
+
+    width: 150px;
+    line-height: 34px;
+    border-radius: 17px;
+    border: 1px solid #ff2165;
+    background: #ff2165;
+    color: #ffffff;
+    box-shadow: 1px 1px 10px 1px #888888;
+    -webkit-transition: all 1s ease;
+}
+
+.editprofile:hover {
+    border: 1px solid #05978b;
+    background: #05978b;
+    transition: 1s ease;
+    cursor: pointer;
+}
+
+.myprofile_portfolio_container {
+    padding-right: 30px;
+    padding-top: 30px;
+    display: inline-block;
+}
