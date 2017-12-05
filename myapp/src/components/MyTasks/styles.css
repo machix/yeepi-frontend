@@ -1,0 +1,64 @@
+.mytasks_top_selector {
+    width: 90%;
+    height: 50px;
+    display: inline-block;
+    border-bottom: solid 1px lightgray;
+    text-align: left;
+}
+
+.mytasks_top_selector1 {
+    width: 150px;
+    line-height: 48px;
+    display: inline-block;
+    text-align: center;
+    color: #d1d1d1;
+}
+
+.mytasks_top_selector1:hover {
+    cursor: pointer;
+}
+
+.borderbottom {
+    border-bottom: solid 2px #05978b;
+    color: #858585;
+}
+
+.no_tasks_img {
+    width: 102px;
+    height: 95px;
+    background: url("./../../assets/notasks.png");
+    background-size: 100% 100%;
+    display: inline-block;
+    margin-top: 30px;
+}
+
+.no_tasks_title {
+    margin-top: 20px;
+    font-size: x-large;
+}
+
+.no_tasks_subtitle {
+    width: 60%;
+    margin-top: 20px;
+    font-size: medium;
+    display: inline-block;
+}
+
+.no_tasks_button_container {
+    width: 100%;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.no_tasks_button {
+    width: 200px;
+    line-height: 40px;
+    border-radius: 20px;
+    border: 1px solid #ff2165;
+    background: #ff2165;
+    color: #ffffff;
+    box-shadow: 1px 1px 10px 1px #888888;
+    -webkit-transition: all 1s ease;
+    margin-top: 20px;
+    display: inline-block;
+}

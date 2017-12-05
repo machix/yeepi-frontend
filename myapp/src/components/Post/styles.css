@@ -46,6 +46,16 @@
     padding-left: 120px;
 }
 
+.post_toptitle_new_center3 {
+    position: absolute;
+    width: calc(90vw - 30px);
+    height: 1px;
+    text-align: left;
+    background: lightgray;
+    margin-top: 90px;
+    margin-left: 70px;
+}
+
 .post_toptitle_center3 {
     position: absolute;
     width: calc(90vw - 30px);
@@ -941,6 +951,125 @@ textarea {
     margin-top: 230px;
 }
 
+.post_leftRange_new_endleasing {
+    position: absolute;
+    margin-top: 230px;
+}
+
+.post_leftRange_new_propertytype {
+    position: absolute;
+    margin-top: 280px;
+}
+
+.post_leftRange_new_bedroomnum {
+    position: absolute;
+    margin-top: 280px;
+    margin-left: 220px;
+}
+
+.post_leftRange_new_propertytype_value {
+    position: absolute;
+    margin-top: 300px;
+    color: #05978b;
+}
+
+.post_leftRange_new_bedroomnum_value {
+    position: absolute;
+    margin-top: 300px;
+    margin-left: 220px;
+    color: #05978b;
+}
+
+.post_leftRange_new_bathroomnum {
+    position: absolute;
+    margin-top: 350px;
+}
+
+.post_leftRange_new_taskernum {
+    position: absolute;
+    margin-top: 350px;
+    margin-left: 220px;
+}
+
+.post_leftRange_new_bathroomnum_value {
+    position: absolute;
+    margin-top: 370px;
+    color: #05978b;
+}
+
+.post_leftRange_new_taskernum_value {
+    position: absolute;
+    margin-top: 370px;
+    margin-left: 220px;
+    color: #05978b;
+}
+
+.post_leftRange_new_cleaningoptions {
+    position: absolute;
+    margin-top: 430px;
+}
+
+.cleaning_option_item_new1 {
+    position: absolute;
+    margin-top: 460px;
+    width: 130px;
+    height: 80px;
+    text-align: center;
+    border-radius: 10px;
+    background: #05978b;
+    border: solid 1px #05978b;
+    -webkit-transition: all 1s ease;
+}
+.cleaning_option_item_new2 {
+    position: absolute;
+    margin-top: 460px;
+    margin-left: 170px;
+    width: 130px;
+    height: 80px;
+    text-align: center;
+    border-radius: 10px;
+    background: #05978b;
+    border: solid 1px #05978b;
+    -webkit-transition: all 1s ease;
+}
+.cleaning_option_item_new3 {
+    position: absolute;
+    margin-top: 460px;
+    margin-left: 340px;
+    width: 130px;
+    height: 80px;
+    text-align: center;
+    border-radius: 10px;
+    background: #05978b;
+    border: solid 1px #05978b;
+    -webkit-transition: all 1s ease;
+}
+.cleaning_option_item_new4 {
+    position: absolute;
+    margin-top: 580px;
+    width: 130px;
+    height: 80px;
+    text-align: center;
+    border-radius: 10px;
+    background: #05978b;
+    border: solid 1px #05978b;
+    -webkit-transition: all 1s ease;
+}
+.cleaning_option_item_new5 {
+    position: absolute;
+    margin-top: 580px;
+    margin-left: 170px;
+    width: 130px;
+    height: 80px;
+    text-align: center;
+    border-radius: 10px;
+    background: #05978b;
+    border: solid 1px #05978b;
+    -webkit-transition: all 1s ease;
+}
+
+
+
 .post_leftRange_tasktype {
     position: absolute;
     margin-top: 230px;
@@ -964,6 +1093,11 @@ textarea {
     margin-top: 330px;
 }
 
+.post_leftRange_view_new {
+    position: absolute;
+    margin-top: 420px;
+}
+
 .post_canceltaskbtn {
     position: absolute;
     width: 150px;
@@ -985,6 +1119,27 @@ textarea {
     transition: 1s ease;
 }
 
+.post_canceltaskbtn_new {
+    position: absolute;
+    width: 150px;
+    line-height: 34px;
+    border-radius: 17px;
+    border: 1px solid #ff2165;
+    background: #ff2165;
+    color: white;
+    box-shadow: 1px 1px 10px 1px #888888;
+    -webkit-transition: all 1s ease;
+    margin-top: 200px;
+    right: 150px;
+}
+
+.post_canceltaskbtn_new:hover {
+    cursor: pointer;
+    border: 1px solid #05978b;
+    background: #05978b;
+    transition: 1s ease;
+}
+
 .post_edittaskbtn {
     position: absolute;
     width: 150px;
@@ -999,6 +1154,27 @@ textarea {
 }
 
 .post_edittaskbtn:hover {
+    cursor: pointer;
+    border: 1px solid #05978b;
+    background: #05978b;
+    transition: 1s ease;
+    color: white;
+}
+
+.post_edittaskbtn_new {
+    position: absolute;
+    width: 150px;
+    line-height: 34px;
+    border-radius: 17px;
+    border: 1px solid #6f6f6f;
+    color: #6f6f6f;
+    box-shadow: 1px 1px 10px 1px #888888;
+    -webkit-transition: all 1s ease;
+    margin-top: 200px;
+    right: 320px;
+}
+
+.post_edittaskbtn_new:hover {
     cursor: pointer;
     border: 1px solid #05978b;
     background: #05978b;
@@ -1135,6 +1311,12 @@ textarea {
     margin-left: 20px;
 }
 
+.post_done_viewattach_container_new {
+    position: absolute;
+    margin-left: 20px;
+    margin-top: 90px;
+}
+
 .attachment_2:hover {
     cursor: pointer;
 }
@@ -1151,3 +1333,333 @@ textarea {
     height: 600px;
     background-size: 100% 100%;
 }
+
+.cleaning_toggle_title {
+    width: 300px;
+    height: 20px;
+    display: inline-block;
+}
+
+.cleaning_toggle {
+    width: 200px;
+    height: 20px;
+    display: inline-block;
+    text-align: right;
+}
+
+.cleaning_toggle_x1 {
+    width: 52px;
+    height: 20px;
+    display: inline-block;
+}
+
+.cleaning_toggle_pt_image {
+    width: 40px;
+    height: 40px;
+    background: url("./../../assets/house-64.png");
+    background-size: 100% 100%;
+    display: inline-block;
+}
+
+.cleaning_toggle_pt_title {
+    width: 220px;
+    height: 20px;
+    display: inline-block;
+}
+
+.cleaning_toggle_pt_img1_on {
+    width: 20px;
+    height: 19px;
+    background: url("./../../assets/radio_on.png");
+    background-size: 100% 100%;
+    position: absolute;
+    display: inline-block;
+    margin-top: 26px;
+}
+.cleaning_toggle_pt_img1_off {
+    width: 20px;
+    height: 20px;
+    background: url("./../../assets/radio_off.png");
+    background-size: 100% 100%;
+    position: absolute;
+    display: inline-block;
+    margin-top: 26px;
+}
+
+.cleaning_toggle_pt_img1_on:hover {
+    cursor: pointer;
+}
+.cleaning_toggle_pt_img1_off:hover {
+    cursor: pointer;
+}
+
+.cleaning_toggle_pt_img1_title {
+    width: 100px;
+    height: 20px;
+    display: inline-block;
+    margin-left: 25px;
+}
+
+.cleaning_toggle_pt_img2_on {
+    width: 20px;
+    height: 19px;
+    background: url("./../../assets/radio_on.png");
+    background-size: 100% 100%;
+    position: absolute;
+    display: inline-block;
+    margin-top: 26px;
+}
+.cleaning_toggle_pt_img2_off {
+    width: 20px;
+    height: 20px;
+    background: url("./../../assets/radio_off.png");
+    background-size: 100% 100%;
+    position: absolute;
+    display: inline-block;
+    margin-top: 26px;
+}
+
+.cleaning_toggle_pt_img2_off:hover {
+    cursor: pointer;
+}
+.cleaning_toggle_pt_img2_on:hover {
+    cursor: pointer;
+}
+
+.cleaning_toggle_pt_img2_title {
+    height: 20px;
+    display: inline-block;
+    margin-left: 25px;
+}
+
+.cleaning_option_item_container {
+    width: 500px;
+    display: inline-block;
+    text-align: center;
+}
+
+.cleaning_option_item {
+    width: 130px;
+    height: 80px;
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+    border-radius: 10px;
+    border: solid 1px gray;
+    -webkit-transition: all 1s ease;
+}
+.cleaning_option_item_off {
+    width: 130px;
+    height: 80px;
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+    border-radius: 10px;
+    background: #05978b;
+    border: solid 1px #05978b;
+    -webkit-transition: all 1s ease;
+}
+.cleaning_option_item:hover {
+    cursor: pointer;
+    background: #ff2165;
+    transition: 1s ease;
+    border: solid 1px #ff2165;
+}
+
+.cleaning_option_item:hover .cleaning_option_item_img1 {
+    background: url("./../../assets/post_laundry_white.png");
+    background-size: 100% 100%;
+    transition: 1s ease;
+}
+.cleaning_option_item:hover .cleaning_option_item_img2 {
+    background: url("./../../assets/post_oven_white.png");
+    background-size: 100% 100%;
+    transition: 1s ease;
+}
+.cleaning_option_item:hover .cleaning_option_item_img3 {
+    background: url("./../../assets/post_cabinet_white.png");
+    background-size: 100% 100%;
+    transition: 1s ease;
+}
+.cleaning_option_item:hover .cleaning_option_item_img4 {
+    background: url("./../../assets/post_carpet_white.png");
+    background-size: 100% 100%;
+    transition: 1s ease;
+}
+.cleaning_option_item:hover .cleaning_option_item_img5 {
+    background: url("./../../assets/post_windows_white.png");
+    background-size: 100% 100%;
+    transition: 1s ease;
+}
+
+.cleaning_option_item_off:hover {
+    cursor: pointer;
+    background: #ff2165;
+    transition: 1s ease;
+    border: solid 1px #ff2165;
+    -webkit-transition: all 1s ease;
+}
+.cleaning_option_item_img1 {
+    width: 40px;
+    height: 52px;
+    background: url("./../../assets/post_laundry_blue.png");
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 45px;
+    margin-top: 14px;
+    -webkit-transition: all 1s ease;
+}
+
+.cleaning_option_item_img2 {
+    width: 58px;
+    height: 40px;
+    background: url("./../../assets/post_oven_blue.png");
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 37px;
+    margin-top: 20px;
+    -webkit-transition: all 1s ease;
+}
+
+.cleaning_option_item_img3 {
+    width: 50px;
+    height: 40px;
+    background: url("./../../assets/post_cabinet_blue.png");
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 40px;
+    margin-top: 20px;
+    -webkit-transition: all 1s ease;
+}
+
+.cleaning_option_item_img4 {
+    width: 46px;
+    height: 40px;
+    background: url("./../../assets/post_carpet_blue.png");
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 42px;
+    margin-top: 20px;
+    -webkit-transition: all 1s ease;
+}
+
+.cleaning_option_item_img5 {
+    width: 40px;
+    height: 52px;
+    background: url("./../../assets/post_windows_blue.png");
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 45px;
+    margin-top: 14px;
+    -webkit-transition: all 1s ease;
+}
+
+.cleaning_option_item_title1 {
+    position: absolute;
+    margin-top: 80px;
+    margin-left: 37px;
+    color: #05978b;
+}
+.cleaning_option_item_title2 {
+    position: absolute;
+    margin-top: 80px;
+    margin-left: 45px;
+    color: #05978b;
+}
+.cleaning_option_item_title3 {
+    position: absolute;
+    margin-top: 80px;
+    margin-left: 39px;
+    color: #05978b;
+}
+.cleaning_option_item_title4 {
+    position: absolute;
+    margin-top: 80px;
+    margin-left: 43px;
+    color: #05978b;
+}
+.cleaning_option_item_title5 {
+    position: absolute;
+    margin-top: 80px;
+    margin-left: 33px;
+    color: #05978b;
+}
+
+.cleaning_option_item_checked {
+    width: 130px;
+    height: 80px;
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+    border-radius: 10px;
+    background: #05978b;
+    border: solid 1px #05978b;
+}
+.cleaning_option_item_checked {
+    cursor: pointer;
+}
+.cleaning_option_item_img1_checked {
+    width: 40px;
+    height: 52px;
+    background: url("./../../assets/post_laundry_white.png");
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 45px;
+    margin-top: 14px;
+}
+.cleaning_option_item_img2_checked {
+    width: 58px;
+    height: 40px;
+    background: url("./../../assets/post_oven_white.png");
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 37px;
+    margin-top: 20px;
+    -webkit-transition: all 1s ease;
+}
+
+.cleaning_option_item_img3_checked {
+    width: 50px;
+    height: 40px;
+    background: url("./../../assets/post_cabinet_white.png");
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 40px;
+    margin-top: 20px;
+    -webkit-transition: all 1s ease;
+}
+
+.cleaning_option_item_img4_checked {
+    width: 46px;
+    height: 40px;
+    background: url("./../../assets/post_carpet_white.png");
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 42px;
+    margin-top: 20px;
+    -webkit-transition: all 1s ease;
+}
+
+.cleaning_option_item_img5_checked {
+    width: 40px;
+    height: 52px;
+    background: url("./../../assets/post_windows_white.png");
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 45px;
+    margin-top: 14px;
+    -webkit-transition: all 1s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

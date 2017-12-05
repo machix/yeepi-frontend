@@ -36,7 +36,7 @@ const MyProfileView = props => {
       </li>
       
       <li className="nav-item">
-        <Link to="/" className="nav-link">
+        <Link to="/mytasks" className="nav-link">
           <div className="normal">My Tasks</div>
         </Link>
       </li>

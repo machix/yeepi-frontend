@@ -23,6 +23,7 @@ import Post from "./Post";
 import MyProfile from "./Profile/MyProfile";
 import EditProfile from "./Profile/EditProfile";
 import EditProfile2 from "./Profile/EditProfile2";
+import MyTasks from "./MyTasks";
 
 const mapStateToProps = state => {
   return {
@@ -108,6 +109,7 @@ class App extends React.Component {
             <Route exact path="/myprofile" render={() => <MyProfile updateHeader={this.updateHeader} ref={(ref) => {this._ref_myprofile = ref;}}/> }/>
             <Route exact path="/editprofile/1" render={() => <EditProfile updateHeader={this.updateHeader} ref={(ref) => {this._ref_editprofile = ref;}}/> }/>
             <Route exact path="/editprofile/2" render={() => <EditProfile2 updateHeader={this.updateHeader} ref={(ref) => {this._ref_editprofile2 = ref;}}/> }/>
+            <Route exact path="/mytasks" render={() => <MyTasks updateHeader={this.updateHeader} ref={(ref) => {this._ref_mytasks = ref;}}/> }/>
           </Switch>
         </div>
       );

@@ -15,6 +15,7 @@ import {
 import {geolocated} from 'react-geolocated';
 import { Modal, Button } from 'react-bootstrap';
 import PlacesAutocomplete, { geocodeByPlaceId } from 'react-places-autocomplete';
+import ToggleButton from 'react-toggle-button'
 import "./styles.css";
 
 const base_url_public = config.baseUrl;
@@ -68,6 +69,15 @@ export default class Post extends React.Component {
       personal_datas: [],
       attachments: [],
       showImageSlider: false,
+      cleaning_toggle1: false,
+      cleaning_toggle2: false,
+      cleaning_option1: false,
+      cleaning_option2: false,
+      cleaning_option3: false,
+      cleaning_option4: false,
+      cleaning_option5: false,
+      bedroomcount: 1,
+      bathroomcount: 1,
     };
     this.categoryLists = [
       "House Cleaning",
@@ -174,7 +184,7 @@ export default class Post extends React.Component {
   };
   
   selectCategory = i => {
-    this.setState({ selectIndex: i, step: 1, attachments: [] })
+    this.setState({ selectIndex: i, step: 1, attachments: [], post_title: "", post_desc: "", cleaning_toggle1: false, cleaning_toggle2: false, cleaning_option1: false, cleaning_option2: false, cleaning_option3: false, cleaning_option4: false, cleaning_option5: false })
   };
   
   onCancel1 = () => {
@@ -260,7 +270,6 @@ export default class Post extends React.Component {
   };
   
   onNext3 = () => {
-    debugger;
     let amount = 0;
     if (this.state.hourly_checked === 0) {
       amount = this.state.rate * this.state.num_of_hour * this.state.taskercount;
@@ -343,6 +352,24 @@ export default class Post extends React.Component {
     }
   };
   
+  onBedroomCountUp = () => {
+    this.setState({ bedroomcount: this.state.bedroomcount + 1 });
+  };
+  onBedroomCountDown = () => {
+    if (this.state.bedroomcount > 1) {
+      this.setState({ bedroomcount: this.state.bedroomcount - 1 });
+    }
+  };
+  
+  onBathroomCountUp = () => {
+    this.setState({ bathroomcount: this.state.bathroomcount + 1 });
+  };
+  onBathroomCountDown = () => {
+    if (this.state.bathroomcount > 1) {
+      this.setState({ bathroomcount: this.state.bathroomcount - 1 });
+    }
+  };
+  
   calcEstimatedBudget = () => {
     let estimated_budget = 0;
     if (this.state.hourly_checked === 0) {
@@ -382,7 +409,6 @@ export default class Post extends React.Component {
   handleSelectAddress = (address, placeId) => {
     geocodeByPlaceId(placeId)
       .then(results => {
-        debugger;
         let zipcode = results[0].address_components.filter(function (it) { return it.types.indexOf('postal_code') != -1;}).map(function (it) {return it.long_name;});
         this.setState({ address, placeId, zipcode, lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() })
       })
@@ -470,7 +496,16 @@ export default class Post extends React.Component {
       fixed_price,
       personal_datas,
       attachments,
-      showImageSlider
+      showImageSlider,
+      cleaning_toggle1,
+      cleaning_toggle2,
+      cleaning_option1,
+      cleaning_option2,
+      cleaning_option3,
+      cleaning_option4,
+      cleaning_option5,
+      bedroomcount,
+      bathroomcount
     } = this.state;
     const inputProps = {
       value: this.state.address,
@@ -543,6 +578,43 @@ export default class Post extends React.Component {
       for (let i = 0; i < attachments.length; i++) {
         render_popup_attachs.push(
           <img className="post_image1" src={attachments[i]} />
+        );
+      }
+    }
+    
+    let render_new_cleaningoptions = [];
+    if (step === 4 && selectIndex === 1) {
+      let x = [];
+      let y = [];
+      if (cleaning_option1) {
+        x.push("Laundry");
+        y.push("1");
+      }
+      if (cleaning_option2) {
+        x.push("Oven");
+        y.push("2");
+      }
+      if (cleaning_option3) {
+        x.push("Cabinet");
+        y.push("3");
+      }
+      if (cleaning_option4) {
+        x.push("Carpet");
+        y.push("4");
+      }
+      if (cleaning_option5) {
+        x.push("Windows");
+        y.push("5");
+      }
+      for (let i = 0; i < x.length; i++) {
+        let classkey = "cleaning_option_item_new" + (i + 1);
+        let imgkey = "cleaning_option_item_img" + y[i] + "_checked";
+        let titlekey = "cleaning_option_item_title" + y[i];
+        render_new_cleaningoptions.push(
+          <div className={classkey}>
+            <div className={imgkey}/>
+            <div className={titlekey}>{x[i]}</div>
+          </div>
         );
       }
     }
@@ -671,7 +743,7 @@ export default class Post extends React.Component {
           step === 1 &&
             <div className="col-sm-12 centerContent">
               <div>
-                Step1: Add Details
+                Step 1 : Add Details
               </div>
               <div className="post_toptitle_center">
                 <div className="post_toptitle_center_bar_on"/>
@@ -749,7 +821,7 @@ export default class Post extends React.Component {
             <div className="col-sm-12 centerContent">
               <div className="post_toptitle_center">
                 <div>
-                  Step2: Add Location
+                  Step 2 : Add Location
                 </div>
               </div>
               <div className="post_toptitle_center">
@@ -757,6 +829,53 @@ export default class Post extends React.Component {
                 <div className="post_toptitle_center_bar_on"/>
                 <div className="post_toptitle_center_bar_off"/>
               </div>
+              
+              {
+                selectIndex === 1 &&
+                  <div className="post_toptitle_center">
+                    <div className="post_title">
+                      <div className="cleaning_toggle_title">
+                        IS THIS END OF LEASE CLEANING?
+                      </div>
+                      <div className="cleaning_toggle">
+                        <div className="cleaning_toggle_x1">
+                          <ToggleButton
+                            value={ cleaning_toggle1 }
+                            onToggle={(value) => {
+                              this.setState({
+                                cleaning_toggle1: !cleaning_toggle1,
+                              })
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              }
+              {
+                selectIndex === 1 &&
+                <div className="post_toptitle_center">
+                  <div className="post_title">
+                    <div className="cleaning_toggle_pt_image"/>
+                    <div className="cleaning_toggle_pt_title">
+                      PROPERTY TYPE
+                    </div>
+                    {
+                      cleaning_toggle2 ? <div className="cleaning_toggle_pt_img1_off" onClick={() => {this.setState({cleaning_toggle2: false})}}/> : <div className="cleaning_toggle_pt_img1_on" onClick={() => {this.setState({cleaning_toggle2: false})}}/>
+                    }
+                    <div className="cleaning_toggle_pt_img1_title">
+                      HOUSE
+                    </div>
+                    {
+                      cleaning_toggle2 ? <div className="cleaning_toggle_pt_img2_on" onClick={() => {this.setState({cleaning_toggle2: true})}}/> : <div className="cleaning_toggle_pt_img2_off" onClick={() => {this.setState({cleaning_toggle2: true})}}/>
+                    }
+                    <div className="cleaning_toggle_pt_img2_title">
+                      APARTMENT
+                    </div>
+                  </div>
+                </div>
+              }
+              
               <div className="post_toptitle_center">
                 <div className="post_title">TASK TYPE</div>
               </div>
@@ -826,7 +945,7 @@ export default class Post extends React.Component {
           <div className="col-sm-12 centerContent">
             <div className="post_toptitle_center">
               <div>
-                Step3: Add Budget
+                Step 3 : Add Budget
               </div>
             </div>
             <div className="post_toptitle_center">
@@ -834,6 +953,7 @@ export default class Post extends React.Component {
               <div className="post_toptitle_center_bar_on"/>
               <div className="post_toptitle_center_bar_on"/>
             </div>
+            
             <div className="post_toptitle_center margintop">
               <div className="post_title">
                 <div className="post_title_content1">
@@ -854,6 +974,151 @@ export default class Post extends React.Component {
                 </div>
               </div>
             </div>
+            
+            {
+              selectIndex === 1 &&
+                <div className="post_toptitle_center margintop">
+                  <div className="post_title">
+                    <div className="post_title_content1">
+                      NUMBER OF BEDROOMS
+                    </div>
+                    <div className="post_title_content2">
+                      <div className="post_content2_plus" onClick={this.onBedroomCountDown}>
+                        <div className="post_content2_plus_con"/>
+                      </div>
+                      <div className="post_content2_num">
+                        <div className="post_content2_num_con">
+                          { bedroomcount }
+                        </div>
+                      </div>
+                      <div className="post_content2_minus" onClick={this.onBedroomCountUp}>
+                        <div className="post_content2_minus_con"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            }
+            {
+              selectIndex === 1 &&
+              <div className="post_toptitle_center margintop">
+                <div className="post_title">
+                  <div className="post_title_content1">
+                    NUMBER OF BATHROOMS
+                  </div>
+                  <div className="post_title_content2">
+                    <div className="post_content2_plus" onClick={this.onBathroomCountDown}>
+                      <div className="post_content2_plus_con"/>
+                    </div>
+                    <div className="post_content2_num">
+                      <div className="post_content2_num_con">
+                        { bathroomcount }
+                      </div>
+                    </div>
+                    <div className="post_content2_minus" onClick={this.onBathroomCountUp}>
+                      <div className="post_content2_minus_con"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+            {
+              selectIndex === 1 &&
+                <div>
+                  <div className="post_toptitle_center margintop">
+                    <div className="post_title">ADDITIONAL CLEANING OPTIONS</div>
+                  </div>
+                  <div className="post_toptitle_center">
+                    <div className="cleaning_option_item_container">
+                      {
+                        cleaning_option1 ?
+                          <div className="cleaning_option_item_checked" onClick={() => {
+                            this.setState({ cleaning_option1: !cleaning_option1 })
+                          }}>
+                            <div className="cleaning_option_item_img1_checked"/>
+                            <div className="cleaning_option_item_title1">Laundry</div>
+                          </div>
+                          :
+                          <div className="cleaning_option_item" onClick={() => {
+                            this.setState({ cleaning_option1: !cleaning_option1 })
+                          }}>
+                            <div className="cleaning_option_item_img1"/>
+                            <div className="cleaning_option_item_title1">Laundry</div>
+                          </div>
+                      }
+                      
+                      {
+                        cleaning_option2 ?
+                          <div className="cleaning_option_item_checked" onClick={() => {
+                            this.setState({ cleaning_option2: !cleaning_option2 })
+                          }}>
+                            <div className="cleaning_option_item_img2_checked"/>
+                            <div className="cleaning_option_item_title2">Oven</div>
+                          </div>
+                          :
+                          <div className="cleaning_option_item" onClick={() => {
+                            this.setState({ cleaning_option2: !cleaning_option2 })
+                          }}>
+                            <div className="cleaning_option_item_img2"/>
+                            <div className="cleaning_option_item_title2">Oven</div>
+                          </div>
+                      }
+                      
+                      {
+                        cleaning_option3 ?
+                          <div className="cleaning_option_item_checked" onClick={() => {
+                            this.setState({ cleaning_option3: !cleaning_option3 })
+                          }}>
+                            <div className="cleaning_option_item_img3_checked"/>
+                            <div className="cleaning_option_item_title3">Cabinet</div>
+                          </div>
+                          :
+                          <div className="cleaning_option_item" onClick={() => {
+                            this.setState({ cleaning_option3: !cleaning_option3 })
+                          }}>
+                            <div className="cleaning_option_item_img3"/>
+                            <div className="cleaning_option_item_title3">Cabinet</div>
+                          </div>
+                      }
+                      
+                      {
+                        cleaning_option4 ?
+                          <div className="cleaning_option_item_checked" onClick={() => {
+                            this.setState({ cleaning_option4: !cleaning_option4 })
+                          }}>
+                            <div className="cleaning_option_item_img4_checked"/>
+                            <div className="cleaning_option_item_title4">Carpet</div>
+                          </div>
+                          :
+                          <div className="cleaning_option_item" onClick={() => {
+                            this.setState({ cleaning_option4: !cleaning_option4 })
+                          }}>
+                            <div className="cleaning_option_item_img4"/>
+                            <div className="cleaning_option_item_title4">Carpet</div>
+                          </div>
+                      }
+                      
+                      {
+                        cleaning_option5 ?
+                          <div className="cleaning_option_item_checked" onClick={() => {
+                            this.setState({ cleaning_option5: !cleaning_option5 })
+                          }}>
+                            <div className="cleaning_option_item_img5_checked"/>
+                            <div className="cleaning_option_item_title5">Windows</div>
+                          </div>
+                          :
+                          <div className="cleaning_option_item" onClick={() => {
+                            this.setState({ cleaning_option5: !cleaning_option5 })
+                          }}>
+                            <div className="cleaning_option_item_img5"/>
+                            <div className="cleaning_option_item_title5">Windows</div>
+                          </div>
+                      }
+                      
+                    </div>
+                  </div>
+                </div>
+            }
+            
             <div className="post_toptitle_center">
               <div className="post_title">
                 <div className="post_title_content1 margintop">
@@ -945,180 +1210,383 @@ export default class Post extends React.Component {
           </div>
         }
         {
-          step === 4 &&
-            <div className="col-sm-12 post_centerContent">
-              <div className="col-sm-12 centerContent1">
-                <div className="step4Container">
-      
-                  <div className="categoryiconcontainer1">
-                    <div className="categoryicon">
-                      <div className={categoryClassName}/>
+          step === 4 ?
+            selectIndex === 1 ?
+              <div className="col-sm-12 post_centerContent">
+                <div className="col-sm-12 centerContent1">
+                  <div className="step4Container">
+          
+                    <div className="categoryiconcontainer1">
+                      <div className="categoryicon">
+                        <div className={categoryClassName}/>
+                      </div>
                     </div>
-                  </div>
-      
-                  <div className="categoryiconcontainer2">
-                    <div className="categoryiconcontainer2_1">
-                      {this.categoryLists[task_info.task_category - 1]} - {task_info.task_title}
-                    </div>
-                    <div className="categoryiconcontainer2_2">
-  
-                      {
-                        personal_datas.imagePreviewUrl === '' ?
-                          <div className="myavatar"/>
-                          :
-                          <img className="myavatarwithsrc" src={personal_datas.imagePreviewUrl} />
-                      }
-                      
-                      <div className="myavatartext">
-                        <div className="myavatartext_1">
-                          Alexander Ignacz ( You )
+          
+                    <div className="categoryiconcontainer2">
+                      <div className="categoryiconcontainer2_1">
+                        {this.categoryLists[task_info.task_category - 1]} - {task_info.task_title}
+                      </div>
+                      <div className="categoryiconcontainer2_2">
+              
+                        {
+                          personal_datas.imagePreviewUrl === '' ?
+                            <div className="myavatar"/>
+                            :
+                            <img className="myavatarwithsrc" src={personal_datas.imagePreviewUrl} />
+                        }
+              
+                        <div className="myavatartext">
+                          <div className="myavatartext_1">
+                            Alexander Ignacz ( You )
+                          </div>
                         </div>
                       </div>
                     </div>
+          
+                    <div className="categoryiconcontainer3">
+                      <div className="categoryiconcontainer3_1">
+                        ${task_info.task_budget}
+                      </div>
+                      <div className="categoryiconcontainer3_2">
+                        Budget
+                      </div>
+                    </div>
+        
                   </div>
+                </div>
       
-                  <div className="categoryiconcontainer3">
-                    <div className="categoryiconcontainer3_1">
-                      ${task_info.task_budget}
+                <div className="post_toptitle_center1 margintop" >
+        
+                  <div className="post_toptitle_center1_1_clock" />
+                  <div className="post_toptitle_center1_1" >
+                    POSTED :
+                  </div>
+                  <div className="post_toptitle_center1_2" >
+                    Just Before
+                  </div>
+        
+                  <div className="marginBar"/>
+        
+                  <div className="post_toptitle_center1_1_stopwatch" />
+                  <div className="post_toptitle_center1_1" >
+                    DEADLINE :
+                  </div>
+                  <div className="post_toptitle_center1_2" >
+                    { deadline.format() }
+                  </div>
+        
+                  <div className="marginBar"/>
+        
+                  <div className="post_toptitle_center1_1 marginleft" >
+                    STATUS :
+                  </div>
+                  <div className="post_toptitle_center1_2" >
+                    OPEN
+                  </div>
+        
+                  <div className="marginBar"/>
+        
+                  <div className="post_toptitle_center1_1 marginleft" >
+                    SHARE ON :
+                  </div>
+                  <div className="post_toptitle_center1_1_fb" />
+                  <div className="post_toptitle_center1_1" >
+                    Facebook
+                  </div>
+                  <div className="post_toptitle_center1_1_mail" />
+                  <div className="post_toptitle_center1_1" >
+                    Facebook
+                  </div>
+                </div>
+      
+                <div className="post_toptitle_center2 margintop" >
+        
+                  <div className="post_leftRangeContainer">
+          
+                    <div className="post_leftRange_drumroll">
+                      <div className="post_leftRange_drumroll_icon"/>
+                      <div className="post_leftRange_drumroll_text1">
+                        DRUMROLL PLEASE!
+                      </div>
+                      <div className="post_leftRange_drumroll_text2">
+                        No Offers yet! Please wait and check after sometime.
+                      </div>
                     </div>
-                    <div className="categoryiconcontainer3_2">
-                      Budget
+          
+                    <div className="post_left_horibar"/>
+          
+                    <div className="post_leftRange_taskdesc">
+                      TASK DESCRIPTION
                     </div>
-                  </div>
-                  
-                </div>
-              </div>
-  
-              <div className="post_toptitle_center1 margintop" >
-                
-                <div className="post_toptitle_center1_1_clock" />
-                <div className="post_toptitle_center1_1" >
-                  POSTED :
-                </div>
-                <div className="post_toptitle_center1_2" >
-                  Just Before
-                </div>
-                
-                <div className="marginBar"/>
-                
-                <div className="post_toptitle_center1_1_stopwatch" />
-                <div className="post_toptitle_center1_1" >
-                  DEADLINE :
-                </div>
-                <div className="post_toptitle_center1_2" >
-                  { deadline.format() }
-                </div>
-  
-                <div className="marginBar"/>
-                
-                <div className="post_toptitle_center1_1 marginleft" >
-                  STATUS :
-                </div>
-                <div className="post_toptitle_center1_2" >
-                  OPEN
-                </div>
-  
-                <div className="marginBar"/>
-  
-                <div className="post_toptitle_center1_1 marginleft" >
-                  SHARE ON :
-                </div>
-                <div className="post_toptitle_center1_1_fb" />
-                <div className="post_toptitle_center1_1" >
-                  Facebook
-                </div>
-                <div className="post_toptitle_center1_1_mail" />
-                <div className="post_toptitle_center1_1" >
-                  Facebook
-                </div>
-              </div>
-  
-              <div className="post_toptitle_center2 margintop" >
-                
-                <div className="post_leftRangeContainer">
-    
-                  <div className="post_leftRange_drumroll">
-                    <div className="post_leftRange_drumroll_icon"/>
-                    <div className="post_leftRange_drumroll_text1">
-                      DRUMROLL PLEASE!
+          
+                    <div className="post_leftRange_taskdesc_content">
+                      { task_info.task_description }
                     </div>
-                    <div className="post_leftRange_drumroll_text2">
-                      No Offers yet! Please wait and check after sometime.
+  
+                    <div className="post_leftRange_new_endleasing">
+                      { cleaning_toggle1 ? "THIS IS AN END LEASING CLEANING" : "THIS IS NOT AN END LEASING CLEANING" }
                     </div>
-                  </div>
-                  
-                  <div className="post_left_horibar"/>
   
-                  <div className="post_leftRange_taskdesc">
-                    TASK DESCRIPTION
-                  </div>
-                  
-                  <div className="post_leftRange_taskdesc_content">
-                    { task_info.task_description }
-                  </div>
-  
-                  <div className="post_leftRange_taskersneeded">
-                    TASKERS NEEDED :
-                  </div>
-  
-                  <div className="post_leftRange_tasktype">
-                    TASK TYPE :
-                  </div>
-                  
-                  <div className="post_leftRange_taskersneeded_content">
-                    { task_info.task_numberoftasker } - Taskers Needed
-                  </div>
-  
-                  <div className="post_leftRange_tasktype_content">
-                    { task_info.task_type === 0 ? "Virtual Task" : "Task is in specific location" }
-                  </div>
-                  
-                  <div className="post_leftRange_view">
-                    View Attachments
-                  </div>
-  
-                  <div className="post_done_viewattach_container">
-                    { render_attachments_done }
-                  </div>
-                  
-                </div>
-  
-                <div className="post_rightRangeContainer">
-  
-                  <div className="post_leftRange_drumroll">
-                    <div className="post_gps_icon" onClick={this.navigateCurrentLoc}/>
-                    <div>
-                      TASK LOCATION
+                    <div className="post_leftRange_new_propertytype">
+                      PROPERTY TYPE
                     </div>
-                    <div className="post_rightRange_drumroll_text2_icon"/>
-                    <div className="post_rightRange_drumroll_text2">
-                      { task_info.task_location === "" ? "No Location" : task_info.task_location }
+  
+                    <div className="post_leftRange_new_bedroomnum">
+                      NUMBER OF BEDROOMS
                     </div>
-                    <div className="locationwindow">
-                      {
-                        !reloadGPS &&
+                    
+                    <div className="post_leftRange_new_propertytype_value">
+                      { cleaning_toggle2 ? "House" : "Apartment" }
+                    </div>
+  
+                    <div className="post_leftRange_new_bedroomnum_value">
+                      { bedroomcount } - Bedrooms
+                    </div>
+  
+                    <div className="post_leftRange_new_bathroomnum">
+                      NUMBER OF BATHROOMS
+                    </div>
+  
+                    <div className="post_leftRange_new_taskernum">
+                      TASKERS NEEDED
+                    </div>
+  
+                    <div className="post_leftRange_new_bathroomnum_value">
+                      { bathroomcount } - Bathrooms
+                    </div>
+  
+                    <div className="post_leftRange_new_taskernum_value">
+                      { taskercount } - Taskers Needed
+                    </div>
+  
+                    <div className="post_leftRange_new_cleaningoptions">
+                      ADDITIONAL CLEANING OPTIONS
+                    </div>
+  
+                    {
+                      render_new_cleaningoptions
+                    }
+                    
+                  </div>
+        
+                  <div className="post_rightRangeContainer">
+          
+                    <div className="post_leftRange_drumroll">
+                      <div className="post_gps_icon" onClick={this.navigateCurrentLoc}/>
+                      <div>
+                        TASK LOCATION
+                      </div>
+                      <div className="post_rightRange_drumroll_text2_icon"/>
+                      <div className="post_rightRange_drumroll_text2">
+                        { task_info.task_location === "" ? "No Location" : task_info.task_location }
+                      </div>
+                      <div className="locationwindow">
+                        {
+                          !reloadGPS &&
                           <MapWithAMarker
                             containerElement={<div className="xxx" />}
                             mapElement={<div style={{ height: `100%` }} />}
                             lat={lat}
                             lng={lng}
                           />
-                      }
+                        }
+                      </div>
                     </div>
-                  </div>
-                  
-                </div>
-              </div>
   
-              <div className="post_toptitle_center3" />
-              <div className="post_canceltaskbtn" onClick={this.cancelTask}>
-                Cancel the Task
+                    <div className="post_leftRange_view_new">
+                      VIEW ATTACHMENTS
+                    </div>
+  
+                    <div className="post_done_viewattach_container_new">
+                      { render_attachments_done }
+                    </div>
+
+                  </div>
+                </div>
+      
+                <div className="post_toptitle_new_center3" />
+                <div className="post_canceltaskbtn_new" onClick={this.cancelTask}>
+                  Cancel the Task
+                </div>
+                <div className="post_edittaskbtn_new" onClick={this.editTask}>
+                  Edit the Task
+                </div>
+                <div className="post_marginBottom" />
               </div>
-              <div className="post_edittaskbtn" onClick={this.editTask}>
-                Edit the Task
-              </div>
-              <div className="post_marginBottom" />
-            </div>
+              :
+              <div className="col-sm-12 post_centerContent">
+                <div className="col-sm-12 centerContent1">
+                  <div className="step4Container">
+          
+                    <div className="categoryiconcontainer1">
+                      <div className="categoryicon">
+                        <div className={categoryClassName}/>
+                      </div>
+                    </div>
+          
+                    <div className="categoryiconcontainer2">
+                      <div className="categoryiconcontainer2_1">
+                        {this.categoryLists[task_info.task_category - 1]} - {task_info.task_title}
+                      </div>
+                      <div className="categoryiconcontainer2_2">
+              
+                        {
+                          personal_datas.imagePreviewUrl === '' ?
+                            <div className="myavatar"/>
+                            :
+                            <img className="myavatarwithsrc" src={personal_datas.imagePreviewUrl} />
+                        }
+              
+                        <div className="myavatartext">
+                          <div className="myavatartext_1">
+                            Alexander Ignacz ( You )
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+          
+                    <div className="categoryiconcontainer3">
+                      <div className="categoryiconcontainer3_1">
+                        ${task_info.task_budget}
+                      </div>
+                      <div className="categoryiconcontainer3_2">
+                        Budget
+                      </div>
+                    </div>
+        
+                  </div>
+                </div>
+      
+                <div className="post_toptitle_center1 margintop" >
+        
+                  <div className="post_toptitle_center1_1_clock" />
+                  <div className="post_toptitle_center1_1" >
+                    POSTED :
+                  </div>
+                  <div className="post_toptitle_center1_2" >
+                    Just Before
+                  </div>
+        
+                  <div className="marginBar"/>
+        
+                  <div className="post_toptitle_center1_1_stopwatch" />
+                  <div className="post_toptitle_center1_1" >
+                    DEADLINE :
+                  </div>
+                  <div className="post_toptitle_center1_2" >
+                    { deadline.format() }
+                  </div>
+        
+                  <div className="marginBar"/>
+        
+                  <div className="post_toptitle_center1_1 marginleft" >
+                    STATUS :
+                  </div>
+                  <div className="post_toptitle_center1_2" >
+                    OPEN
+                  </div>
+        
+                  <div className="marginBar"/>
+        
+                  <div className="post_toptitle_center1_1 marginleft" >
+                    SHARE ON :
+                  </div>
+                  <div className="post_toptitle_center1_1_fb" />
+                  <div className="post_toptitle_center1_1" >
+                    Facebook
+                  </div>
+                  <div className="post_toptitle_center1_1_mail" />
+                  <div className="post_toptitle_center1_1" >
+                    Facebook
+                  </div>
+                </div>
+      
+                <div className="post_toptitle_center2 margintop" >
+        
+                  <div className="post_leftRangeContainer">
+          
+                    <div className="post_leftRange_drumroll">
+                      <div className="post_leftRange_drumroll_icon"/>
+                      <div className="post_leftRange_drumroll_text1">
+                        DRUMROLL PLEASE!
+                      </div>
+                      <div className="post_leftRange_drumroll_text2">
+                        No Offers yet! Please wait and check after sometime.
+                      </div>
+                    </div>
+          
+                    <div className="post_left_horibar"/>
+          
+                    <div className="post_leftRange_taskdesc">
+                      TASK DESCRIPTION
+                    </div>
+          
+                    <div className="post_leftRange_taskdesc_content">
+                      { task_info.task_description }
+                    </div>
+          
+                    <div className="post_leftRange_taskersneeded">
+                      TASKERS NEEDED :
+                    </div>
+          
+                    <div className="post_leftRange_tasktype">
+                      TASK TYPE :
+                    </div>
+          
+                    <div className="post_leftRange_taskersneeded_content">
+                      { task_info.task_numberoftasker } - Taskers Needed
+                    </div>
+          
+                    <div className="post_leftRange_tasktype_content">
+                      { task_info.task_type === 0 ? "Virtual Task" : "Task is in specific location" }
+                    </div>
+          
+                    <div className="post_leftRange_view">
+                      View Attachments
+                    </div>
+          
+                    <div className="post_done_viewattach_container">
+                      { render_attachments_done }
+                    </div>
+        
+                  </div>
+        
+                  <div className="post_rightRangeContainer">
+          
+                    <div className="post_leftRange_drumroll">
+                      <div className="post_gps_icon" onClick={this.navigateCurrentLoc}/>
+                      <div>
+                        TASK LOCATION
+                      </div>
+                      <div className="post_rightRange_drumroll_text2_icon"/>
+                      <div className="post_rightRange_drumroll_text2">
+                        { task_info.task_location === "" ? "No Location" : task_info.task_location }
+                      </div>
+                      <div className="locationwindow">
+                        {
+                          !reloadGPS &&
+                          <MapWithAMarker
+                            containerElement={<div className="xxx" />}
+                            mapElement={<div style={{ height: `100%` }} />}
+                            lat={lat}
+                            lng={lng}
+                          />
+                        }
+                      </div>
+                    </div>
+        
+                  </div>
+                </div>
+      
+                <div className="post_toptitle_center3" />
+                <div className="post_canceltaskbtn" onClick={this.cancelTask}>
+                  Cancel the Task
+                </div>
+                <div className="post_edittaskbtn" onClick={this.editTask}>
+                  Edit the Task
+                </div>
+                <div className="post_marginBottom" />
+              </div> : null
         }
   
         <div className="previewComponent">
