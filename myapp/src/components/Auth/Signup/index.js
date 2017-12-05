@@ -17,6 +17,7 @@ import Autocomplete from 'react-google-autocomplete';
 import PlacesAutocomplete, { geocodeByPlaceId } from 'react-places-autocomplete'
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
+import ip from 'public-ip';
 
 import Promise from 'promise';
 import superagentPromise from 'superagent-promise';
@@ -90,7 +91,7 @@ export default class Signup extends React.Component {
             this.localValues.flowState = STATE_USER_LOADING;
           });
         }),
-      signupFirstWithLowInfos: () =>
+      signupFirstWithLowInfos: (ip) =>
         superagent.post(base_url_public + '/user/signup/first', {
           username: this.localValues.username,
           email: this.localValues.email,
@@ -105,7 +106,9 @@ export default class Signup extends React.Component {
           phonenumber: "",
           accounttype: this.localValues.accounttype,
           signupstep: 2,
-          skill: []
+          skill: [],
+          signupIp: ip,
+          existstripe: false,
         }).then(res => {
           this.localValues.code = res.body.code;
           this.setState({ signupFlow: [] }, () => {
@@ -113,7 +116,7 @@ export default class Signup extends React.Component {
             this.setState({ redirect: 1 });
           });
         }),
-      signupFirst: () => {
+      signupFirst: (ip) => {
         superagent.post(base_url_public + '/user/signup/first', {
           username: this.localValues.username,
           email: this.localValues.email,
@@ -127,13 +130,15 @@ export default class Signup extends React.Component {
           lng: this.state.lng,
           phonenumber: this.localValues.phonenumber,
           accounttype: this.localValues.accounttype,
-          skill: this.localValues.skill
+          skill: this.localValues.skill,
+          signupIp: ip,
+          existstripe: false,
         }).then(res => {
           reactLocalStorage.set('loggedToken', res.body.token);
           this.setState({ redirect: 2, address_input_state: false, inputType: 0 });
         })
       },
-      signupFirstWithoutStripe: () => {
+      signupFirstWithoutStripe: (ip) => {
         superagent.post(base_url_public + '/user/signup/first', {
           username: this.localValues.username,
           email: this.localValues.email,
@@ -149,6 +154,8 @@ export default class Signup extends React.Component {
           accounttype: this.localValues.accounttype,
           skill: this.localValues.skill,
           signupstep: 2,
+          signupIp: ip,
+          existstripe: false,
         }).then(res => {
           reactLocalStorage.set('loggedToken', res.body.token);
           this.setState({redirect: 3, address_input_state: false, inputType: 0});
@@ -234,7 +241,9 @@ export default class Signup extends React.Component {
       
       } else {
         if (this.localValues.accounttype === "Poster") {
-          this.requests.signupFirstWithLowInfos()
+          ip.v4().then(ip => {
+            this.requests.signupFirstWithLowInfos(ip)
+          });
         } else {
           defaultFlow[defaultFlow.length - 1].displayText = "My plan is " + this.localValues.accounttype;
           defaultFlow.push({
@@ -337,9 +346,13 @@ export default class Signup extends React.Component {
     
       } else {
         if (this.directType === 1) {
-          this.requests.signupFirstWithoutStripe()
+          ip.v4().then(ip => {
+            this.requests.signupFirstWithoutStripe(ip)
+          });
         } else {
-          this.requests.signupFirst()
+          ip.v4().then(ip => {
+            this.requests.signupFirst(ip)
+          });
         }
       }
     } else if (address_input_state) {

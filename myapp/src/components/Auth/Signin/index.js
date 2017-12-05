@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { Animated } from "react-animated-css";
 import { Modal, Button } from 'react-bootstrap';
 import LoginHOC from 'react-facebook-login-hoc'
+import ip from 'public-ip';
 
 import Promise from 'promise';
 import superagentPromise from 'superagent-promise';
@@ -55,8 +56,8 @@ export default class Signin extends React.Component {
     this._phonenumber = "";
     
     this.requests = {
-      signin: (email, pass) =>
-        superagent.post(base_url_public + '/frontend/user/login', { email, pass }).then(res => {
+      signin: (email, pass, ip) =>
+        superagent.post(base_url_public + '/frontend/user/login', { email, pass, loginIp: ip }).then(res => {
           if (!res.body.result) {
             this.setState({ showAlert: true, alertText: res.body.text })
           } else {
@@ -206,9 +207,11 @@ export default class Signin extends React.Component {
   };
   
   onLogin = () => {
-    const email = this._inputEmail.value;
-    const pass = this._inputPass.value;
-    this.requests.signin(email, pass);
+    ip.v4().then(ip => {
+      const email = this._inputEmail.value;
+      const pass = this._inputPass.value;
+      this.requests.signin(email, pass, ip);
+    });
   };
   
   closeAlert = () => {

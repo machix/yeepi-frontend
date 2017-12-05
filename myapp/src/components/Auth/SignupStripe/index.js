@@ -93,13 +93,16 @@ export default class SignupStripe extends Component {
           _input_bankaddr: this.state.address,
           _input_transit: this.state.transit,
           _input_city: this.state.city,
-          _input_postalcode: this.state.zipcode,
+          zipcode: this.state.zipcode,
+          lat: this.state.lat,
+          lng: this.state.lng,
           _input_accountnumber: this.state.accountnum,
           _input_birth: `${this.state.startDate.month() + 1}/${this.state.startDate.date()}/${this.state.startDate.year()}`,
           _input_insurance: this.state.sin,
           _input_businessname: this.state.company ? this._input_businessname.value : "",
           _input_gstTax: this.state.company ? this.state.gst_tax : "",
           _input_pstTax: this.state.company ? this.state.pst_tax : "",
+          existstripe: true,
         }).then(res => {
           if (!res.body.result) {
             this.setState({ showAlert: true, alertText: res.body.text })
