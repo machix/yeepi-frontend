@@ -24,6 +24,10 @@ import MyProfile from "./Profile/MyProfile";
 import EditProfile from "./Profile/EditProfile";
 import EditProfile2 from "./Profile/EditProfile2";
 import MyTasks from "./MyTasks";
+import ExploreTasks from "./ExploreTasks";
+import Payments from "./Payments";
+import Messages from "./Messages";
+import Dashboard from "./Dashboard";
 
 const mapStateToProps = state => {
   return {
@@ -110,6 +114,10 @@ class App extends React.Component {
             <Route exact path="/editprofile/1" render={() => <EditProfile updateHeader={this.updateHeader} ref={(ref) => {this._ref_editprofile = ref;}}/> }/>
             <Route exact path="/editprofile/2" render={() => <EditProfile2 updateHeader={this.updateHeader} ref={(ref) => {this._ref_editprofile2 = ref;}}/> }/>
             <Route exact path="/mytasks" render={() => <MyTasks updateHeader={this.updateHeader} ref={(ref) => {this._ref_mytasks = ref;}}/> }/>
+            <Route exact path="/exploretasks" render={() => <ExploreTasks updateHeader={this.updateHeader} ref={(ref) => {this._ref_exploretasks = ref;}}/> }/>
+            <Route exact path="/payments" render={() => <Payments updateHeader={this.updateHeader} ref={(ref) => {this._ref_payments = ref;}}/> }/>
+            <Route exact path="/messages" render={() => <Messages updateHeader={this.updateHeader} ref={(ref) => {this._ref_messages = ref;}}/> }/>
+            <Route exact path="/dashboard" render={() => <Dashboard updateHeader={this.updateHeader} ref={(ref) => {this._ref_dashboard = ref;}}/> }/>
           </Switch>
         </div>
       );

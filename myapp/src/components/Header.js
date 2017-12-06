@@ -24,32 +24,32 @@ const MyProfileView = props => {
       </li>
       
       <li className="nav-item">
-        <Link to="/" className="nav-link">
-          <div className="normal">Dashboard</div>
+        <Link to="/dashboard" className="nav-link">
+          <div className={ props.headerType === 13 ? "normal_white" : "normal"}>Dashboard</div>
         </Link>
       </li>
   
       <li className="nav-item">
-        <Link to="/" className="nav-link">
-          <div className="normal">Explore Tasks</div>
+        <Link to="/exploretasks" className="nav-link">
+          <div className={ props.headerType === 10 ? "normal_white" : "normal"}>Explore Tasks</div>
         </Link>
       </li>
       
       <li className="nav-item">
         <Link to="/mytasks" className="nav-link">
-          <div className="normal">My Tasks</div>
+          <div className={ props.headerType === 9 ? "normal_white" : "normal"}>My Tasks</div>
         </Link>
       </li>
       
       <li className="nav-item">
-        <Link to="/" className="nav-link">
-          <div className="normal">Payments</div>
+        <Link to="/payments" className="nav-link">
+          <div className={ props.headerType === 11 ? "normal_white" : "normal"}>Payments</div>
         </Link>
       </li>
   
       <li className="nav-item">
-        <Link to="/" className="nav-link">
-          <div className="normal">Messages</div>
+        <Link to="/messages" className="nav-link">
+          <div className={ props.headerType === 12 ? "normal_white" : "normal"}>Messages</div>
         </Link>
       </li>
   
@@ -213,6 +213,21 @@ class Header extends React.Component {
   
   render() {
     const { headerType, langState } = this.state;
+    if (headerType === 9 || headerType === 10 || headerType === 11 || headerType === 12 || headerType === 13) { // 9: my tasks, 10: explore tasks, 11: payments, 12: messages, 13: dashboard
+      return (
+        <nav className="navbar navbar-light">
+          <div className="container">
+          
+            <Link to="/" className="navbar-brand">
+              <div className="appheader-logo" />
+            </Link>
+          
+            <MyProfileView onSignOut={this.onSignOut} onMenu={this.onMenu} langState={langState} onClickPost={this.onClickPost} headerType={headerType} />
+        
+          </div>
+        </nav>
+      );
+    }
     if (headerType === 2) {
       return (
         <nav className="navbar navbar-light">
@@ -222,7 +237,7 @@ class Header extends React.Component {
               <div className="appheader-logo" />
             </Link>
           
-            <MyProfileView onSignOut={this.onSignOut} onMenu={this.onMenu} langState={langState} onClickPost={this.onClickPost} />
+            <MyProfileView onSignOut={this.onSignOut} onMenu={this.onMenu} langState={langState} onClickPost={this.onClickPost} headerType={2} />
             
           </div>
         </nav>

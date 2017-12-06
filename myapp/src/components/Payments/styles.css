@@ -1,0 +1,7 @@
+.mytasks_top_selector {
+    width: 90%;
+    height: 50px;
+    display: inline-block;
+    border-bottom: solid 1px lightgray;
+    text-align: left;
+}

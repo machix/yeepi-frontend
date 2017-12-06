@@ -1,13 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import { Animated } from "react-animated-css";
+
+import ReactList from 'react-list';
 import './styles.css';
 
 export default class MyOffers extends Component {
   constructor() {
     super();
     this.state = {
+      accounts: [],
     }
   }
+  
+  renderItem = (index, key) => {
+    return (
+      <div>{ index }</div>
+    );
+  };
   
   render() {
     // const { displayText, animation } = this.props;
@@ -25,6 +34,17 @@ export default class MyOffers extends Component {
             Explore Tasks
           </div>
         </div>
+  
+        <div>
+          <h1>Accounts</h1>
+          <div className="react_list_container">
+            <ReactList
+              itemRenderer={this.renderItem}
+              length={10000}
+            />
+          </div>
+        </div>
+        
       </div>
     );
   }

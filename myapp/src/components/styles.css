@@ -45,11 +45,26 @@
     width: 100px;
     line-height: 34px;
     border-radius: 17px;
-    color: #ffffff;
+    color: gray;
+    -webkit-transition: all 1s ease;
+}
+
+.normal_white {
+    text-align: center;
+    display: inline-block;
+    width: 100px;
+    line-height: 34px;
+    border-radius: 17px;
+    color: white;
     -webkit-transition: all 1s ease;
 }
 
 .normal:hover {
+    background: #05978b;
+    transition: 1s ease;
+}
+
+.normal_white:hover {
     background: #05978b;
     transition: 1s ease;
 }
