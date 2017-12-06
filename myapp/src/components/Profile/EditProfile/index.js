@@ -39,14 +39,6 @@ export default class EditProfile extends React.Component {
       portfolio: [],
     };
     this.requests = {
-      uploadFileTest: (file) =>
-        superagent.post(base_url_public + '/frontend/user/uploadfiletest', { file: file }).then(res => {
-          debugger;
-          if (!res.body.result) {
-            this.setState({ showAlert: true, alertText: res.body.text })
-          } else {
-          }
-        }),
       fetchDatas: () =>
         superagent.post(base_url_public + '/frontend/user/fetchpersonalinfos', { token: reactLocalStorage.get('loggedToken') }).then(res => {
           if (!res.body.result) {
