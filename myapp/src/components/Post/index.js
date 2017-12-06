@@ -25,14 +25,14 @@ import _superagent from 'superagent';
 let superagent = superagentPromise(_superagent, Promise);
 
 const MapWithAMarker = withGoogleMap(props =>
-    <GoogleMap
-      defaultZoom={8}
-      defaultCenter={{ lat: props.lat, lng: props.lng }}
-    >
-      <Marker
-        position={{ lat: props.lat, lng: props.lng }}
-      />
-    </GoogleMap>
+  <GoogleMap
+    defaultZoom={8}
+    defaultCenter={{ lat: props.lat, lng: props.lng }}
+  >
+    <Marker
+      position={{ lat: props.lat, lng: props.lng }}
+    />
+  </GoogleMap>
 );
 
 export default class Post extends React.Component {
@@ -78,6 +78,15 @@ export default class Post extends React.Component {
       cleaning_option5: false,
       bedroomcount: 1,
       bathroomcount: 1,
+      settingInfos: [],
+      fromLocation: '',
+      fromLocation_zip: '',
+      fromLocation_lat: 0,
+      fromLocation_lng: 0,
+      toLocation: '',
+      toLocation_zip: '',
+      toLocation_lat: 0,
+      toLocation_lng: 0
     };
     this.categoryLists = [
       "House Cleaning",
@@ -106,6 +115,14 @@ export default class Post extends React.Component {
       },
     };
     this.requests = {
+      fetchSettingInfos: () =>
+        superagent.get(base_url_public + '/settings/retrieveinfos', {}).then(res => {
+          if (!res.body.result) {
+            this.setState({ showAlert: true, alertText: res.body.text })
+          } else {
+            this.setState({ settingInfos: res.body.settings });
+          }
+        }),
       fetchDatas: () =>
         superagent.post(base_url_public + '/frontend/user/fetchpersonalinfos', { token: reactLocalStorage.get('loggedToken') }).then(res => {
           if (!res.body.result) {
@@ -128,6 +145,17 @@ export default class Post extends React.Component {
         task_budget: this.uploadValue.budget,
         task_numberoftasker: this.state.taskercount,
         task_attachments: this.state.attachments,
+  
+        task_from_location: this.state.fromLocation,
+        task_from_location_zip: this.state.fromLocation_zip,
+        task_from_location_lat: this.state.fromLocation_lat,
+        task_from_location_lng: this.state.fromLocation_lng,
+  
+        task_to_location: this.state.toLocation,
+        task_to_location_zip: this.state.toLocation_zip,
+        task_to_location_lat: this.state.toLocation_lat,
+        task_to_location_lng: this.state.toLocation_lng,
+        
       }).then(res => {
         if (!res.body.result) {
           this.setState({ showAlert: true, alertText: res.body.text })
@@ -160,6 +188,17 @@ export default class Post extends React.Component {
         task_budget: this.uploadValue.budget,
         task_numberoftasker: this.state.taskercount,
         task_attachments: this.state.attachments,
+        
+        task_from_location: this.state.fromLocation,
+        task_from_location_zip: this.state.fromLocation_zip,
+        task_from_location_lat: this.state.fromLocation_lat,
+        task_from_location_lng: this.state.fromLocation_lng,
+        
+        task_to_location: this.state.toLocation,
+        task_to_location_zip: this.state.toLocation_zip,
+        task_to_location_lat: this.state.toLocation_lat,
+        task_to_location_lng: this.state.toLocation_lng,
+        
       }).then(res => {
         if (!res.body.result) {
           this.setState({ showAlert: true, alertText: res.body.text })
@@ -174,6 +213,7 @@ export default class Post extends React.Component {
   
   componentDidMount() {
     this.requests.fetchDatas();
+    this.requests.fetchSettingInfos();
     setTimeout(() => {
       this.props.updateHeader(2);
     }, 100);
@@ -255,18 +295,28 @@ export default class Post extends React.Component {
   };
   
   onNext2 = () => {
-    if (this.state.step2_checked === 0) {
-      this.uploadValue.timeline2 = this.state.deadline.diff(moment(), 'days');
-      this.setState({ step1_blank: false, step2_blank: false, step3_blank: false, step: 3 })
-    } else {
-      if (this.state.address === "") {
+    
+    if (this.state.selectIndex === 4) { //moving
+      if (this.state.fromLocation === '' || this.state.toLocation === '') {
         this.setState({ step2_blank: true })
       } else {
-        // this.uploadValue.timeline1 = this.state.startDate.diff(moment(), 'days');
-        this.uploadValue.timeline2 = this.state.deadline.diff(moment(), 'days');
         this.setState({ step1_blank: false, step2_blank: false, step3_blank: false, step: 3 })
       }
+    } else {
+      if (this.state.step2_checked === 0) { //not moving
+        this.uploadValue.timeline2 = this.state.deadline.diff(moment(), 'days');
+        this.setState({ step1_blank: false, step2_blank: false, step3_blank: false, step: 3 })
+      } else {
+        if (this.state.address === "") {
+          this.setState({ step2_blank: true })
+        } else {
+          // this.uploadValue.timeline1 = this.state.startDate.diff(moment(), 'days');
+          this.uploadValue.timeline2 = this.state.deadline.diff(moment(), 'days');
+          this.setState({ step1_blank: false, step2_blank: false, step3_blank: false, step: 3 })
+        }
+      }
     }
+    
   };
   
   onNext3 = () => {
@@ -310,8 +360,8 @@ export default class Post extends React.Component {
     //     }
     //   }
     // }
-  
-    if (amount >= this.state.personal_datas.min_amount && amount <= this.state.personal_datas.max_amount) {
+    
+    if (amount >= this.state.settingInfos.min_amount && amount <= this.state.settingInfos.max_amount) {
       this.uploadValue.budget = amount;
       if (this.state.editing) {
         this.requests.editTask(this.state.task_info._id)
@@ -321,7 +371,7 @@ export default class Post extends React.Component {
     } else {
       this.setState({ amountError: true })
     }
-  
+    
   };
   
   onCancel3 = () => {
@@ -406,11 +456,36 @@ export default class Post extends React.Component {
     this.setState({ address });
   };
   
+  onChange_FROM = (address) => {
+    this.setState({ fromLocation: address });
+  };
+  onChange_TO = (address) => {
+    this.setState({ toLocation: address });
+  };
+  
   handleSelectAddress = (address, placeId) => {
     geocodeByPlaceId(placeId)
       .then(results => {
         let zipcode = results[0].address_components.filter(function (it) { return it.types.indexOf('postal_code') != -1;}).map(function (it) {return it.long_name;});
         this.setState({ address, placeId, zipcode, lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() })
+      })
+      .catch(error => console.error(error));
+  };
+  
+  handleSelectAddress_FROM = (address, placeId) => {
+    geocodeByPlaceId(placeId)
+      .then(results => {
+        let zipcode = results[0].address_components.filter(function (it) { return it.types.indexOf('postal_code') != -1;}).map(function (it) {return it.long_name;});
+        this.setState({ fromLocation: address, fromLocation_zip: zipcode, fromLocation_lat: results[0].geometry.location.lat(), fromLocation_lng: results[0].geometry.location.lng() })
+      })
+      .catch(error => console.error(error));
+  };
+  
+  handleSelectAddress_TO = (address, placeId) => {
+    geocodeByPlaceId(placeId)
+      .then(results => {
+        let zipcode = results[0].address_components.filter(function (it) { return it.types.indexOf('postal_code') != -1;}).map(function (it) {return it.long_name;});
+        this.setState({ toLocation: address, toLocation_zip: zipcode, toLocation_lat: results[0].geometry.location.lat(), toLocation_lng: results[0].geometry.location.lng() })
       })
       .catch(error => console.error(error));
   };
@@ -505,11 +580,20 @@ export default class Post extends React.Component {
       cleaning_option4,
       cleaning_option5,
       bedroomcount,
-      bathroomcount
+      bathroomcount,
+      settingInfos
     } = this.state;
     const inputProps = {
       value: this.state.address,
       onChange: this.onChange,
+    };
+    const inputProps_from = {
+      value: this.state.fromLocation,
+      onChange: this.onChange_FROM,
+    };
+    const inputProps_to = {
+      value: this.state.toLocation,
+      onChange: this.onChange_TO,
     };
     const AutocompleteItem = ({ formattedSuggestion }) => (
       <div>
@@ -545,7 +629,7 @@ export default class Post extends React.Component {
         );
       }
     }
-  
+    
     let render_attachments_done = [];
     if (step === 4) {
       if (attachments.length === 0) {
@@ -645,300 +729,319 @@ export default class Post extends React.Component {
         </div>
         {
           step === 0 &&
-            <div className="col-sm-12 centerContent">
-    
-              <div className="post_item">
-                <div className="post_item_1" onClick={() => { this.selectCategory(1); }}>
-                  <div className="post_item_1_image"/>
-                </div>
-                <div className="post_item_2">
-                  { this.categoryLists[0] }
-                </div>
+          <div className="col-sm-12 centerContent">
+            
+            <div className="post_item">
+              <div className="post_item_1" onClick={() => { this.selectCategory(1); }}>
+                <div className="post_item_1_image"/>
               </div>
-    
-              <div className="post_item">
-                <div className="post_item_1" onClick={() => { this.selectCategory(2); }}>
-                  <div className="post_item_2_image"/>
-                </div>
-                <div className="post_item_2">
-                  { this.categoryLists[1] }
-                </div>
+              <div className="post_item_2">
+                { this.categoryLists[0] }
               </div>
-    
-              <div className="post_item">
-                <div className="post_item_1" onClick={() => { this.selectCategory(3); }}>
-                  <div className="post_item_3_image"/>
-                </div>
-                <div className="post_item_2">
-                  { this.categoryLists[2] }
-                </div>
-              </div>
-    
-              <div className="post_item">
-                <div className="post_item_1" onClick={() => { this.selectCategory(4); }}>
-                  <div className="post_item_4_image"/>
-                </div>
-                <div className="post_item_2">
-                  { this.categoryLists[3] }
-                </div>
-              </div>
-    
-              <div className="post_item">
-                <div className="post_item_1" onClick={() => { this.selectCategory(5); }}>
-                  <div className="post_item_5_image"/>
-                </div>
-                <div className="post_item_2">
-                  { this.categoryLists[4] }
-                </div>
-              </div>
-    
-              <div className="post_item">
-                <div className="post_item_1" onClick={() => { this.selectCategory(6); }}>
-                  <div className="post_item_6_image"/>
-                </div>
-                <div className="post_item_2">
-                  { this.categoryLists[5] }
-                </div>
-              </div>
-    
-              <div className="post_item">
-                <div className="post_item_1" onClick={() => { this.selectCategory(7); }}>
-                  <div className="post_item_7_image"/>
-                </div>
-                <div className="post_item_2">
-                  { this.categoryLists[6] }
-                </div>
-              </div>
-    
-              <div className="post_item">
-                <div className="post_item_1" onClick={() => { this.selectCategory(8); }}>
-                  <div className="post_item_8_image"/>
-                </div>
-                <div className="post_item_2">
-                  { this.categoryLists[7] }
-                </div>
-              </div>
-    
-              <div className="post_item">
-                <div className="post_item_1" onClick={() => { this.selectCategory(9); }}>
-                  <div className="post_item_9_image"/>
-                </div>
-                <div className="post_item_2">
-                  { this.categoryLists[8] }
-                </div>
-              </div>
-    
-              <div className="post_item">
-                <div className="post_item_1" onClick={() => { this.selectCategory(10); }}>
-                  <div className="post_item_10_image"/>
-                </div>
-                <div className="post_item_2">
-                  { this.categoryLists[9] }
-                </div>
-              </div>
-  
             </div>
+            
+            <div className="post_item">
+              <div className="post_item_1" onClick={() => { this.selectCategory(2); }}>
+                <div className="post_item_2_image"/>
+              </div>
+              <div className="post_item_2">
+                { this.categoryLists[1] }
+              </div>
+            </div>
+            
+            <div className="post_item">
+              <div className="post_item_1" onClick={() => { this.selectCategory(3); }}>
+                <div className="post_item_3_image"/>
+              </div>
+              <div className="post_item_2">
+                { this.categoryLists[2] }
+              </div>
+            </div>
+            
+            <div className="post_item">
+              <div className="post_item_1" onClick={() => { this.selectCategory(4); }}>
+                <div className="post_item_4_image"/>
+              </div>
+              <div className="post_item_2">
+                { this.categoryLists[3] }
+              </div>
+            </div>
+            
+            <div className="post_item">
+              <div className="post_item_1" onClick={() => { this.selectCategory(5); }}>
+                <div className="post_item_5_image"/>
+              </div>
+              <div className="post_item_2">
+                { this.categoryLists[4] }
+              </div>
+            </div>
+            
+            <div className="post_item">
+              <div className="post_item_1" onClick={() => { this.selectCategory(6); }}>
+                <div className="post_item_6_image"/>
+              </div>
+              <div className="post_item_2">
+                { this.categoryLists[5] }
+              </div>
+            </div>
+            
+            <div className="post_item">
+              <div className="post_item_1" onClick={() => { this.selectCategory(7); }}>
+                <div className="post_item_7_image"/>
+              </div>
+              <div className="post_item_2">
+                { this.categoryLists[6] }
+              </div>
+            </div>
+            
+            <div className="post_item">
+              <div className="post_item_1" onClick={() => { this.selectCategory(8); }}>
+                <div className="post_item_8_image"/>
+              </div>
+              <div className="post_item_2">
+                { this.categoryLists[7] }
+              </div>
+            </div>
+            
+            <div className="post_item">
+              <div className="post_item_1" onClick={() => { this.selectCategory(9); }}>
+                <div className="post_item_9_image"/>
+              </div>
+              <div className="post_item_2">
+                { this.categoryLists[8] }
+              </div>
+            </div>
+            
+            <div className="post_item">
+              <div className="post_item_1" onClick={() => { this.selectCategory(10); }}>
+                <div className="post_item_10_image"/>
+              </div>
+              <div className="post_item_2">
+                { this.categoryLists[9] }
+              </div>
+            </div>
+          
+          </div>
         }
         {
           step === 1 &&
-            <div className="col-sm-12 centerContent">
-              <div>
-                Step 1 : Add Details
-              </div>
-              <div className="post_toptitle_center">
-                <div className="post_toptitle_center_bar_on"/>
-                <div className="post_toptitle_center_bar_off"/>
-                <div className="post_toptitle_center_bar_off"/>
-              </div>
-              
-              <div className="post_toptitle_center">
-                <div className="post_title">POST TITLE</div>
-              </div>
-              <div className="post_toptitle_center">
-                <input
-                  className="form-control post_title_input"
-                  ref={ref => {this._ref_inputtitle = ref}}
-                  onChange={this.onChangeTitle}
-                  value={post_title}
-                />
-              </div>
-              {
-                post_title_bad &&
-                  <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
-                    <div className="post_toptitle_center">
-                      <div className="post_title_withoutmargin">Minimum 10 characters required</div>
-                    </div>
-                  </Animated>
-              }
-              
-              <div className="post_toptitle_center">
-                <div className="post_title">DESCRIPTION</div>
-              </div>
-              <div className="post_toptitle_center">
+          <div className="col-sm-12 centerContent">
+            <div>
+              Step 1 : Add Details
+            </div>
+            <div className="post_toptitle_center">
+              <div className="post_toptitle_center_bar_on"/>
+              <div className="post_toptitle_center_bar_off"/>
+              <div className="post_toptitle_center_bar_off"/>
+            </div>
+            
+            <div className="post_toptitle_center">
+              <div className="post_title">POST TITLE</div>
+            </div>
+            <div className="post_toptitle_center">
+              <input
+                className="form-control post_title_input"
+                ref={ref => {this._ref_inputtitle = ref}}
+                onChange={this.onChangeTitle}
+                value={post_title}
+              />
+            </div>
+            {
+              post_title_bad &&
+              <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
+                <div className="post_toptitle_center">
+                  <div className="post_title_withoutmargin">Minimum 10 characters required</div>
+                </div>
+              </Animated>
+            }
+            
+            <div className="post_toptitle_center">
+              <div className="post_title">DESCRIPTION</div>
+            </div>
+            <div className="post_toptitle_center">
                 <textarea
                   className="form-control post_title_input"
                   ref={ref => {this._ref_inputdesc = ref}}
                   onChange={this.onChangeDesc}
                   value={post_desc}
                 />
-              </div>
-              {
-                post_desc_bad &&
-                  <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
-                    <div className="post_toptitle_center">
-                      <div className="post_title_withoutmargin">Minimum 25 characters required</div>
-                    </div>
-                  </Animated>
-              }
-  
-              <div className="post_toptitle_center_big">
-                <div className="attach_inside_container">
-                  <div className="attachment" onClick={this.onAddAttachments}>ADD ATTACHMENTS</div>
-                  {
-                    render_attachments
-                  }
+            </div>
+            {
+              post_desc_bad &&
+              <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
+                <div className="post_toptitle_center">
+                  <div className="post_title_withoutmargin">Minimum 25 characters required</div>
                 </div>
-              </div>
-              <div className="post_toptitle_center">
-                <div className="post_bar1"/>
-              </div>
-              {
-                step1_blank &&
-                  <div className="post_toptitle_center">
-                    <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
-                      <div className="margintop redText">Please Fill In The Blanks</div>
-                    </Animated>
-                  </div>
-              }
-              <div className="post_toptitle_center_withpadding">
-                <div className="button1" onClick={this.onCancel1}>Cancel</div>
-                <div className="button2" onClick={this.onNext1}>Next</div>
+              </Animated>
+            }
+            
+            <div className="post_toptitle_center_big">
+              <div className="attach_inside_container">
+                <div className="attachment" onClick={this.onAddAttachments}>ADD ATTACHMENTS</div>
+                {
+                  render_attachments
+                }
               </div>
             </div>
+            <div className="post_toptitle_center">
+              <div className="post_bar1"/>
+            </div>
+            {
+              step1_blank &&
+              <div className="post_toptitle_center">
+                <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
+                  <div className="margintop redText">Please Fill In The Blanks</div>
+                </Animated>
+              </div>
+            }
+            <div className="post_toptitle_center_withpadding">
+              <div className="button1" onClick={this.onCancel1}>Cancel</div>
+              <div className="button2" onClick={this.onNext1}>Next</div>
+            </div>
+          </div>
         }
         {
           step === 2 &&
-            <div className="col-sm-12 centerContent">
-              <div className="post_toptitle_center">
-                <div>
-                  Step 2 : Add Location
-                </div>
-              </div>
-              <div className="post_toptitle_center">
-                <div className="post_toptitle_center_bar_on"/>
-                <div className="post_toptitle_center_bar_on"/>
-                <div className="post_toptitle_center_bar_off"/>
-              </div>
-              
-              {
-                selectIndex === 1 &&
-                  <div className="post_toptitle_center">
-                    <div className="post_title">
-                      <div className="cleaning_toggle_title">
-                        IS THIS END OF LEASE CLEANING?
-                      </div>
-                      <div className="cleaning_toggle">
-                        <div className="cleaning_toggle_x1">
-                          <ToggleButton
-                            value={ cleaning_toggle1 }
-                            onToggle={(value) => {
-                              this.setState({
-                                cleaning_toggle1: !cleaning_toggle1,
-                              })
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              }
-              {
-                selectIndex === 1 &&
-                <div className="post_toptitle_center">
-                  <div className="post_title">
-                    <div className="cleaning_toggle_pt_image"/>
-                    <div className="cleaning_toggle_pt_title">
-                      PROPERTY TYPE
-                    </div>
-                    {
-                      cleaning_toggle2 ? <div className="cleaning_toggle_pt_img1_off" onClick={() => {this.setState({cleaning_toggle2: false})}}/> : <div className="cleaning_toggle_pt_img1_on" onClick={() => {this.setState({cleaning_toggle2: false})}}/>
-                    }
-                    <div className="cleaning_toggle_pt_img1_title">
-                      HOUSE
-                    </div>
-                    {
-                      cleaning_toggle2 ? <div className="cleaning_toggle_pt_img2_on" onClick={() => {this.setState({cleaning_toggle2: true})}}/> : <div className="cleaning_toggle_pt_img2_off" onClick={() => {this.setState({cleaning_toggle2: true})}}/>
-                    }
-                    <div className="cleaning_toggle_pt_img2_title">
-                      APARTMENT
-                    </div>
-                  </div>
-                </div>
-              }
-              
-              <div className="post_toptitle_center">
-                <div className="post_title">TASK TYPE</div>
-              </div>
-              <div className="post_toptitle_center">
-                <label className="radio-inline marginview">
-                  <input type="radio" name="optradio" checked={ step2_checked === 0 } onClick={() => {this.onUpdateTaskType(0);}}/> Virtual Task
-                </label>
-                <label className="radio-inline marginview">
-                  <input type="radio" name="optradio" checked={ step2_checked === 1 } onClick={() => {this.onUpdateTaskType(1);}}/> Task is in specific Location
-                </label>
-              </div>
-              <div className="post_toptitle_center">
-                <div className="post_title">ADD DEADLINE</div>
-              </div>
-              <div className="post_toptitle_center">
-                {/*<input className="form-control post_title_input" value={`${startDate.month()+1}/${startDate.date()}/${startDate.year()} - ${endDate.month()+1}/${endDate.date()}/${endDate.year()}`} />*/}
-                {/*<DateRange*/}
-                {/*onInit={this.handleSelect}*/}
-                {/*onChange={this.handleSelect}*/}
-                {/*/>*/}
-                <DatePicker
-                  selected={this.state.deadline}
-                  onChange={this.onDateChange}
-                  className="post_datepicker"
-                />
-              </div>
-              <div className="post_toptitle_center">
-                <div className="post_title">ADD LOCATIONS</div>
-              </div>
-              <div className="post_toptitle_center paddingbottom">
-                <div className="post_title_input">
-                  {/*<Autocomplete*/}
-                    {/*className="form-control bankaddr"*/}
-                    {/*style={{ width: '100%', height: '38px' }}*/}
-                    {/*onPlaceSelected={(place) => {*/}
-                      {/*let address = place.formatted_address;*/}
-                      {/*let lat = place.geometry.location.lat();*/}
-                      {/*let lng = place.geometry.location.lng();*/}
-                      {/*let zipcode = place.address_components.filter(function (it) { return it.types.indexOf('postal_code') != -1;}).map(function (it) {return it.long_name;});*/}
-                      {/*this.setState({ address, zipcode, lat, lng })*/}
-                    {/*}}*/}
-                  {/*/>*/}
-                  <form>
-                    <PlacesAutocomplete inputProps={inputProps} autocompleteItem={AutocompleteItem} onSelect={this.handleSelectAddress} />
-                  </form>
-                </div>
-              </div>
-              <div className="post_toptitle_center">
-                <div className="post_bar1"/>
-              </div>
-              {
-                step2_blank &&
-                <div className="post_toptitle_center">
-                  <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
-                    <div className="margintop redText">Please Fill In The Blanks</div>
-                  </Animated>
-                </div>
-              }
-              <div className="post_toptitle_center_withpadding">
-                <div className="button1" onClick={this.onCancel2}>Back</div>
-                <div className="button2" onClick={this.onNext2}>NEXT</div>
+          <div className="col-sm-12 centerContent">
+            <div className="post_toptitle_center">
+              <div>
+                Step 2 : Add Location
               </div>
             </div>
+            <div className="post_toptitle_center">
+              <div className="post_toptitle_center_bar_on"/>
+              <div className="post_toptitle_center_bar_on"/>
+              <div className="post_toptitle_center_bar_off"/>
+            </div>
+            
+            {
+              selectIndex === 1 &&
+              <div className="post_toptitle_center">
+                <div className="post_title">
+                  <div className="cleaning_toggle_title">
+                    IS THIS END OF LEASE CLEANING?
+                  </div>
+                  <div className="cleaning_toggle">
+                    <div className="cleaning_toggle_x1">
+                      <ToggleButton
+                        value={ cleaning_toggle1 }
+                        onToggle={(value) => {
+                          this.setState({
+                            cleaning_toggle1: !cleaning_toggle1,
+                          })
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+            {
+              selectIndex === 1 &&
+              <div className="post_toptitle_center">
+                <div className="post_title">
+                  <div className="cleaning_toggle_pt_image"/>
+                  <div className="cleaning_toggle_pt_title">
+                    PROPERTY TYPE
+                  </div>
+                  {
+                    cleaning_toggle2 ? <div className="cleaning_toggle_pt_img1_off" onClick={() => {this.setState({cleaning_toggle2: false})}}/> : <div className="cleaning_toggle_pt_img1_on" onClick={() => {this.setState({cleaning_toggle2: false})}}/>
+                  }
+                  <div className="cleaning_toggle_pt_img1_title">
+                    HOUSE
+                  </div>
+                  {
+                    cleaning_toggle2 ? <div className="cleaning_toggle_pt_img2_on" onClick={() => {this.setState({cleaning_toggle2: true})}}/> : <div className="cleaning_toggle_pt_img2_off" onClick={() => {this.setState({cleaning_toggle2: true})}}/>
+                  }
+                  <div className="cleaning_toggle_pt_img2_title">
+                    APARTMENT
+                  </div>
+                </div>
+              </div>
+            }
+            
+            <div className="post_toptitle_center">
+              <div className="post_title">TASK TYPE</div>
+            </div>
+            <div className="post_toptitle_center">
+              <label className="radio-inline marginview">
+                <input type="radio" name="optradio" checked={ step2_checked === 0 } onClick={() => {this.onUpdateTaskType(0);}}/> Virtual Task
+              </label>
+              <label className="radio-inline marginview">
+                <input type="radio" name="optradio" checked={ step2_checked === 1 } onClick={() => {this.onUpdateTaskType(1);}}/> Task is in specific Location
+              </label>
+            </div>
+            
+            {
+              selectIndex === 4 ?
+                <div>
+                  <div className="post_toptitle_center">
+                    <div className="post_title">FROM LOCATIONS</div>
+                  </div>
+                  <div className="post_toptitle_center">
+                    <div className="post_title_input">
+                      <form>
+                        <PlacesAutocomplete inputProps={inputProps_from} autocompleteItem={AutocompleteItem} onSelect={this.handleSelectAddress_FROM} />
+                      </form>
+                    </div>
+                  </div>
+                  
+                  <div className="post_toptitle_center">
+                    <div className="post_title">TO LOCATION</div>
+                  </div>
+                  <div className="post_toptitle_center paddingbottom">
+                    <div className="post_title_input">
+                      <form>
+                        <PlacesAutocomplete inputProps={inputProps_to} autocompleteItem={AutocompleteItem} onSelect={this.handleSelectAddress_TO} />
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                :
+                <div>
+                  <div className="post_toptitle_center">
+                    <div className="post_title">ADD DEADLINE</div>
+                  </div>
+                  <div className="post_toptitle_center">
+                    <DatePicker
+                      selected={this.state.deadline}
+                      onChange={this.onDateChange}
+                      className="post_datepicker"
+                    />
+                  </div>
+                  
+                  <div className="post_toptitle_center">
+                    <div className="post_title">ADD LOCATIONS</div>
+                  </div>
+                  <div className="post_toptitle_center paddingbottom">
+                    <div className="post_title_input">
+                      <form>
+                        <PlacesAutocomplete inputProps={inputProps} autocompleteItem={AutocompleteItem} onSelect={this.handleSelectAddress} />
+                      </form>
+                    </div>
+                  </div>
+                </div>
+            }
+            
+            
+            
+            
+            <div className="post_toptitle_center">
+              <div className="post_bar1"/>
+            </div>
+            {
+              step2_blank &&
+              <div className="post_toptitle_center">
+                <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
+                  <div className="margintop redText">Please Fill In The Blanks</div>
+                </Animated>
+              </div>
+            }
+            <div className="post_toptitle_center_withpadding">
+              <div className="button1" onClick={this.onCancel2}>Back</div>
+              <div className="button2" onClick={this.onNext2}>NEXT</div>
+            </div>
+          </div>
         }
         {
           step === 3 &&
@@ -977,26 +1080,26 @@ export default class Post extends React.Component {
             
             {
               selectIndex === 1 &&
-                <div className="post_toptitle_center margintop">
-                  <div className="post_title">
-                    <div className="post_title_content1">
-                      NUMBER OF BEDROOMS
+              <div className="post_toptitle_center margintop">
+                <div className="post_title">
+                  <div className="post_title_content1">
+                    NUMBER OF BEDROOMS
+                  </div>
+                  <div className="post_title_content2">
+                    <div className="post_content2_plus" onClick={this.onBedroomCountDown}>
+                      <div className="post_content2_plus_con"/>
                     </div>
-                    <div className="post_title_content2">
-                      <div className="post_content2_plus" onClick={this.onBedroomCountDown}>
-                        <div className="post_content2_plus_con"/>
+                    <div className="post_content2_num">
+                      <div className="post_content2_num_con">
+                        { bedroomcount }
                       </div>
-                      <div className="post_content2_num">
-                        <div className="post_content2_num_con">
-                          { bedroomcount }
-                        </div>
-                      </div>
-                      <div className="post_content2_minus" onClick={this.onBedroomCountUp}>
-                        <div className="post_content2_minus_con"/>
-                      </div>
+                    </div>
+                    <div className="post_content2_minus" onClick={this.onBedroomCountUp}>
+                      <div className="post_content2_minus_con"/>
                     </div>
                   </div>
                 </div>
+              </div>
             }
             {
               selectIndex === 1 &&
@@ -1023,100 +1126,100 @@ export default class Post extends React.Component {
             }
             {
               selectIndex === 1 &&
-                <div>
-                  <div className="post_toptitle_center margintop">
-                    <div className="post_title">ADDITIONAL CLEANING OPTIONS</div>
-                  </div>
-                  <div className="post_toptitle_center">
-                    <div className="cleaning_option_item_container">
-                      {
-                        cleaning_option1 ?
-                          <div className="cleaning_option_item_checked" onClick={() => {
-                            this.setState({ cleaning_option1: !cleaning_option1 })
-                          }}>
-                            <div className="cleaning_option_item_img1_checked"/>
-                            <div className="cleaning_option_item_title1">Laundry</div>
-                          </div>
-                          :
-                          <div className="cleaning_option_item" onClick={() => {
-                            this.setState({ cleaning_option1: !cleaning_option1 })
-                          }}>
-                            <div className="cleaning_option_item_img1"/>
-                            <div className="cleaning_option_item_title1">Laundry</div>
-                          </div>
-                      }
-                      
-                      {
-                        cleaning_option2 ?
-                          <div className="cleaning_option_item_checked" onClick={() => {
-                            this.setState({ cleaning_option2: !cleaning_option2 })
-                          }}>
-                            <div className="cleaning_option_item_img2_checked"/>
-                            <div className="cleaning_option_item_title2">Oven</div>
-                          </div>
-                          :
-                          <div className="cleaning_option_item" onClick={() => {
-                            this.setState({ cleaning_option2: !cleaning_option2 })
-                          }}>
-                            <div className="cleaning_option_item_img2"/>
-                            <div className="cleaning_option_item_title2">Oven</div>
-                          </div>
-                      }
-                      
-                      {
-                        cleaning_option3 ?
-                          <div className="cleaning_option_item_checked" onClick={() => {
-                            this.setState({ cleaning_option3: !cleaning_option3 })
-                          }}>
-                            <div className="cleaning_option_item_img3_checked"/>
-                            <div className="cleaning_option_item_title3">Cabinet</div>
-                          </div>
-                          :
-                          <div className="cleaning_option_item" onClick={() => {
-                            this.setState({ cleaning_option3: !cleaning_option3 })
-                          }}>
-                            <div className="cleaning_option_item_img3"/>
-                            <div className="cleaning_option_item_title3">Cabinet</div>
-                          </div>
-                      }
-                      
-                      {
-                        cleaning_option4 ?
-                          <div className="cleaning_option_item_checked" onClick={() => {
-                            this.setState({ cleaning_option4: !cleaning_option4 })
-                          }}>
-                            <div className="cleaning_option_item_img4_checked"/>
-                            <div className="cleaning_option_item_title4">Carpet</div>
-                          </div>
-                          :
-                          <div className="cleaning_option_item" onClick={() => {
-                            this.setState({ cleaning_option4: !cleaning_option4 })
-                          }}>
-                            <div className="cleaning_option_item_img4"/>
-                            <div className="cleaning_option_item_title4">Carpet</div>
-                          </div>
-                      }
-                      
-                      {
-                        cleaning_option5 ?
-                          <div className="cleaning_option_item_checked" onClick={() => {
-                            this.setState({ cleaning_option5: !cleaning_option5 })
-                          }}>
-                            <div className="cleaning_option_item_img5_checked"/>
-                            <div className="cleaning_option_item_title5">Windows</div>
-                          </div>
-                          :
-                          <div className="cleaning_option_item" onClick={() => {
-                            this.setState({ cleaning_option5: !cleaning_option5 })
-                          }}>
-                            <div className="cleaning_option_item_img5"/>
-                            <div className="cleaning_option_item_title5">Windows</div>
-                          </div>
-                      }
-                      
-                    </div>
+              <div>
+                <div className="post_toptitle_center margintop">
+                  <div className="post_title">ADDITIONAL CLEANING OPTIONS</div>
+                </div>
+                <div className="post_toptitle_center">
+                  <div className="cleaning_option_item_container">
+                    {
+                      cleaning_option1 ?
+                        <div className="cleaning_option_item_checked" onClick={() => {
+                          this.setState({ cleaning_option1: !cleaning_option1 })
+                        }}>
+                          <div className="cleaning_option_item_img1_checked"/>
+                          <div className="cleaning_option_item_title1">Laundry</div>
+                        </div>
+                        :
+                        <div className="cleaning_option_item" onClick={() => {
+                          this.setState({ cleaning_option1: !cleaning_option1 })
+                        }}>
+                          <div className="cleaning_option_item_img1"/>
+                          <div className="cleaning_option_item_title1">Laundry</div>
+                        </div>
+                    }
+                    
+                    {
+                      cleaning_option2 ?
+                        <div className="cleaning_option_item_checked" onClick={() => {
+                          this.setState({ cleaning_option2: !cleaning_option2 })
+                        }}>
+                          <div className="cleaning_option_item_img2_checked"/>
+                          <div className="cleaning_option_item_title2">Oven</div>
+                        </div>
+                        :
+                        <div className="cleaning_option_item" onClick={() => {
+                          this.setState({ cleaning_option2: !cleaning_option2 })
+                        }}>
+                          <div className="cleaning_option_item_img2"/>
+                          <div className="cleaning_option_item_title2">Oven</div>
+                        </div>
+                    }
+                    
+                    {
+                      cleaning_option3 ?
+                        <div className="cleaning_option_item_checked" onClick={() => {
+                          this.setState({ cleaning_option3: !cleaning_option3 })
+                        }}>
+                          <div className="cleaning_option_item_img3_checked"/>
+                          <div className="cleaning_option_item_title3">Cabinet</div>
+                        </div>
+                        :
+                        <div className="cleaning_option_item" onClick={() => {
+                          this.setState({ cleaning_option3: !cleaning_option3 })
+                        }}>
+                          <div className="cleaning_option_item_img3"/>
+                          <div className="cleaning_option_item_title3">Cabinet</div>
+                        </div>
+                    }
+                    
+                    {
+                      cleaning_option4 ?
+                        <div className="cleaning_option_item_checked" onClick={() => {
+                          this.setState({ cleaning_option4: !cleaning_option4 })
+                        }}>
+                          <div className="cleaning_option_item_img4_checked"/>
+                          <div className="cleaning_option_item_title4">Carpet</div>
+                        </div>
+                        :
+                        <div className="cleaning_option_item" onClick={() => {
+                          this.setState({ cleaning_option4: !cleaning_option4 })
+                        }}>
+                          <div className="cleaning_option_item_img4"/>
+                          <div className="cleaning_option_item_title4">Carpet</div>
+                        </div>
+                    }
+                    
+                    {
+                      cleaning_option5 ?
+                        <div className="cleaning_option_item_checked" onClick={() => {
+                          this.setState({ cleaning_option5: !cleaning_option5 })
+                        }}>
+                          <div className="cleaning_option_item_img5_checked"/>
+                          <div className="cleaning_option_item_title5">Windows</div>
+                        </div>
+                        :
+                        <div className="cleaning_option_item" onClick={() => {
+                          this.setState({ cleaning_option5: !cleaning_option5 })
+                        }}>
+                          <div className="cleaning_option_item_img5"/>
+                          <div className="cleaning_option_item_title5">Windows</div>
+                        </div>
+                    }
+                  
                   </div>
                 </div>
+              </div>
             }
             
             <div className="post_toptitle_center">
@@ -1136,46 +1239,46 @@ export default class Post extends React.Component {
             </div>
             {
               hourly_checked === 0 &&
-                <div>
-                  <div className="post_toptitle_center margintop">
-                    <div className="post_title">NB OF HOURS</div>
-                  </div>
-                  <div className="post_toptitle_center">
-                    <input
-                      className="form-control post_title_input"
-                      ref={ref => {this._ref_hour = ref}}
-                      value={num_of_hour}
-                      onChange={this.onChangeNumHour}
-                    />
-                  </div>
-                  <div className="post_toptitle_center">
-                    <div className="post_title">HOURLY RATE</div>
-                  </div>
-                  <div className="post_toptitle_center">
-                    <input
-                      className="form-control post_title_input"
-                      ref={ref => {this._ref_rate = ref}}
-                      value={rate}
-                      onChange={this.onChangeRate}
-                    />
-                  </div>
+              <div>
+                <div className="post_toptitle_center margintop">
+                  <div className="post_title">NB OF HOURS</div>
                 </div>
+                <div className="post_toptitle_center">
+                  <input
+                    className="form-control post_title_input"
+                    ref={ref => {this._ref_hour = ref}}
+                    value={num_of_hour}
+                    onChange={this.onChangeNumHour}
+                  />
+                </div>
+                <div className="post_toptitle_center">
+                  <div className="post_title">HOURLY RATE</div>
+                </div>
+                <div className="post_toptitle_center">
+                  <input
+                    className="form-control post_title_input"
+                    ref={ref => {this._ref_rate = ref}}
+                    value={rate}
+                    onChange={this.onChangeRate}
+                  />
+                </div>
+              </div>
             }
             {
               hourly_checked === 1 &&
-                <div>
-                  <div className="post_toptitle_center margintop">
-                    <div className="post_title">AMOUNT</div>
-                  </div>
-                  <div className="post_toptitle_center">
-                    <input
-                      className="form-control post_title_input"
-                      ref={ref => {this._ref_fixedamount = ref}}
-                      value={fixed_price}
-                      onChange={this.onChangeFixedPrice}
-                    />
-                  </div>
+              <div>
+                <div className="post_toptitle_center margintop">
+                  <div className="post_title">AMOUNT</div>
                 </div>
+                <div className="post_toptitle_center">
+                  <input
+                    className="form-control post_title_input"
+                    ref={ref => {this._ref_fixedamount = ref}}
+                    value={fixed_price}
+                    onChange={this.onChangeFixedPrice}
+                  />
+                </div>
+              </div>
             }
             <div className="post_toptitle_center margintop">
               <div className="redText">
@@ -1184,13 +1287,13 @@ export default class Post extends React.Component {
             </div>
             {
               amountError &&
-                <div className="post_toptitle_center margintop">
-                  <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
-                    <div className="redText">
-                      ERROR: AMOUNTS ACCEPTED ARE BETWEEN ${personal_datas.min_amount} AND ${personal_datas.max_amount}
-                    </div>
-                  </Animated>
-                </div>
+              <div className="post_toptitle_center margintop">
+                <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
+                  <div className="redText">
+                    ERROR: AMOUNTS ACCEPTED ARE BETWEEN ${settingInfos.min_amount} AND ${settingInfos.max_amount}
+                  </div>
+                </Animated>
+              </div>
             }
             <div className="post_toptitle_center">
               <div className="post_bar1"/>
@@ -1211,30 +1314,30 @@ export default class Post extends React.Component {
         }
         {
           step === 4 ?
-            selectIndex === 1 ?
+            selectIndex === 1 ? // cleaning?
               <div className="col-sm-12 post_centerContent">
                 <div className="col-sm-12 centerContent1">
                   <div className="step4Container">
-          
+                    
                     <div className="categoryiconcontainer1">
                       <div className="categoryicon">
                         <div className={categoryClassName}/>
                       </div>
                     </div>
-          
+                    
                     <div className="categoryiconcontainer2">
                       <div className="categoryiconcontainer2_1">
                         {this.categoryLists[task_info.task_category - 1]} - {task_info.task_title}
                       </div>
                       <div className="categoryiconcontainer2_2">
-              
+                        
                         {
                           personal_datas.imagePreviewUrl === '' ?
                             <div className="myavatar"/>
                             :
                             <img className="myavatarwithsrc" src={personal_datas.imagePreviewUrl} />
                         }
-              
+                        
                         <div className="myavatartext">
                           <div className="myavatartext_1">
                             Alexander Ignacz ( You )
@@ -1242,7 +1345,7 @@ export default class Post extends React.Component {
                         </div>
                       </div>
                     </div>
-          
+                    
                     <div className="categoryiconcontainer3">
                       <div className="categoryiconcontainer3_1">
                         ${task_info.task_budget}
@@ -1251,12 +1354,12 @@ export default class Post extends React.Component {
                         Budget
                       </div>
                     </div>
-        
+                  
                   </div>
                 </div>
-      
+                
                 <div className="post_toptitle_center1 margintop" >
-        
+                  
                   <div className="post_toptitle_center1_1_clock" />
                   <div className="post_toptitle_center1_1" >
                     POSTED :
@@ -1264,9 +1367,9 @@ export default class Post extends React.Component {
                   <div className="post_toptitle_center1_2" >
                     Just Before
                   </div>
-        
+                  
                   <div className="marginBar"/>
-        
+                  
                   <div className="post_toptitle_center1_1_stopwatch" />
                   <div className="post_toptitle_center1_1" >
                     DEADLINE :
@@ -1274,18 +1377,18 @@ export default class Post extends React.Component {
                   <div className="post_toptitle_center1_2" >
                     { deadline.format() }
                   </div>
-        
+                  
                   <div className="marginBar"/>
-        
+                  
                   <div className="post_toptitle_center1_1 marginleft" >
                     STATUS :
                   </div>
                   <div className="post_toptitle_center1_2" >
                     OPEN
                   </div>
-        
+                  
                   <div className="marginBar"/>
-        
+                  
                   <div className="post_toptitle_center1_1 marginleft" >
                     SHARE ON :
                   </div>
@@ -1298,11 +1401,11 @@ export default class Post extends React.Component {
                     Facebook
                   </div>
                 </div>
-      
+                
                 <div className="post_toptitle_center2 margintop" >
-        
+                  
                   <div className="post_leftRangeContainer">
-          
+                    
                     <div className="post_leftRange_drumroll">
                       <div className="post_leftRange_drumroll_icon"/>
                       <div className="post_leftRange_drumroll_text1">
@@ -1312,25 +1415,25 @@ export default class Post extends React.Component {
                         No Offers yet! Please wait and check after sometime.
                       </div>
                     </div>
-          
+                    
                     <div className="post_left_horibar"/>
-          
+                    
                     <div className="post_leftRange_taskdesc">
                       TASK DESCRIPTION
                     </div>
-          
+                    
                     <div className="post_leftRange_taskdesc_content">
                       { task_info.task_description }
                     </div>
-  
+                    
                     <div className="post_leftRange_new_endleasing">
                       { cleaning_toggle1 ? "THIS IS AN END LEASING CLEANING" : "THIS IS NOT AN END LEASING CLEANING" }
                     </div>
-  
+                    
                     <div className="post_leftRange_new_propertytype">
                       PROPERTY TYPE
                     </div>
-  
+                    
                     <div className="post_leftRange_new_bedroomnum">
                       NUMBER OF BEDROOMS
                     </div>
@@ -1338,39 +1441,39 @@ export default class Post extends React.Component {
                     <div className="post_leftRange_new_propertytype_value">
                       { cleaning_toggle2 ? "House" : "Apartment" }
                     </div>
-  
+                    
                     <div className="post_leftRange_new_bedroomnum_value">
                       { bedroomcount } - Bedrooms
                     </div>
-  
+                    
                     <div className="post_leftRange_new_bathroomnum">
                       NUMBER OF BATHROOMS
                     </div>
-  
+                    
                     <div className="post_leftRange_new_taskernum">
                       TASKERS NEEDED
                     </div>
-  
+                    
                     <div className="post_leftRange_new_bathroomnum_value">
                       { bathroomcount } - Bathrooms
                     </div>
-  
+                    
                     <div className="post_leftRange_new_taskernum_value">
                       { taskercount } - Taskers Needed
                     </div>
-  
+                    
                     <div className="post_leftRange_new_cleaningoptions">
                       ADDITIONAL CLEANING OPTIONS
                     </div>
-  
+                    
                     {
                       render_new_cleaningoptions
                     }
-                    
+                  
                   </div>
-        
+                  
                   <div className="post_rightRangeContainer">
-          
+                    
                     <div className="post_leftRange_drumroll">
                       <div className="post_gps_icon" onClick={this.navigateCurrentLoc}/>
                       <div>
@@ -1392,18 +1495,18 @@ export default class Post extends React.Component {
                         }
                       </div>
                     </div>
-  
+                    
                     <div className="post_leftRange_view_new">
                       VIEW ATTACHMENTS
                     </div>
-  
+                    
                     <div className="post_done_viewattach_container_new">
                       { render_attachments_done }
                     </div>
-
+                  
                   </div>
                 </div>
-      
+                
                 <div className="post_toptitle_new_center3" />
                 <div className="post_canceltaskbtn_new" onClick={this.cancelTask}>
                   Cancel the Task
@@ -1413,30 +1516,30 @@ export default class Post extends React.Component {
                 </div>
                 <div className="post_marginBottom" />
               </div>
-              :
+              : // not cleaning?
               <div className="col-sm-12 post_centerContent">
                 <div className="col-sm-12 centerContent1">
                   <div className="step4Container">
-          
+                    
                     <div className="categoryiconcontainer1">
                       <div className="categoryicon">
                         <div className={categoryClassName}/>
                       </div>
                     </div>
-          
+                    
                     <div className="categoryiconcontainer2">
                       <div className="categoryiconcontainer2_1">
                         {this.categoryLists[task_info.task_category - 1]} - {task_info.task_title}
                       </div>
                       <div className="categoryiconcontainer2_2">
-              
+                        
                         {
                           personal_datas.imagePreviewUrl === '' ?
                             <div className="myavatar"/>
                             :
                             <img className="myavatarwithsrc" src={personal_datas.imagePreviewUrl} />
                         }
-              
+                        
                         <div className="myavatartext">
                           <div className="myavatartext_1">
                             Alexander Ignacz ( You )
@@ -1444,7 +1547,7 @@ export default class Post extends React.Component {
                         </div>
                       </div>
                     </div>
-          
+                    
                     <div className="categoryiconcontainer3">
                       <div className="categoryiconcontainer3_1">
                         ${task_info.task_budget}
@@ -1453,12 +1556,12 @@ export default class Post extends React.Component {
                         Budget
                       </div>
                     </div>
-        
+                  
                   </div>
                 </div>
-      
+                
                 <div className="post_toptitle_center1 margintop" >
-        
+                  
                   <div className="post_toptitle_center1_1_clock" />
                   <div className="post_toptitle_center1_1" >
                     POSTED :
@@ -1466,9 +1569,9 @@ export default class Post extends React.Component {
                   <div className="post_toptitle_center1_2" >
                     Just Before
                   </div>
-        
+                  
                   <div className="marginBar"/>
-        
+                  
                   <div className="post_toptitle_center1_1_stopwatch" />
                   <div className="post_toptitle_center1_1" >
                     DEADLINE :
@@ -1476,18 +1579,18 @@ export default class Post extends React.Component {
                   <div className="post_toptitle_center1_2" >
                     { deadline.format() }
                   </div>
-        
+                  
                   <div className="marginBar"/>
-        
+                  
                   <div className="post_toptitle_center1_1 marginleft" >
                     STATUS :
                   </div>
                   <div className="post_toptitle_center1_2" >
                     OPEN
                   </div>
-        
+                  
                   <div className="marginBar"/>
-        
+                  
                   <div className="post_toptitle_center1_1 marginleft" >
                     SHARE ON :
                   </div>
@@ -1500,11 +1603,11 @@ export default class Post extends React.Component {
                     Facebook
                   </div>
                 </div>
-      
+                
                 <div className="post_toptitle_center2 margintop" >
-        
+                  
                   <div className="post_leftRangeContainer">
-          
+                    
                     <div className="post_leftRange_drumroll">
                       <div className="post_leftRange_drumroll_icon"/>
                       <div className="post_leftRange_drumroll_text1">
@@ -1514,45 +1617,88 @@ export default class Post extends React.Component {
                         No Offers yet! Please wait and check after sometime.
                       </div>
                     </div>
-          
+                    
                     <div className="post_left_horibar"/>
-          
+                    
                     <div className="post_leftRange_taskdesc">
                       TASK DESCRIPTION
                     </div>
-          
+                    
                     <div className="post_leftRange_taskdesc_content">
                       { task_info.task_description }
                     </div>
-          
+                    
                     <div className="post_leftRange_taskersneeded">
                       TASKERS NEEDED :
                     </div>
-          
+                    
                     <div className="post_leftRange_tasktype">
-                      TASK TYPE :
+                      { selectIndex === 4 ? "DISTANCE :" : "TASK TYPE :" }
                     </div>
-          
+                    
                     <div className="post_leftRange_taskersneeded_content">
                       { task_info.task_numberoftasker } - Taskers Needed
                     </div>
-          
+                    
                     <div className="post_leftRange_tasktype_content">
-                      { task_info.task_type === 0 ? "Virtual Task" : "Task is in specific location" }
+                      {
+                        selectIndex === 4 ?
+                          "15 Kilometers"
+                          :
+                          task_info.task_type === 0 ?
+                            "Virtual Task"
+                            :
+                            "Task is in specific location"
+                      }
                     </div>
-          
-                    <div className="post_leftRange_view">
-                      View Attachments
-                    </div>
-          
-                    <div className="post_done_viewattach_container">
-                      { render_attachments_done }
-                    </div>
-        
+                    
+                    {
+                      selectIndex === 4 &&
+                        <div>
+                          <div className="post_leftRange_taskersneeded_margintop1">
+                            FROM LOCATION :
+                          </div>
+  
+                          <div className="post_leftRange_tasktype_margintop1">
+                            TO LOCATION :
+                          </div>
+  
+                          <div className="post_leftRange_taskersneeded_content_margintop1">
+                            H7R 0D8
+                          </div>
+  
+                          <div className="post_leftRange_tasktype_content_margintop1">
+                            H2P 5X2
+                          </div>
+                        </div>
+                    }
+                    {
+                      selectIndex === 4 ?
+                        <div>
+                          <div className="post_leftRange_view_margintop1">
+                            View Attachments
+                          </div>
+  
+                          <div className="post_done_viewattach_container_margintop1">
+                            { render_attachments_done }
+                          </div>
+                        </div>
+                        :
+                        <div>
+                          <div className="post_leftRange_view">
+                            View Attachments
+                          </div>
+    
+                          <div className="post_done_viewattach_container">
+                            { render_attachments_done }
+                          </div>
+                        </div>
+                    }
+                  
                   </div>
-        
+                  
                   <div className="post_rightRangeContainer">
-          
+                    
                     <div className="post_leftRange_drumroll">
                       <div className="post_gps_icon" onClick={this.navigateCurrentLoc}/>
                       <div>
@@ -1574,10 +1720,10 @@ export default class Post extends React.Component {
                         }
                       </div>
                     </div>
-        
+                  
                   </div>
                 </div>
-      
+                
                 <div className="post_toptitle_center3" />
                 <div className="post_canceltaskbtn" onClick={this.cancelTask}>
                   Cancel the Task
@@ -1588,7 +1734,7 @@ export default class Post extends React.Component {
                 <div className="post_marginBottom" />
               </div> : null
         }
-  
+        
         <div className="previewComponent">
           <form onSubmit={(e)=>this._handleSubmit(e)}>
             <input className="fileInput"
@@ -1600,7 +1746,7 @@ export default class Post extends React.Component {
                     onClick={(e)=>this._handleSubmit(e)}>Upload Image</button>
           </form>
         </div>
-  
+        
         <Modal show={showImageSlider} onHide={this.closeImageSlider}>
           <Modal.Header closeButton>
             <Modal.Title>
@@ -1622,7 +1768,7 @@ export default class Post extends React.Component {
             <Button onClick={this.closeAlert}>Close</Button>
           </Modal.Footer>
         </Modal>
-        
+      
       </div>
     );
   }

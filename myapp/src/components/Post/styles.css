@@ -951,6 +951,11 @@ textarea {
     margin-top: 230px;
 }
 
+.post_leftRange_taskersneeded_margintop1 {
+    position: absolute;
+    margin-top: 330px;
+}
+
 .post_leftRange_new_endleasing {
     position: absolute;
     margin-top: 230px;
@@ -1076,9 +1081,21 @@ textarea {
     margin-left: 200px;
 }
 
+.post_leftRange_tasktype_margintop1 {
+    position: absolute;
+    margin-top: 330px;
+    margin-left: 200px;
+}
+
 .post_leftRange_taskersneeded_content {
     position: absolute;
     margin-top: 260px;
+    color: #05978b;
+}
+
+.post_leftRange_taskersneeded_content_margintop1 {
+    position: absolute;
+    margin-top: 360px;
     color: #05978b;
 }
 
@@ -1088,9 +1105,20 @@ textarea {
     margin-left: 200px;
 }
 
+.post_leftRange_tasktype_content_margintop1 {
+    position: absolute;
+    margin-top: 360px;
+    margin-left: 200px;
+}
+
 .post_leftRange_view {
     position: absolute;
     margin-top: 330px;
+}
+
+.post_leftRange_view_margintop1 {
+    position: absolute;
+    margin-top: 450px;
 }
 
 .post_leftRange_view_new {
@@ -1309,6 +1337,11 @@ textarea {
 .post_done_viewattach_container {
     position: absolute;
     margin-left: 20px;
+}
+.post_done_viewattach_container_margintop1 {
+    position: absolute;
+    margin-left: 20px;
+    margin-top: 120px;
 }
 
 .post_done_viewattach_container_new {

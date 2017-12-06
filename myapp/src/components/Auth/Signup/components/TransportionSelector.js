@@ -1,76 +1,69 @@
 import React, { Component, PropTypes } from 'react';
 import './styles.css';
 
+import Promise from 'promise';
+import superagentPromise from 'superagent-promise';
+import _superagent from 'superagent';
+let superagent = superagentPromise(_superagent, Promise);
+import config from './../../../../config';
+
+const base_url_public = config.baseUrl;
+
 export default class TransportionSelector extends Component {
   
   constructor() {
     super();
     this.state = {
-      transState1: false,
-      transState2: false,
-      transState3: false,
-      transState4: false
-    }
+      transList: [],
+      transSelectList: [],
+    };
+    this.requests = {
+      fetchDatas: () =>
+        superagent.post(base_url_public + '/frontend/trans/list', {}).then(res => {
+          let data = JSON.parse(res.text);
+          let transList = [];
+          let transSelectList = [];
+          for (let i = 0; i < data.trans.length; i++) {
+            transList.push(data.trans[i].vehiclename);
+            transSelectList.push(false);
+          }
+          this.setState({ transList, transSelectList })
+        }),
+    };
+  }
+  
+  componentDidMount() {
+    this.requests.fetchDatas()
   }
   
   setItem(i) {
-    const { transState1, transState2, transState3, transState4 } = this.state;
-    let transState1_after = transState1;
-    let transState2_after = transState2;
-    let transState3_after = transState3;
-    let transState4_after = transState4;
-    switch (i) {
-      case 1:
-        transState1_after = !transState1;
-        this.setState({ transState1: !transState1 });
-        break;
-      case 2:
-        transState2_after = !transState2;
-        this.setState({ transState2: !transState2 });
-        break;
-      case 3:
-        transState3_after = !transState3;
-        this.setState({ transState3: !transState3 });
-        break;
-      case 4:
-        transState4_after = !transState4;
-        this.setState({ transState4: !transState4 });
-        break;
-      default:
-        break;
-    }
+    let transList = this.state.transList;
+    let transSelectList = this.state.transSelectList;
+    transSelectList[i] = !transSelectList[i];
+    this.setState({ transSelectList });
+    
     let list = [];
-    if (transState1_after) {
-      list.push("Car");
+    for (let i = 0; i < transSelectList.length; i++) {
+      if (transSelectList[i]) {
+        list.push(transList[i]);
+      }
     }
-    if (transState2_after) {
-      list.push("Truck");
-    }
-    if (transState3_after) {
-      list.push("Scooter");
-    }
-    if (transState4_after) {
-      list.push("Bicycle");
-    }
-    this.props.updateTrans(list);
+    this.props.updateTrans(list)
   }
   
   render() {
-    const { transState1, transState2, transState3, transState4 } = this.state;
+    const { transList, transSelectList } = this.state;
+    let render_trans = [];
+    for (let i = 0; i < transList.length; i++) {
+      render_trans.push(
+        <div className={ transSelectList[i] ? "item_tickon" : "item_tickoff"} onClick={() => { this.setItem(i); }}>
+          { transList[i] }
+        </div>
+      )
+    }
     return (
       <div className="typeContainer">
-        <div className={ transState1 ? "item_tickon" : "item_tickoff"} onClick={() => { this.setItem(1); }}>
-          Car
-        </div>
-        <div className={ transState2 ? "item_tickon" : "item_tickoff"} onClick={() => { this.setItem(2); }}>
-          Truck
-        </div>
-        <div className={ transState3 ? "item_tickon" : "item_tickoff"} onClick={() => { this.setItem(3); }}>
-          Scooter
-        </div>
-        <div className={ transState4 ? "item_tickon" : "item_tickoff"} onClick={() => { this.setItem(4); }}>
-          Bicycle
-        </div>
+        { render_trans }
       </div>
     );
   }

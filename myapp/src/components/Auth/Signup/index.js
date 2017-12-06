@@ -622,7 +622,6 @@ export default class Signup extends React.Component {
   };
   
   updateLang = (list) => {
-    debugger;
     this.localValues.availablelanguage = list;
     this.setState({ address_input_state: false, inputType: 3 })
   };
@@ -766,21 +765,21 @@ export default class Signup extends React.Component {
         } else {
           for (let i = 0; i < this.localValues.skill.length; i++) {
             let dis = this.localValues.skill[i];
-            if (dis === "House Cleaning") {
-              dis = "Cleaning"
-            }
-            if (dis === "Assembly Services") {
-              dis = "Services"
-            }
-            if (dis === "Admin & IT Support") {
-              dis = "Support"
-            }
-            if (dis === "Beauty & Care") {
-              dis = "Care"
-            }
-            if (dis === "Other Services") {
-              dis = "Other"
-            }
+            // if (dis === "House Cleaning") {
+            //   dis = "Cleaning"
+            // }
+            // if (dis === "Assembly Services") {
+            //   dis = "Services"
+            // }
+            // if (dis === "Admin & IT Support") {
+            //   dis = "Support"
+            // }
+            // if (dis === "Beauty & Care") {
+            //   dis = "Care"
+            // }
+            // if (dis === "Other Services") {
+            //   dis = "Other"
+            // }
             render_inputType2.push(
               <div className="skillItem">{ dis }</div>
             )
