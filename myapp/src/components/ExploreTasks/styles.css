@@ -1,7 +1,19 @@
-.mytasks_top_selector {
+.exploretasks_top_selector {
     width: 90%;
-    height: 50px;
+    height: 40px;
     display: inline-block;
     border-bottom: solid 1px lightgray;
     text-align: left;
+}
+
+.exploretasks_top_selector1 {
+    width: 150px;
+    line-height: 38px;
+    display: inline-block;
+    text-align: center;
+    color: #d1d1d1;
+}
+
+.exploretasks_top_selector1:hover {
+    cursor: pointer;
 }

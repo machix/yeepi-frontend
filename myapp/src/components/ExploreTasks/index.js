@@ -6,6 +6,7 @@ export default class ExploreTasks extends React.Component {
   constructor() {
     super();
     this.state = {
+      pageState: 0,
     };
   }
   
@@ -16,11 +17,13 @@ export default class ExploreTasks extends React.Component {
   }
   
   render() {
+    const { pageState } = this.state;
     return (
       <div>
         <div className="col-sm-12 centerContent">
-          <div className="mytasks_top_selector">
-            X
+          <div className="exploretasks_top_selector">
+            <div className={pageState === 0 ? "exploretasks_top_selector1 borderbottom" : "exploretasks_top_selector1"} onClick={() => { this.setState({ pageState: 0 }) }}>ListView</div>
+            <div className={pageState === 1 ? "exploretasks_top_selector1 borderbottom" : "exploretasks_top_selector1"} onClick={() => { this.setState({ pageState: 1 }) }}>MapView</div>
           </div>
         </div>
       </div>
