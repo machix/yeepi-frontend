@@ -218,7 +218,7 @@ class Header extends React.Component {
         <nav className="navbar navbar-light">
           <div className="container">
           
-            <Link to="/" className="navbar-brand">
+            <Link to="/dashboard" className="navbar-brand">
               <div className="appheader-logo" />
             </Link>
           
@@ -233,7 +233,7 @@ class Header extends React.Component {
         <nav className="navbar navbar-light">
           <div className="container">
         
-            <Link to="/" className="navbar-brand">
+            <Link to="/dashboard" className="navbar-brand">
               <div className="appheader-logo" />
             </Link>
           
@@ -248,7 +248,7 @@ class Header extends React.Component {
         <nav className="navbar navbar-light">
           <div className="container">
         
-            <Link to="/" className="navbar-brand">
+            <Link to="/dashboard" className="navbar-brand">
               <div className="appheader-logo" />
             </Link>
         
@@ -262,7 +262,7 @@ class Header extends React.Component {
       <nav className="navbar navbar-light">
         <div className="container">
 
-          <Link to="/" className="navbar-brand">
+          <Link to="/dashboard" className="navbar-brand">
             <div className="appheader-logo" />
             {/*{this.props.appName.toLowerCase()}*/}
           </Link>

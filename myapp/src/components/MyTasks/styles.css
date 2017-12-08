@@ -62,8 +62,3 @@
     margin-top: 20px;
     display: inline-block;
 }
-
-.react_list_container {
-    overflow: auto;
-    max-height: 100px;
-}

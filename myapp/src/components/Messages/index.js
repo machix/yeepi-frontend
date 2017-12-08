@@ -20,7 +20,6 @@ export default class Messages extends React.Component {
       <div>
         <div className="col-sm-12 centerContent">
           <div className="mytasks_top_selector">
-            X
           </div>
         </div>
       </div>

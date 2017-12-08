@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Animated } from "react-animated-css";
 
-import ReactList from 'react-list';
 import './styles.css';
 
 export default class MyOffers extends Component {
@@ -35,16 +34,6 @@ export default class MyOffers extends Component {
           </div>
         </div>
   
-        <div>
-          <h1>Accounts</h1>
-          <div className="react_list_container">
-            <ReactList
-              itemRenderer={this.renderItem}
-              length={10000}
-            />
-          </div>
-        </div>
-        
       </div>
     );
   }
