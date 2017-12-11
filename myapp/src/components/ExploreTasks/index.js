@@ -1,24 +1,27 @@
 import React, { PropTypes } from 'react';
 import ReactList from 'react-list';
 import "./styles.css"
+import { compose, withProps, withStateHandlers } from "recompose";
 import {
   withGoogleMap,
   GoogleMap,
   Marker,
+  InfoWindow,
+  withScriptjs
 } from "react-google-maps";
+const { InfoBox } = require("react-google-maps/lib/components/addons/InfoBox");
+import config from "../../config";
+import {eng, fre} from "../../lang";
+import {reactLocalStorage} from "reactjs-localstorage";
+import moment from 'moment';
+import demoFancyMapStyles from './demoFancyMapStyles';
 
+import Promise from 'promise';
+import superagentPromise from 'superagent-promise';
+import _superagent from 'superagent';
+let superagent = superagentPromise(_superagent, Promise);
 
-const MapWithAMarker = withGoogleMap(props =>
-  <GoogleMap
-    defaultZoom={8}
-    defaultCenter={{ lat: props.lat, lng: props.lng }}
-  >
-    <Marker
-      position={{ lat: props.lat, lng: props.lng }}
-    />
-  </GoogleMap>
-);
-
+const base_url_public = config.baseUrl;
 
 export default class ExploreTasks extends React.Component {
   
@@ -41,45 +44,87 @@ export default class ExploreTasks extends React.Component {
       category9: false,
       category10: false,
       category11: false,
+      tasks_datas: []
     };
+    this.requests = {
+      fetchDatas: () =>
+        superagent.post(base_url_public + '/tasks/fetchtasks', { token: reactLocalStorage.get('loggedToken') }).then(res => {
+          if (!res.body.result) {
+            // this.setState({ showAlert: true, alertText: res.body.text })
+          } else {
+            debugger;
+            console.info(res.body.tasks_datas);
+            this.setState({ tasks_datas: res.body.tasks_datas })
+          }
+        })
+    }
   }
   
   componentDidMount() {
     setTimeout(() => {
       this.props.updateHeader(10);
     }, 100);
+    this.requests.fetchDatas()
   }
   
   renderItem = (index, key) => {
+    const { tasks_datas } = this.state;
+    let today = moment();
+    let deadline = moment(tasks_datas[index].task_postline);
+    let duration1 = moment.duration(today.diff(deadline));
+    
+    let dead = moment(tasks_datas[index].task_deadline).format("MM-DD-YYYY");
+    
+    let duration = duration1.asMinutes().toFixed(0); // as minute
+    let duration_subfix = " Minutes Ago";
+    if (duration === 0) {
+      duration = "Just Before";
+      duration_subfix = "";
+    } else {
+      if (duration > 59) { // as hour
+        duration = duration1.asHours().toFixed(0);
+        duration_subfix = " Hours Ago";
+        if (duration > 23) { // as Day
+          duration = duration1.asDays().toFixed(0);
+          duration_subfix = " Days Ago";
+        }
+      }
+    }
+    
     return (
       <div key={"react_list_key" + index} className="tasklist_item">
         <div className="tasklist_item_real">
           <div className="tasklist_item_avatarcontainer">
-            <div className="tasklist_item_avatar"/>
+            {
+              tasks_datas.user_avatar === '' ?
+                <div className="tasklist_item_avatar"/>
+                :
+                <img className="tasklist_item_avatar1" src={tasks_datas[index].user_avatar}/>
+            }
           </div>
           <div className="tasklist_item_desccontainer">
             <div className="task_title1">
-              Task {index}
+              { tasks_datas[index].task_title }
             </div>
             <div className="task_title2">
-              This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum..........
+              { tasks_datas[index].task_description }
             </div>
             <div className="task_title3">
               POSTED:
             </div>
             <div className="task_title4">
-              2 hours ago
+              { duration }{ duration_subfix }
             </div>
             <div className="task_title5">
               DEADLINE:
             </div>
             <div className="task_title6">
-              Monday 21st Jan
+              { dead }
             </div>
           </div>
           <div className="tasklist_item_budgetcontainer">
             <div className="offercount1">
-              $142
+              ${tasks_datas[index].task_budget}
             </div>
             <div className="offercount2">
               Budget Amount
@@ -95,35 +140,39 @@ export default class ExploreTasks extends React.Component {
           </div>
           <div className="tasklist_item_buttoncontainer">
             {
-              index % 5 === 0 &&
+              tasks_datas[index].user_token === reactLocalStorage.get('loggedToken') ?
+                <div className="buttoncontainer1">
+                  Posted
+                </div>
+                :
                 <div className="buttoncontainer">
                   Make Offer
                 </div>
             }
-            {
-              index % 5 === 1 &&
-                <div className="buttoncontainer1">
-                  Assigned
-                </div>
-            }
-            {
-              index % 5 === 2 &&
-              <div className="buttoncontainer2">
-                Completed
-              </div>
-            }
-            {
-              index % 5 === 3 &&
-              <div className="buttoncontainer">
-                Modify Offer
-              </div>
-            }
-            {
-              index % 5 === 4 &&
-              <div className="buttoncontainer1">
-                Posted
-              </div>
-            }
+            {/*{*/}
+              {/*index % 5 === 0 &&*/}
+                {/*<div className="buttoncontainer">*/}
+                  {/*Make Offer*/}
+                {/*</div>*/}
+            {/*}*/}
+            {/*{*/}
+              {/*index % 5 === 1 &&*/}
+                {/*<div className="buttoncontainer1">*/}
+                  {/*Assigned*/}
+                {/*</div>*/}
+            {/*}*/}
+            {/*{*/}
+              {/*index % 5 === 2 &&*/}
+              {/*<div className="buttoncontainer2">*/}
+                {/*Completed*/}
+              {/*</div>*/}
+            {/*}*/}
+            {/*{*/}
+              {/*index % 5 === 3 &&*/}
+              {/*<div className="buttoncontainer">*/}
+                {/*Modify Offer*/}
+              {/*</div>*/}
+            {/*}*/}
           </div>
         </div>
         <div className="tasklist_item_real_bar"/>
@@ -132,6 +181,29 @@ export default class ExploreTasks extends React.Component {
   };
   
   renderItem_mapview = (index, key) => {
+    const { tasks_datas } = this.state;
+    let today = moment();
+    let deadline = moment(tasks_datas[index].task_postline);
+    let duration1 = moment.duration(today.diff(deadline));
+  
+    let dead = moment(tasks_datas[index].task_deadline).format("MM-DD-YYYY");
+  
+    let duration = duration1.asMinutes().toFixed(0); // as minute
+    let duration_subfix = " Minutes Ago";
+    if (duration === 0) {
+      duration = "Just Before";
+      duration_subfix = "";
+    } else {
+      if (duration > 59) { // as hour
+        duration = duration1.asHours().toFixed(0);
+        duration_subfix = " Hours Ago";
+        if (duration > 23) { // as Day
+          duration = duration1.asDays().toFixed(0);
+          duration_subfix = " Days Ago";
+        }
+      }
+    }
+  
     return (
       <div key={"react_list_key1" + index} className="tasklist_item_map">
         <div className="tasklist_item_real_map">
@@ -141,48 +213,58 @@ export default class ExploreTasks extends React.Component {
           </div>
           <div className="tasklist_item_avatarcontainer_rest">
             <div className="task_title1 marginTop_15px">
-              Task {index}
+              { tasks_datas[index].task_title }
             </div>
             <div className="task_title2_map">
-              This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum..........
+              { tasks_datas[index].task_description }
             </div>
             <div className="task_title3_map">
               POSTED:
             </div>
             <div className="task_title4">
-              2 hours ago
+              { duration }{ duration_subfix }
             </div>
             <div className="task_title_btn_container">
               {
-                index % 5 === 0 &&
+                tasks_datas[index].user_token === reactLocalStorage.get('loggedToken') ?
+                  <div className="task_title_btn1">
+                    Posted
+                  </div>
+                  :
                   <div className="task_title_btn">
                     Make offer
                   </div>
               }
-              {
-                index % 5 === 1 &&
-                  <div className="task_title_btn1">
-                    Assigned
-                  </div>
-              }
-              {
-                index % 5 === 2 &&
-                <div className="task_title_btn2">
-                  Completed
-                </div>
-              }
-              {
-                index % 5 === 3 &&
-                <div className="task_title_btn">
-                  Modify Offer
-                </div>
-              }
-              {
-                index % 5 === 4 &&
-                <div className="task_title_btn1">
-                  Posted
-                </div>
-              }
+              {/*{*/}
+                {/*index % 5 === 0 &&*/}
+                  {/*<div className="task_title_btn">*/}
+                    {/*Make offer*/}
+                  {/*</div>*/}
+              {/*}*/}
+              {/*{*/}
+                {/*index % 5 === 1 &&*/}
+                  {/*<div className="task_title_btn1">*/}
+                    {/*Assigned*/}
+                  {/*</div>*/}
+              {/*}*/}
+              {/*{*/}
+                {/*index % 5 === 2 &&*/}
+                {/*<div className="task_title_btn2">*/}
+                  {/*Completed*/}
+                {/*</div>*/}
+              {/*}*/}
+              {/*{*/}
+                {/*index % 5 === 3 &&*/}
+                {/*<div className="task_title_btn">*/}
+                  {/*Modify Offer*/}
+                {/*</div>*/}
+              {/*}*/}
+              {/*{*/}
+                {/*index % 5 === 4 &&*/}
+                {/*<div className="task_title_btn1">*/}
+                  {/*Posted*/}
+                {/*</div>*/}
+              {/*}*/}
               
             </div>
           </div>
@@ -354,7 +436,56 @@ export default class ExploreTasks extends React.Component {
       category9,
       category10,
       category11,
+      tasks_datas,
     } = this.state;
+  
+    //TODO
+    const StyledMapWithAnInfoBox = compose(
+      withProps({
+        googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyD6waqCrk7bWzUg8Y0BYDJUpZ-J1-1Zt7s&v=3.exp&libraries=geometry,drawing,places",
+        loadingElement: <div style={{ height: `100%` }} />,
+        containerElement: <div style={{ height: `100%` }} />,
+        mapElement: <div style={{ height: `100%` }} />,
+        // center: { lat: 25.03, lng: 121.6 },
+      }),
+      withStateHandlers(() => ({
+        isOpen: false,
+      }), {
+        onToggleOpen: ({ isOpen }) => () => ({
+          isOpen: !isOpen,
+        })
+      }),
+      withScriptjs,
+      withGoogleMap
+    )(props =>
+      <GoogleMap
+        defaultZoom={5}
+        defaultCenter={{ lat: props.tasks_datas[2].task_location_lat, lng: props.tasks_datas[2].task_location_lng }}
+        defaultOptions={{ styles: demoFancyMapStyles }}
+      >
+        <Marker
+          position={{ lat: props.tasks_datas[2].task_location_lat, lng: props.tasks_datas[2].task_location_lng }}
+          onClick={props.onToggleOpen}
+        >
+          {
+            props.isOpen &&
+              <InfoWindow
+                onCloseClick={props.onToggleOpen}
+              >
+                <div>
+                  <div>
+                    Controlled zoom:
+                  </div>
+                  <div>
+                    xxx
+                  </div>
+                </div>
+              </InfoWindow>
+          }
+        </Marker>
+      </GoogleMap>
+    );
+    
     return (
       <div>
         <div className="col-sm-12 centerContent">
@@ -506,13 +637,13 @@ export default class ExploreTasks extends React.Component {
             pageState === 0 &&
               <div>
                 <div className="exploretasks_top_selector_without">
-                  Showing 1452 tasks
+                  Showing { tasks_datas.length } tasks
                 </div>
   
                 <div className={ onAllCategory ? "react_list_container1_state2" : "react_list_container1_state1" }>
                   <ReactList
                     itemRenderer={this.renderItem}
-                    length={10000}
+                    length={tasks_datas.length}
                   />
                 </div>
               </div>
@@ -521,21 +652,17 @@ export default class ExploreTasks extends React.Component {
           {
             pageState === 1 &&
               <div>
+                
                 <div className={ onAllCategory ? "exploretasks_mapview_supercontainer1" : "exploretasks_mapview_supercontainer2"}>
                   <div className={ onAllCategory ? "listcontainer1" : "listcontainer2"}>
                       <ReactList
                         itemRenderer={this.renderItem_mapview}
-                        length={100}
+                        length={tasks_datas.length}
                       />
                     </div>
                   <div className={ onAllCategory ? "mapcontainer1" : "mapcontainer2"}>
                     {
-                      <MapWithAMarker
-                        containerElement={<div className="map" />}
-                        mapElement={<div style={{ height: `100%` }} />}
-                        lat={45.325118}
-                        lng={-73.29425459999999}
-                      />
+                      <StyledMapWithAnInfoBox tasks_datas={tasks_datas}/>
                     }
                   </div>
                 </div>

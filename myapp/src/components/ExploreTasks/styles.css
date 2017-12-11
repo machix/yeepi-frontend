@@ -400,7 +400,16 @@
 }
 
 .tasklist_item_avatar {
-    background: url("./../../assets/testavatar.png");
+    background: url("./../../assets/no_avatar.png");
+    background-size: 100% 100%;
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.tasklist_item_avatar1 {
     background-size: 100% 100%;
     width: 70px;
     height: 70px;
@@ -550,7 +559,6 @@
     height: calc(100vh - 80px - 35px - 50px);
     display: inline-block;
 
-    padding-top: 20px;
     padding-bottom: 20px;
 }
 
