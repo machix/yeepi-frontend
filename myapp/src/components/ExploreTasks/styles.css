@@ -428,6 +428,16 @@
     color: white;
 }
 
+.buttoncontainer_inmap {
+    width: 120px;
+    line-height: 34px;
+    background: #ff2165;
+    border-radius: 17px;
+    margin-top: 10px;
+    color: white;
+    display: inline-block;
+}
+
 .buttoncontainer1 {
     width: 120px;
     line-height: 34px;

@@ -10,6 +10,7 @@ import {
   withScriptjs
 } from "react-google-maps";
 const { InfoBox } = require("react-google-maps/lib/components/addons/InfoBox");
+const { MarkerClusterer } = require("react-google-maps/lib/components/addons/MarkerClusterer");
 import config from "../../config";
 import {eng, fre} from "../../lang";
 import {reactLocalStorage} from "reactjs-localstorage";
@@ -22,6 +23,34 @@ import _superagent from 'superagent';
 let superagent = superagentPromise(_superagent, Promise);
 
 const base_url_public = config.baseUrl;
+
+
+
+
+// google maps
+// import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+
+// export class MapContainer extends Component {
+//   render() {
+//     return (
+//       <Map google={this.props.google} zoom={14}>
+//
+//         <Marker onClick={this.onMarkerClick}
+//                 name={'Current location'} />
+//
+//         <InfoWindow onClose={this.onInfoWindowClose}>
+//           <div>
+//             <h1>{this.state.selectedPlace.name}</h1>
+//           </div>
+//         </InfoWindow>
+//       </Map>
+//     );
+//   }
+// }
+//
+// export default GoogleApiWrapper({
+//   apiKey: 'AIzaSyD6waqCrk7bWzUg8Y0BYDJUpZ-J1-1Zt7s'
+// })(MapContainer)
 
 export default class ExploreTasks extends React.Component {
   
@@ -44,16 +73,20 @@ export default class ExploreTasks extends React.Component {
       category9: false,
       category10: false,
       category11: false,
-      tasks_datas: []
+      tasks_datas: [],
+      isOpenIndex: -1,
+      isOpenStatus: false,
+  
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {},
     };
     this.requests = {
       fetchDatas: () =>
         superagent.post(base_url_public + '/tasks/fetchtasks', { token: reactLocalStorage.get('loggedToken') }).then(res => {
           if (!res.body.result) {
-            // this.setState({ showAlert: true, alertText: res.body.text })
+            this.setState({ showAlert: true, alertText: res.body.text })
           } else {
-            debugger;
-            console.info(res.body.tasks_datas);
             this.setState({ tasks_datas: res.body.tasks_datas })
           }
         })
@@ -208,8 +241,13 @@ export default class ExploreTasks extends React.Component {
       <div key={"react_list_key1" + index} className="tasklist_item_map">
         <div className="tasklist_item_real_map">
           <div className="tasklist_item_avatarcontainer">
-            <div className="tasklist_item_avatar"/>
-            <div className="maplist_budget">$142</div>
+            {
+              tasks_datas.user_avatar === '' ?
+                <div className="tasklist_item_avatar"/>
+                :
+                <img className="tasklist_item_avatar1" src={tasks_datas[index].user_avatar}/>
+            }
+            <div className="maplist_budget">${ tasks_datas[index].task_budget }</div>
           </div>
           <div className="tasklist_item_avatarcontainer_rest">
             <div className="task_title1 marginTop_15px">
@@ -418,6 +456,23 @@ export default class ExploreTasks extends React.Component {
     }
   };
   
+  onMarkerClick = (props, marker, e) => {
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
+  };
+  
+  onMapClicked = (props) => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      })
+    }
+  };
+  
   render() {
     const {
       pageState,
@@ -437,9 +492,12 @@ export default class ExploreTasks extends React.Component {
       category10,
       category11,
       tasks_datas,
+      isOpenIndex,
+      isOpenStatus,
     } = this.state;
   
     //TODO
+    
     const StyledMapWithAnInfoBox = compose(
       withProps({
         googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyD6waqCrk7bWzUg8Y0BYDJUpZ-J1-1Zt7s&v=3.exp&libraries=geometry,drawing,places",
@@ -449,41 +507,101 @@ export default class ExploreTasks extends React.Component {
         // center: { lat: 25.03, lng: 121.6 },
       }),
       withStateHandlers(() => ({
-        isOpen: false,
+        isOpen1: false,
+        isOpen2: false,
       }), {
-        onToggleOpen: ({ isOpen }) => () => ({
-          isOpen: !isOpen,
+        onToggleOpen1: ({ isOpen1, isOpen2 }) => () => ({
+          isOpen1: !isOpen1
+        }),
+        onToggleOpen2: ({ isOpen1, isOpen2 }) => () => ({
+          isOpen2: !isOpen2
         })
       }),
       withScriptjs,
-      withGoogleMap
-    )(props =>
-      <GoogleMap
-        defaultZoom={5}
-        defaultCenter={{ lat: props.tasks_datas[2].task_location_lat, lng: props.tasks_datas[2].task_location_lng }}
-        defaultOptions={{ styles: demoFancyMapStyles }}
-      >
-        <Marker
-          position={{ lat: props.tasks_datas[2].task_location_lat, lng: props.tasks_datas[2].task_location_lng }}
-          onClick={props.onToggleOpen}
-        >
-          {
-            props.isOpen &&
-              <InfoWindow
-                onCloseClick={props.onToggleOpen}
-              >
-                <div>
+      withGoogleMap,
+    )
+    (
+      props => {
+        return(
+          <GoogleMap
+            defaultZoom={3}
+            defaultCenter={ isOpenIndex !== -1 ? { lat: props.tasks_datas[isOpenIndex].task_location_lat, lng: props.tasks_datas[isOpenIndex].task_location_lng } : { lat: props.tasks_datas[0].task_location_lat, lng: props.tasks_datas[0].task_location_lng }}
+            defaultOptions={{ styles: demoFancyMapStyles }}
+          >
+            
+            {
+              tasks_datas.map((task_data, index) =>
+                <Marker
+                  key={task_data.token}
+                  position={{ lat: task_data.task_location_lat, lng: task_data.task_location_lng }}
+                  onClick={() => {
+                    if (isOpenIndex === index && isOpenStatus) {
+                      this.setState({ isOpenStatus: false })
+                    } else if (isOpenIndex === index && !isOpenStatus) {
+                      this.setState({ isOpenStatus: true })
+                    } else if (isOpenIndex !== index && isOpenStatus) {
+                      this.setState({ isOpenIndex: index })
+                    } else {
+                      this.setState({ isOpenIndex: index, isOpenStatus: true })
+                    }
+                  }}
+                >
+                  {
+                    (isOpenIndex === index && isOpenStatus) &&
+                      <InfoWindow
+                        onCloseClick={() => {
+                          this.setState({ isOpenStatus: !isOpenStatus }) }
+                        }
+                      >
+                        <div>
+                          <div>
+                            { task_data.task_title }
+                          </div>
+                          <div>
+                            { task_data.task_location }
+                          </div>
+                          <div className="offercount2">
+                            ${ task_data.task_budget }
+                          </div>
+                          <div>
+                            <div className="buttoncontainer_inmap">
+                              Make Offer
+                            </div>
+                          </div>
+                        </div>
+                      </InfoWindow>
+                  }
+                </Marker>
+              )
+            }
+            
+            {/*
+            
+            <Marker
+              position={{ lat: props.tasks_datas[0].task_location_lat, lng: props.tasks_datas[0].task_location_lng }}
+              onClick={props.onToggleOpen}
+            >
+              {
+                props.isOpen &&
+                <InfoWindow
+                  onCloseClick={props.onToggleOpen}
+                >
                   <div>
-                    Controlled zoom:
+                    <div>
+                      Controlled zoom:
+                    </div>
+                    <div>
+                      xxx {}
+                    </div>
                   </div>
-                  <div>
-                    xxx
-                  </div>
-                </div>
-              </InfoWindow>
-          }
-        </Marker>
-      </GoogleMap>
+                </InfoWindow>
+              }
+            </Marker>
+            
+            */}
+          </GoogleMap>
+        )
+      }
     );
     
     return (
@@ -664,6 +782,27 @@ export default class ExploreTasks extends React.Component {
                     {
                       <StyledMapWithAnInfoBox tasks_datas={tasks_datas}/>
                     }
+                    
+                    
+                    {/*
+                    <Map google={this.props.google}
+                         onClick={this.onMapClicked}>
+                      <Marker onClick={this.onMarkerClick}
+                              name={'Current location'} />
+    
+                      <InfoWindow
+                        marker={this.state.activeMarker}
+                        visible={this.state.showingInfoWindow}>
+                        <div>
+                          <h1>{this.state.selectedPlace.name}</h1>
+                        </div>
+                      </InfoWindow>
+                    </Map>
+                    */}
+                    
+                    
+                    
+                    
                   </div>
                 </div>
               </div>

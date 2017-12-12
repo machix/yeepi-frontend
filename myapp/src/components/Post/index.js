@@ -1713,12 +1713,20 @@ export default class Post extends React.Component {
                       <div className="locationwindow">
                         {
                           !reloadGPS &&
-                          <MapWithAMarker
-                            containerElement={<div className="xxx" />}
-                            mapElement={<div style={{ height: `100%` }} />}
-                            lat={lat}
-                            lng={lng}
-                          />
+                            selectIndex === 4 ? //moving?
+                            <MapWithAMarker
+                              containerElement={<div className="xxx" />}
+                              mapElement={<div style={{ height: `100%` }} />}
+                              lat={lat}
+                              lng={lng}
+                            />
+                            :
+                            <MapWithAMarker //not moving
+                              containerElement={<div className="xxx" />}
+                              mapElement={<div style={{ height: `100%` }} />}
+                              lat={lat}
+                              lng={lng}
+                            />
                         }
                       </div>
                     </div>

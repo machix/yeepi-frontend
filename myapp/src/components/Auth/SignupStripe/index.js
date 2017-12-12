@@ -345,7 +345,6 @@ export default class SignupStripe extends Component {
   handleSelect = (address, placeId) => {
     geocodeByPlaceId(placeId)
       .then(results => {
-        debugger;
         let zipcode = results[0].address_components.filter(function (it) { return it.types.indexOf('postal_code') != -1;}).map(function (it) {return it.long_name;});
         let city = "";
         for (let i = 0; i < results[0].address_components.length; i++) {
