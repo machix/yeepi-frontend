@@ -33,7 +33,24 @@ export default class SkillSelector extends Component {
   }
   
   componentDidMount() {
-    this.requests.fetchDatas()
+    // this.requests.fetchDatas();
+    let skillList = [
+      "House Cleaning",
+      "Assembly Services",
+      "Handyman",
+      "Delivery",
+      "Gardening",
+      "Admin & IT Support",
+      "Beauty & Care",
+      "Photography",
+      "Decoration",
+      "Other Services"
+    ];
+    let skillSelectList = [];
+    for (let i = 0; i < 10; i++) {
+      skillSelectList.push(false);
+    }
+    this.setState({ skillList, skillSelectList })
   }
   
   setItem(i) {

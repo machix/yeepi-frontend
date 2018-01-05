@@ -52,13 +52,6 @@ const MyProfileView = props => {
           <div className={ props.headerType === 12 ? "normal_white" : "normal"}>Messages</div>
         </Link>
       </li>
-  
-      <li className="nav-item">
-        <NavDropdown eventKey={3} title={props.langState === 0 ? "English" : "French"} id="basic-nav-dropdown" className="dropdownContainer">
-          <MenuItem eventKey={3.1} onClick={() => {props.onMenu(0);}}>English</MenuItem>
-          <MenuItem eventKey={3.2} onClick={() => {props.onMenu(1);}}>French</MenuItem>
-        </NavDropdown>
-      </li>
       
       <li className="nav-item">
         <Link to="/signin" className="nav-link">
@@ -69,6 +62,40 @@ const MyProfileView = props => {
     </ul>
   );
 };
+
+
+const MyProfileView_Temp = props => {
+  return (
+    <div className="new_headeritems_5itemcontainer">
+      
+      <Link to="/post">
+        <div className="signup" onClick={props.onClickPost}>Post a task</div>
+      </Link>
+    
+      <Link to="/dashboard">
+        <div className={ props.headerType === 13 ? "normal_white" : "normal"} onClick={props.headerUpdated}>Dashboard</div>
+      </Link>
+    
+      <Link to="/exploretasks">
+        <div className={ props.headerType === 10 ? "normal_white" : "normal"} onClick={props.headerUpdated}>Explore Tasks</div>
+      </Link>
+    
+      <Link to="/mytasks">
+        <div className={ props.headerType === 9 ? "normal_white" : "normal"} onClick={props.headerUpdated}>My Tasks</div>
+      </Link>
+    
+      <Link to="/payments">
+        <div className={ props.headerType === 11 ? "normal_white" : "normal"} onClick={props.headerUpdated}>Payments</div>
+      </Link>
+    
+      <Link to="/messages">
+        <div className={ props.headerType === 12 ? "normal_white" : "normal"} onClick={props.headerUpdated}>Messages</div>
+      </Link>
+      
+    </div>
+  );
+};
+
 
 const StripeSignupView = props => {
   return (
@@ -94,21 +121,16 @@ const StripeSignupView = props => {
 const LoggedOutView = props => {
   if (!props.currentUser) {
     return (
-      <ul className="nav navbar-nav pull-xs-right rightbar">
+      <div>
+        <Link to="/signup">
+          <div className="landig_signup">Sign Up</div>
+        </Link>
+        
+        <Link to="/signin">
+          <div className="landig_signup">Sign In</div>
+        </Link>
 
-        <li className="nav-item">
-          <Link to="/signin" className="nav-link">
-            <div className="signup">Sign In</div>
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link to="/signup" className="nav-link">
-            <div className="signup">Sign Up</div>
-          </Link>
-        </li>
-
-      </ul>
+      </div>
     );
   }
   return null;
@@ -126,52 +148,16 @@ const CenterHeaderTitle = props => {
 };
 
 
-const LoggedInView = props => {
-  if (props.currentUser) {
-    return (
-      <ul className="nav navbar-nav pull-xs-right">
-
-        <li className="nav-item">
-          <Link to="/" className="nav-link">
-            Home
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link to="/editor" className="nav-link">
-            <i className="ion-compose"></i>&nbsp;New Post
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link to="/settings" className="nav-link">
-            <i className="ion-gear-a"></i>&nbsp;Settings
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link
-            to={`/@${props.currentUser.username}`}
-            className="nav-link">
-            <img src={props.currentUser.image} className="user-pic" alt={props.currentUser.username} />
-            {props.currentUser.username}
-          </Link>
-        </li>
-
-      </ul>
-    );
-  }
-
-  return null;
-};
-
 class Header extends React.Component {
   
   constructor() {
     super();
     this.state = {
       headerType: 0,
-      langState: 0
+      langState: 0,
+      profileClicked: false,
+      langClicked: false,
+      username: '',
     };
     this.requests = {
       updateLanguage: (i) =>
@@ -187,11 +173,27 @@ class Header extends React.Component {
             })
           }
         }),
+      getLanguage: () =>
+        superagent.post(base_url_public + '/frontend/user/getlanguage', {
+          token: reactLocalStorage.get('loggedToken'),
+        }).then(res => {
+          if (!res.body.result) {
+            alert(res.body.text);
+          } else {
+            if (res.body.language === "0") {
+              this.setState({ langState: 0 })
+            } else {
+              this.setState({ langState: 1 })
+            }
+          }
+        }),
     }
   }
   
   updateHeader = (i) => {
-    this.setState({ headerType: i, langState: config.language });
+    this.setState({ headerType: i });
+    this.requests.getLanguage();
+    this.setState({ username: reactLocalStorage.get('username') })
   };
   
   onSignOut = () => {
@@ -202,79 +204,254 @@ class Header extends React.Component {
     if ( this.state.langState === i) {
       return;
     }
-    if (confirm('are you sure to switch the language?')) {
-      this.requests.updateLanguage(i);
-    }
+    this.requests.updateLanguage(i);
   };
   
   onClickPost = () => {
+    this.setState({ langClicked: false, profileClicked: false });
     this.props.onClickPost();
   };
   
+  headerUpdated = () => {
+    this.setState({ langClicked: false, profileClicked: false });
+  };
+  
+  onToggleProfile = () => {
+    this.setState({ profileClicked: !this.state.profileClicked, langClicked: false });
+  };
+  
+  onToggleLang = () => {
+    this.setState({ langClicked: !this.state.langClicked, profileClicked: false });
+  };
+  
+  onToggleBell = () => {
+    this.setState({ langClicked: false, profileClicked: false });
+  };
+  
+  onToggleHeart = () => {
+    this.setState({ langClicked: false, profileClicked: false });
+  };
+  
+  onEng = () => {
+    this.setState({ langClicked: false, profileClicked: false });
+    this.onMenu(0);
+  };
+  
+  onFre = () => {
+    this.setState({ langClicked: false, profileClicked: false });
+    this.onMenu(1);
+  };
+  
+  onMyProfile = () => {
+    this.setState({ langClicked: false, profileClicked: false });
+  };
+  
+  onSettings = () => {
+    this.setState({ langClicked: false, profileClicked: false });
+  };
+  
+  onLogOut = () => {
+    this.setState({ langClicked: false, profileClicked: false });
+    this.onSignOut();
+  };
+  
   render() {
-    const { headerType, langState } = this.state;
-    if (headerType === 9 || headerType === 10 || headerType === 11 || headerType === 12 || headerType === 13) { // 9: my tasks, 10: explore tasks, 11: payments, 12: messages, 13: dashboard
+    const { headerType, langState, profileClicked, langClicked, username } = this.state;
+    if (headerType === 2 || headerType === 9 || headerType === 10 || headerType === 11 || headerType === 12 || headerType === 13) { // 9: my tasks, 10: explore tasks, 11: payments, 12: messages, 13: dashboard , 2: my profile
       return (
-        <nav className="navbar navbar-light">
-          <div className="container">
-          
-            <Link to="/dashboard" className="navbar-brand">
-              <div className="appheader-logo" />
+        <div className="new_navbar_container">
+          <div className="new_navbar_inline">
+            <Link to="/dashboard">
+              <div className="appheader-logo" onClick={this.headerUpdated} />
             </Link>
-          
-            <MyProfileView onSignOut={this.onSignOut} onMenu={this.onMenu} langState={langState} onClickPost={this.onClickPost} headerType={headerType} />
-        
-          </div>
-        </nav>
-      );
-    }
-    if (headerType === 2) {
-      return (
-        <nav className="navbar navbar-light">
-          <div className="container">
-        
-            <Link to="/dashboard" className="navbar-brand">
-              <div className="appheader-logo" />
-            </Link>
-          
-            <MyProfileView onSignOut={this.onSignOut} onMenu={this.onMenu} langState={langState} onClickPost={this.onClickPost} headerType={2} />
+            <MyProfileView_Temp onSignOut={this.onSignOut} onMenu={this.onMenu} onClickPost={this.onClickPost} headerUpdated={this.headerUpdated} headerType={headerType} />
+            <div className="new_header_rightcontainer">
+              <div className="header_profile" onClick={this.onToggleProfile}/>
+              <div className="bell" onClick={this.onToggleBell}/>
+              <div className="heart_off" onClick={this.onToggleHeart}/>
+              {
+                langState === 0 ? <div className="lang_eng" onClick={this.onToggleLang}/> : <div className="lang_fre" onClick={this.onToggleLang}/>
+              }
+              
+            </div>
+            
+            {
+              langClicked &&
+                <div className="expandview1">
+                  <div className="triangle"/>
+                  <div className="changelanguage">
+                    Change Language
+                  </div>
+                  <div className="changelangbar"/>
+                  <div>
+                    <div className={langState === 0 ? "changelanguage1 grayback" : "changelanguage1"} onClick={this.onEng}>
+                      English
+                    </div>
+                    {
+                      langState === 0 &&
+                        <div className="checkmark"/>
+                    }
+                  </div>
+                  <div>
+                    <div className={langState === 1 ? "changelanguage1 grayback" : "changelanguage1"} onClick={this.onFre}>
+                      French
+                    </div>
+                    {
+                      langState === 1 &&
+                      <div className="checkmark"/>
+                    }
+                  </div>
+                </div>
+            }
+            
+            {
+              profileClicked &&
+                <div className="expandview2">
+                  <div className="triangle2"/>
+                  
+                  <div className="hitxt redtext">
+                    Hi, { username }
+                  </div>
+                  
+                  <div className="hitxtbar"/>
+  
+                  <Link to="/myprofile">
+                    <div className="hitxt1" onClick={this.onMyProfile}>
+                      My Profile
+                    </div>
+                  </Link>
+                  
+                  <div className="hitxtbar"/>
+  
+                  <div className="hitxt1" onClick={this.onSettings}>
+                    Settings
+                  </div>
+                  
+                  <div className="hitxtbar"/>
+                  
+                  <Link to="/signin">
+                    <div className="hitxt1" onClick={this.onLogOut}>
+                      Logout
+                    </div>
+                  </Link>
+                  
+                </div>
+            }
+            
             
           </div>
-        </nav>
+        </div>
       );
     }
     if (headerType === 3) {
       return (
-        <nav className="navbar navbar-light">
-          <div className="container">
-        
-            <Link to="/dashboard" className="navbar-brand">
-              <div className="appheader-logo" />
+        <div className="new_navbar_container">
+          <div className="new_navbar_inline">
+            <Link to="/dashboard">
+              <div className="appheader-logo" onClick={this.headerUpdated} />
             </Link>
-        
-            <StripeSignupView onSignOut={this.onSignOut} onMenu={this.onMenu} langState={langState}/>
-            <CenterHeaderTitle title="X" />
+            
+            <div className="landing_signup_container">
+              <div className="header_profile" onClick={this.onToggleProfile}/>
+              <div className="bell" onClick={this.onToggleBell}/>
+              <div className="heart_off" onClick={this.onToggleHeart}/>
+              {
+                langState === 0 ? <div className="lang_eng" onClick={this.onToggleLang}/> : <div className="lang_fre" onClick={this.onToggleLang}/>
+              }
+
+            </div>
+  
+            {
+              langClicked &&
+              <div className="expandview1">
+                <div className="triangle"/>
+                <div className="changelanguage">
+                  Change Language
+                </div>
+                <div className="changelangbar"/>
+                <div>
+                  <div className={langState === 0 ? "changelanguage1 grayback" : "changelanguage1"} onClick={this.onEng}>
+                    English
+                  </div>
+                  {
+                    langState === 0 &&
+                    <div className="checkmark"/>
+                  }
+                </div>
+                <div>
+                  <div className={langState === 1 ? "changelanguage1 grayback" : "changelanguage1"} onClick={this.onFre}>
+                    French
+                  </div>
+                  {
+                    langState === 1 &&
+                    <div className="checkmark"/>
+                  }
+                </div>
+              </div>
+            }
+  
+            {
+              profileClicked &&
+              <div className="expandview2">
+                <div className="triangle2"/>
+      
+                <div className="hitxt redtext">
+                  Hi, Alexander Ignacz!
+                </div>
+      
+                <div className="hitxtbar"/>
+      
+                <Link to="/myprofile">
+                  <div className="hitxt1" onClick={this.onMyProfile}>
+                    My Profile
+                  </div>
+                </Link>
+      
+                <div className="hitxtbar"/>
+      
+                <div className="hitxt1" onClick={this.onSettings}>
+                  Settings
+                </div>
+      
+                <div className="hitxtbar"/>
+      
+                <Link to="/signin">
+                  <div className="hitxt1" onClick={this.onLogOut}>
+                    Logout
+                  </div>
+                </Link>
+    
+              </div>
+            }
+            
+            <div className="createyourprofiletxt">
+              Create Your Profile
+            </div>
+
           </div>
-        </nav>
+        </div>
       );
     }
-    return (
-      <nav className="navbar navbar-light">
-        <div className="container">
-
-          <Link to="/dashboard" className="navbar-brand">
-            <div className="appheader-logo" />
-            {/*{this.props.appName.toLowerCase()}*/}
+    return ( // landing page
+      <div className="new_navbar_container">
+        <div className="new_navbar_inline">
+          
+          <Link to="/dashboard">
+            <div className="appheader-logo" onClick={this.headerUpdated} />
           </Link>
           
-          {
-            (headerType === 0 || headerType === 4) ? <CenterHeaderTitle title="" /> : <CenterHeaderTitle title="X" />
-          }
-
-          <LoggedOutView currentUser={this.props.currentUser} />
-          <LoggedInView currentUser={this.props.currentUser} />
+          <div className="landing_signup_container">
+            <Link to="/signup">
+              <div className="landig_signup">Sign Up</div>
+            </Link>
+            
+            <Link to="/signin">
+              <div className="landig_signup">Sign In</div>
+            </Link>
+          </div>
+  
         </div>
-      </nav>
+      </div>
     );
   }
 }

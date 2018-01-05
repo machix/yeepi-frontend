@@ -18,9 +18,7 @@ export default class MyTasks extends React.Component {
   }
   
   componentDidMount() {
-    setTimeout(() => {
-      this.props.updateHeader(9);
-    }, 100);
+    this.props.updateHeader(9);
   }
   
   render() {

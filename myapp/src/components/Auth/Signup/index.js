@@ -113,6 +113,7 @@ export default class Signup extends React.Component {
           this.localValues.code = res.body.code;
           this.setState({ signupFlow: [] }, () => {
             reactLocalStorage.set('loggedToken', res.body.token);
+            this.makeChatUser(res.body.email.toLowerCase(), res.body.username);
             this.setState({ redirect: 1 });
           });
         }),
@@ -135,6 +136,7 @@ export default class Signup extends React.Component {
           existstripe: false,
         }).then(res => {
           reactLocalStorage.set('loggedToken', res.body.token);
+          this.makeChatUser(res.body.email.toLowerCase(), res.body.username);
           this.setState({ redirect: 2, address_input_state: false, inputType: 0 });
         })
       },
@@ -158,6 +160,7 @@ export default class Signup extends React.Component {
           existstripe: false,
         }).then(res => {
           reactLocalStorage.set('loggedToken', res.body.token);
+          this.makeChatUser(res.body.email.toLowerCase(), res.body.username);
           this.setState({redirect: 3, address_input_state: false, inputType: 0});
         })
       }
@@ -167,6 +170,7 @@ export default class Signup extends React.Component {
   }
   
   componentDidMount() {
+    reactLocalStorage.set('dahsboard_loaded', "false");
     this.props.updateHeader(0);
     setTimeout(() => {
       this.goToNextStep();
@@ -192,6 +196,23 @@ export default class Signup extends React.Component {
       displayText: "..."
     }];
   }
+  
+  makeChatUser = (email, username) => {
+    reactLocalStorage.set('loggedEmail', email);
+    reactLocalStorage.set('loggedUsername', username);
+    window.applozic.init({
+      appId: '2fde83d9c3e0d87d15b2373bbf99e6172',
+      userId: email,
+      userName: email,
+      imageLink : '',
+      email : '',
+      contactNumber: '',
+      accessToken: '',
+      desktopNotification: true,
+      notificationIconLink: '',
+    });
+  };
+  
   
   startRolling() {
     if (this.rollDirection === 'right') {

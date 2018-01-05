@@ -33,7 +33,18 @@ export default class TransportionSelector extends Component {
   }
   
   componentDidMount() {
-    this.requests.fetchDatas()
+    // this.requests.fetchDatas()
+    const transList = [
+      "Car",
+      "Truck",
+      "Scooter",
+      "Bicycle"
+    ];
+    let transSelectList = [];
+    for (let i = 0; i < 4; i++) {
+      transSelectList.push(false);
+    }
+    this.setState({ transList, transSelectList })
   }
   
   setItem(i) {

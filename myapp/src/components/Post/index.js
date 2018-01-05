@@ -48,6 +48,7 @@ export default class Post extends React.Component {
       step2_checked: 0,
       hourly_checked: 0,
       address: "",
+      city: "",
       zipcode: "",
       taskercount: 1,
       amountError: false,
@@ -134,11 +135,13 @@ export default class Post extends React.Component {
       createTask: () => superagent.post(base_url_public + '/frontend/task/create', {
         user_token: reactLocalStorage.get('loggedToken'),
         user_avatar: this.state.personal_datas.imagePreviewUrl,
+        user_postername: this.state.personal_datas.username,
         task_category: this.state.selectIndex,
         task_title: this.uploadValue.post_title,
         task_description: this.uploadValue.description,
         task_type: this.state.step2_checked,
         task_location: this.state.address,
+        task_location_city: this.state.city,
         task_location_lat: this.state.lat,
         task_location_lng: this.state.lng,
         task_budget: this.uploadValue.budget,
@@ -147,6 +150,16 @@ export default class Post extends React.Component {
         task_deadline: this.state.deadline,
         task_postline: moment(),
         task_updateline: moment(),
+  
+        task_is_endleasing: this.state.cleaning_toggle1,
+        task_house_or_apartment: this.state.cleaning_toggle2,
+        task_cleaning_option1: this.state.cleaning_option1,
+        task_cleaning_option2: this.state.cleaning_option2,
+        task_cleaning_option3: this.state.cleaning_option3,
+        task_cleaning_option4: this.state.cleaning_option4,
+        task_cleaning_option5: this.state.cleaning_option5,
+        task_bedroomcount: this.state.bedroomcount,
+        task_bathroomcount: this.state.bathroomcount,
   
         task_from_location: this.state.fromLocation,
         task_from_location_zip: this.state.fromLocation_zip,
@@ -157,6 +170,9 @@ export default class Post extends React.Component {
         task_to_location_zip: this.state.toLocation_zip,
         task_to_location_lat: this.state.toLocation_lat,
         task_to_location_lng: this.state.toLocation_lng,
+  
+        task_status: 1,   // 1: Active, 2: Closed, 3: SPAM, 4: Cancelled, 5: Expired (once due date is reached)
+        task_state: 1,    // 1: Posted, 2: Assigned, 3: Completed, 4: Cancelled, 5: Started
         
       }).then(res => {
         if (!res.body.result) {
@@ -183,6 +199,7 @@ export default class Post extends React.Component {
         task_description: this.state.post_desc,
         task_type: this.state.step2_checked,
         task_location: this.state.address,
+        task_location_city: this.state.city,
         task_location_lat: this.state.lat,
         task_location_lng: this.state.lng,
         task_budget: this.uploadValue.budget,
@@ -190,7 +207,7 @@ export default class Post extends React.Component {
         task_attachments: this.state.attachments,
         task_deadline: this.state.deadline,
         task_updateline: moment(),
-        
+  
         task_from_location: this.state.fromLocation,
         task_from_location_zip: this.state.fromLocation_zip,
         task_from_location_lat: this.state.fromLocation_lat,
@@ -216,9 +233,7 @@ export default class Post extends React.Component {
   componentDidMount() {
     this.requests.fetchDatas();
     this.requests.fetchSettingInfos();
-    setTimeout(() => {
-      this.props.updateHeader(2);
-    }, 100);
+    this.props.updateHeader(2);
   }
   
   update = () => {
@@ -469,7 +484,13 @@ export default class Post extends React.Component {
     geocodeByPlaceId(placeId)
       .then(results => {
         let zipcode = results[0].address_components.filter(function (it) { return it.types.indexOf('postal_code') != -1;}).map(function (it) {return it.long_name;});
-        this.setState({ address, placeId, zipcode, lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() })
+        let city = "";
+        for (let i = 0; i < results[0].address_components.length; i++) {
+          if (results[0].address_components[i].types[0] === "administrative_area_level_1") {
+            city = results[0].address_components[i].long_name;
+          }
+        }
+        this.setState({ address, city, placeId, zipcode, lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() })
       })
       .catch(error => console.error(error));
   };
@@ -478,7 +499,13 @@ export default class Post extends React.Component {
     geocodeByPlaceId(placeId)
       .then(results => {
         let zipcode = results[0].address_components.filter(function (it) { return it.types.indexOf('postal_code') != -1;}).map(function (it) {return it.long_name;});
-        this.setState({ fromLocation: address, fromLocation_zip: zipcode, fromLocation_lat: results[0].geometry.location.lat(), fromLocation_lng: results[0].geometry.location.lng() })
+        let city = "";
+        for (let i = 0; i < results[0].address_components.length; i++) {
+          if (results[0].address_components[i].types[0] === "administrative_area_level_1") {
+            city = results[0].address_components[i].long_name;
+          }
+        }
+        this.setState({ city, fromLocation: address, fromLocation_zip: zipcode, fromLocation_lat: results[0].geometry.location.lat(), fromLocation_lng: results[0].geometry.location.lng() })
       })
       .catch(error => console.error(error));
   };
@@ -1400,7 +1427,7 @@ export default class Post extends React.Component {
                   </div>
                   <div className="post_toptitle_center1_1_mail" />
                   <div className="post_toptitle_center1_1" >
-                    Facebook
+                    Email
                   </div>
                 </div>
                 

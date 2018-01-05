@@ -1,0 +1,51 @@
+.chat_test {
+    width: 100%;
+    border: solid 1px #dedede;
+    padding-bottom: 10px;
+    display: flex;
+}
+
+.chat_user1_avatarcontainer {
+    width: 100px;
+    height: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.chat_user1_avatar_no {
+    width: 50px;
+    height: 50px;
+    background: url("./../../../assets/no_avatar.png");
+    background-size: 100% 100%;
+    display: inline-block;
+}
+
+.chat_user1_avatar_yes {
+    width: 50px;
+    height: 50px;
+    background-size: 100% 100%;
+}
+
+.chat_user1_chatcontainer {
+    width: calc(100% - 100px);
+    height: 100%;
+    text-align: left;
+    padding-top: 20px;
+}
+
+.chat_user1_chat_role {
+    line-height: 20px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.chat_user1_chat_content {
+    margin-top: 5px;
+    color: #3f3f3f;
+}
+
+.chat_user1_chat_time {
+    margin-top: 15px;
+    color: #6f6f6f;
+    font-size: 11px;
+}

@@ -1,6 +1,7 @@
 div {
     font-family: 'Montserrat';
     font-size: 13px;
+    color: black;
 }
 
 a {
@@ -174,3 +175,12 @@ input {
     display: inline-block;
 }
 
+.loadingbar {
+    position: absolute;
+    width: 100vw;
+    line-height: 100vh;
+    text-align: center;
+    background: #687077;
+    z-index: 1;
+    opacity: 0.5;
+}

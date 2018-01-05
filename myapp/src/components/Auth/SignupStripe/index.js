@@ -75,11 +75,9 @@ export default class SignupStripe extends Component {
           } else {
             if (res.body.personal_datas.language === "English") {
               config.language = 0;
-              this.props.updateHeader(3);
               this.setState({ personal_datas: res.body.personal_datas, lang: eng })
             } else {
               config.language = 1;
-              this.props.updateHeader(3);
               this.setState({ personal_datas: res.body.personal_datas, lang: fre })
             }
           }
@@ -118,6 +116,9 @@ export default class SignupStripe extends Component {
   }
   
   componentDidMount() {
+    setTimeout(() => {
+      this.props.updateHeader(3);
+    }, 100);
     this.onFetchPersonalInfos();
     this._input_bankname.value = 11;
     this.setState({ institutionNumberState: "001"});

@@ -33,7 +33,16 @@ export default class LangSelector extends Component {
   }
   
   componentDidMount() {
-    this.requests.fetchDatas()
+    // this.requests.fetchDatas()
+    let langList = [
+      "English",
+      "French"
+    ];
+    let langSelectList = [];
+    for (let i = 0; i < 2; i++) {
+      langSelectList.push(false);
+    }
+    this.setState({ langList, langSelectList })
   }
   
   setItem(i) {

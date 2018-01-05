@@ -10,9 +10,7 @@ export default class Payments extends React.Component {
   }
   
   componentDidMount() {
-    setTimeout(() => {
-      this.props.updateHeader(11);
-    }, 100);
+    this.props.updateHeader(11);
   }
   
   render() {

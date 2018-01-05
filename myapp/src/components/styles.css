@@ -3,7 +3,7 @@
     width: 80px;
     height: 40px;
     background-size: 100%, 100%;
-    margin-top: -5px;
+    margin-top: 8px;
 }
 
 .container {
@@ -27,6 +27,34 @@
     background: #ff2165;
     color: #ffffff;
     -webkit-transition: all 1s ease;
+    margin-top: 13px;
+    margin-left: 10px;
+}
+
+.landing_signup_container {
+    width: calc(100% - 80px);
+}
+
+.landig_signup {
+    text-align: center;
+    width: 120px;
+    line-height: 34px;
+    border-radius: 17px;
+    border: 1px solid #ff2165;
+    background: #ff2165;
+    color: #ffffff;
+    -webkit-transition: all 1s ease;
+    margin-top: 13px;
+    float: right;
+    margin-right: 30px;
+}
+
+.createyourprofiletxt {
+    position: absolute;
+    color: white;
+    left: calc(50% - 84px);
+    top: 30px;
+    font-size: large;
 }
 
 .signup:hover {
@@ -47,6 +75,7 @@
     border-radius: 17px;
     color: gray;
     -webkit-transition: all 1s ease;
+    margin-left: 10px;
 }
 
 .normal_white {
@@ -57,6 +86,7 @@
     border-radius: 17px;
     color: white;
     -webkit-transition: all 1s ease;
+    margin-left: 10px;
 }
 
 .normal:hover {
@@ -76,3 +106,210 @@
 .dropdownContainer.dropdown {
     top: 3px;
 }
+
+.new_navbar_container {
+    width: 100%;
+    height: 80px;
+    background: #09071d;
+    display: flex;
+    box-shadow: 1px 1px 10px 1px #888888;
+}
+
+.new_navbar_inline {
+    width: 94%;
+    margin-left: 3%;
+    height: 60px;
+    margin-top: 10px;
+    display: flex;
+}
+
+.new_headeritems_5itemcontainer {
+    padding-left: 30px;
+}
+
+.header_profile {
+    width: 50px;
+    height: 35px;
+    background: url("./../../src/assets/header_profile.png");
+    float: right;
+    margin-top: 13px;
+    background-size: 100% 100%;
+}
+
+.header_profile {
+    cursor: pointer;
+}
+
+.bell {
+    width: 17px;
+    height: 20px;
+    background: url("./../../src/assets/bell_off.png");
+    background-size: 100% 100%;
+    margin-top: 20px;
+    float: right;
+    margin-right: 30px;
+}
+
+.bell {
+    cursor: pointer;
+}
+
+.heart_off {
+    width: 21px;
+    height: 20px;
+    background: url("./../../src/assets/heart_off.png");
+    background-size: 100% 100%;
+    float: right;
+    margin-right: 30px;
+    margin-top: 20px;
+}
+
+.heart_off {
+    cursor: pointer;
+}
+
+.lang_eng {
+    width: 100px;
+    height: 20px;
+    background: url("./../../src/assets/lang_eng.png");
+    background-size: 100% 100%;
+    float: right;
+    margin-right: 40px;
+    margin-top: 20px;
+}
+
+.lang_eng {
+    cursor: pointer;
+}
+
+.lang_fre {
+    width: 100px;
+    height: 20px;
+    background: url("./../../src/assets/lang_french.png");
+    background-size: 100% 100%;
+    float: right;
+    margin-right: 40px;
+    margin-top: 20px;
+}
+
+.lang_fre {
+    cursor: pointer;
+}
+
+.new_header_rightcontainer {
+    width: calc(90% - 80px - 30px - 130px - 440px);
+    text-align: right;
+}
+
+.expandview1 {
+    position: absolute;
+    width: 200px;
+    height: 126px;
+    z-index: 1;
+    background: white;
+    box-shadow: 1px 1px 10px 1px #888888;
+    right: 14%;
+    top: 70px;
+}
+
+.expandview2 {
+    position: absolute;
+    width: 200px;
+    height: 170px;
+    z-index: 1;
+    background: white;
+    box-shadow: 1px 1px 10px 1px #888888;
+    right: 3%;
+    top: 70px;
+}
+
+.triangle {
+    width: 15px;
+    height: 15px;
+    background: url("./../../src/assets/triangle.png");
+    background-size: 100% 100%;
+    margin-top: -10px;
+    margin-left: 95px;
+}
+
+.triangle2 {
+    width: 15px;
+    height: 15px;
+    background: url("./../../src/assets/triangle.png");
+    background-size: 100% 100%;
+    margin-top: -10px;
+    margin-left: 150px;
+}
+
+.changelanguage {
+    width: 100%;
+    line-height: 40px;
+    color: gray;
+    padding-left: 10px;
+}
+
+.changelanguage1 {
+    width: 100%;
+    line-height: 40px;
+    color: gray;
+    padding-left: 10px;
+}
+
+.changelanguage1:hover {
+    cursor: pointer;
+}
+
+.changelangbar {
+    width: 100%;
+    height: 1px;
+    background: #a2a2a2;
+}
+
+.grayback {
+    background: #f4f4f4;
+    color: black;
+}
+
+.checkmark {
+    width: 20px;
+    height: 14px;
+    background: url("./../../src/assets/checkmark.png");
+    background-size: 100% 100%;
+    position: absolute;
+    margin-left: 150px;
+    margin-top: -27px;
+}
+
+.hitxt {
+    width: 100%;
+    line-height: 40px;
+    color: black;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+.hitxt1 {
+    width: 100%;
+    line-height: 40px;
+    color: black;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+.hitxt1:hover {
+    cursor: pointer;
+}
+
+.hitxtbar {
+    width: 90%;
+    height: 1px;
+    background: #c8c8c8;
+    margin-left: 5%;
+}
+
+.redtext {
+    color: #ff2165;
+}
+

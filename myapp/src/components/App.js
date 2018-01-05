@@ -28,6 +28,7 @@ import ExploreTasks from "./ExploreTasks";
 import Payments from "./Payments";
 import Messages from "./Messages";
 import Dashboard from "./Dashboard";
+import TaskSummary from "./TaskSummary";
 
 const mapStateToProps = state => {
   return {
@@ -118,6 +119,7 @@ class App extends React.Component {
             <Route exact path="/payments" render={() => <Payments updateHeader={this.updateHeader} ref={(ref) => {this._ref_payments = ref;}}/> }/>
             <Route exact path="/messages" render={() => <Messages updateHeader={this.updateHeader} ref={(ref) => {this._ref_messages = ref;}}/> }/>
             <Route exact path="/dashboard" render={() => <Dashboard updateHeader={this.updateHeader} ref={(ref) => {this._ref_dashboard = ref;}}/> }/>
+            <Route exact path="/tasksummary" render={() => <TaskSummary updateHeader={this.updateHeader} ref={(ref) => {this._ref_tasksummary = ref;}}/> }/>
           </Switch>
         </div>
       );

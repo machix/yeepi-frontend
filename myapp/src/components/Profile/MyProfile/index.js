@@ -34,7 +34,6 @@ export default class MyProfile extends React.Component {
     this.requests = {
       fetchDatas: () =>
         superagent.post(base_url_public + '/frontend/user/fetchpersonalinfos', { token: reactLocalStorage.get('loggedToken') }).then(res => {
-          debugger;
           if (!res.body.result) {
             this.setState({ showAlert: true, alertText: res.body.text })
           } else {
@@ -104,8 +103,6 @@ export default class MyProfile extends React.Component {
   }
   
   responseFacebook = response => {
-    console.log(response);
-    //anything else you want to do(save to localStorage)...
     this.requests.updateFaceBookAccount(response.id, response.email, response.name, response.accessToken)
   };
   

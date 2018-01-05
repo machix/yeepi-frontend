@@ -12,7 +12,7 @@ export default class Landing extends React.Component {
   }
   
   componentDidMount() {
-    this.props.updateHeader(4);
+    this.props.updateHeader(0);
   }
   
   maskedPhoneNumber = v => {
