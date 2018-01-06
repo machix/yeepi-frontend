@@ -1,0 +1,501 @@
+.landing_header {
+    width: 100%;
+    height: 80px;
+    padding-left: 150px;
+    padding-right: 20px;
+}
+
+.logo_section1 {
+    background: url("./../../../src/assets/logo_back1.png");
+    width: 100%;
+    height: calc(100vw * 974 / 1700);
+    background-size: 100% 100%;
+}
+
+.landing_header_signupbtn {
+    line-height: 30px;
+    float: right;
+    border-radius: 15px;
+    text-align: center;
+    margin-top: 25px;
+    margin-right: 40px;
+}
+
+.landing_header_signupbtn:hover {
+    cursor: pointer;
+}
+
+.landing_header_logo {
+    background: url("./../../../src/assets/yeepilogo.png");
+    width: 80px;
+    height: 40px;
+    background-size: 100%, 100%;
+    float: left;
+    margin-top: 20px;
+}
+
+.logo_section2 {
+    width: 100%;
+    display: flex;
+}
+
+.logo_section2_left {
+    width: 40%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.logo_section2_right {
+    width: 60%;
+}
+
+.logo_section2_right1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+.logo_section2_right2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo_testimg1 {
+    width: 25%;
+    height: calc(15vw * 226 / 339);
+    background: url("./../../../src/assets/landing_section2_1.png");
+    background-size: 100% 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+.logo_testimg2 {
+    width: 25%;
+    height: calc(15vw * 226 / 339);
+    background: url("./../../../src/assets/landing_section2_2.png");
+    background-size: 100% 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+.logo_testimg3 {
+    width: 25%;
+    height: calc(15vw * 226 / 339);
+    background: url("./../../../src/assets/landing_section2_3.png");
+    background-size: 100% 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+.logo_testimg4 {
+    width: 25%;
+    height: calc(15vw * 226 / 339);
+    background: url("./../../../src/assets/landing_section2_4.png");
+    background-size: 100% 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+.logo_testimg5 {
+    width: 25%;
+    height: calc(15vw * 226 / 339);
+    background: url("./../../../src/assets/landing_section2_5.png");
+    background-size: 100% 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+.logo_testimg6 {
+    width: 25%;
+    height: calc(15vw * 226 / 339);
+    background: url("./../../../src/assets/landing_section2_6.png");
+    background-size: 100% 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.logo_testtxt {
+    width: 25%;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.logo_section2_left_startearningtxt1 {
+    line-height: 30px;
+    width: 100%;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.logo_section2_left_startearningtxt2 {
+    width: 100%;
+    color: #6f6f6f;
+    text-align: center;
+}
+
+.logo_section2_left_startearningtxt3 {
+    width: 140px;
+    line-height: 34px;
+    text-align: center;
+    border-radius: 17px;
+    background: #ff2165;
+    color: white;
+}
+
+.logo_section2_right3 {
+    width: 160px;
+    line-height: 34px;
+    text-align: center;
+    border-radius: 17px;
+    background: #ff2165;
+    color: white;
+    float: right;
+    margin-right: calc((100% - (25% + 20px) * 3) / 2 + 10px);
+    margin-top: 20px;
+}
+
+.logo_section3 {
+    width: 100%;
+    display: flex;
+    background: #f7f7f7;
+    margin-top: 20px;
+}
+
+.logo_section3_bottom {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    background: white;
+    margin-top: calc(60vw - 150px);
+}
+
+.landing_section3_left_graphics {
+    width: calc(60vw - 100px);
+    height: calc(60vw - 100px);
+    background: url("./../../../src/assets/landing_graphics.png");
+    background-size: 100% 100%;
+    margin-left: 100px;
+}
+
+.landing_section3_right {
+    width: calc(40vw);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+.logo_section4 {
+    background: url("./../../../src/assets/landing_section4.png");
+    width: calc(100vw - 500px);
+    height: calc((100vw - 500px) * 524 / 1014);
+    background-size: 100% 100%;
+    margin-left: 250px;
+}
+
+.logo_section5 {
+    width: 100%;
+    display: flex;
+    margin-top: 50px;
+    background: #f7f7f7;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.logo_toprate_container {
+    width: 20%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.top_rated_avatar {
+    background: url("./../../../src/assets/top_rated_avatar.png");
+    width: 100%;
+    height: calc(12vw * 311 / 232);
+    background-size: 100% 100%;
+    border-radius: 5px;
+}
+
+.top_rated_badge {
+    width: 130px;
+    height: 34px;
+    background: #46bfb6;
+    border-radius: 5px;
+    position: absolute;
+    margin-left: -10px;
+    margin-top: 20px;
+}
+
+.lowopacity {
+    opacity: 0.2;
+}
+
+.top_rated_txt1 {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.top_rated_txt2 {
+    text-align: center;
+    font-size: 11px;
+    color: #707070;
+    margin-top: 5px;
+}
+
+.top_rated_star {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.top_rated_star1 {
+    width: 16px;
+    height: 16px;
+    background: url("./../../../src/assets/star_full.png");
+    background-size: 100% 100%;
+}
+
+.logo_section6 {
+    width: 100%;
+    height: calc(100vw * 699 / 1691);
+    background: url("./../../../src/assets/landing_app.png");
+    background-size: 100% 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.landing_appstore {
+    width: 155px;
+    height: 51px;
+    background: url("./../../../src/assets/landing_appstore.png");
+    background-size: 100% 100%;
+    margin-right: 15px;
+    margin-top: 250px;
+}
+
+.landing_googleplay {
+    width: 155px;
+    height: 50px;
+    background: url("./../../../src/assets/landing_googleplay.png");
+    background-size: 100% 100%;
+    margin-left: 15px;
+    margin-top: 250px;
+}
+
+.logo_section7_txt1 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+    margin-top: 40px;
+}
+
+.logo_section7_txt2 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.logo_section7_txt3 {
+    width: 30%;
+    text-align: center;
+    margin-left: 35%;
+    margin-top: 20px;
+}
+
+.logo_section7_btncontainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.landing_wantpost_btn {
+    width: 200px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 20px;
+    background: #ff2165;
+    color: white;
+    margin-right: 20px;
+}
+
+.landing_wanttask_btn {
+    width: 200px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 20px;
+    background: #ff2165;
+    color: white;
+    margin-left: 20px;
+}
+
+.logo_section8 {
+    background: #09071d;
+    display: flex;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.logo_section8_content {
+    width: 70%;
+    margin-left: 15%;
+    display: flex;
+}
+
+.landing_logo1 {
+    width: 140px;
+    height: 82px;
+    background: url("./../../../src/assets/landing_logo1.png");
+    background-size: 100% 100%;
+}
+
+.logo_section8_content1 {
+    width: 20%;
+}
+
+.logo_section8_content2 {
+    width: 20%;
+}
+
+.logo_section8_content3 {
+    width: 20%;
+}
+
+.logo_section8_content4 {
+    width: 20%;
+}
+
+.logo_section8_content5 {
+    width: 20%;
+}
+
+.logo_section8_content2_txt1 {
+    color: white;
+    font-size: 18px;
+}
+
+.logo_section8_content2_txt2 {
+    color: white;
+    font-size: 12px;
+    margin-top: 25px;
+}
+
+.logo_section8_content2_txt3 {
+    color: white;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.logo_section9 {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: #09071d;
+    border-top: solid gray 1px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo_section9_txt1 {
+    color: white;
+}
+.logo_section9_txt2 {
+    color: white;
+    margin-left: 10px;
+}
+
+.copyright {
+    width: 22px;
+    height: 22px;
+    background: url("./../../../src/assets/copyright.png");
+    background-size: 100% 100%;
+    margin-left: 20px;
+}
+
+.logo_section8_content4_socialcontainer {
+    display: flex;
+    margin-top: 20px;
+}
+
+.socialmedia1 {
+    width: 30px;
+    height: 30px;
+    background: url("./../../../src/assets/socialmedia_1.png");
+    background-size: 100% 100%;
+}
+.socialmedia2 {
+    width: 30px;
+    height: 30px;
+    background: url("./../../../src/assets/socialmedia_2.png");
+    background-size: 100% 100%;
+    margin-left: 10px;
+}
+.socialmedia3 {
+    width: 30px;
+    height: 30px;
+    background: url("./../../../src/assets/socialmedia_3.png");
+    background-size: 100% 100%;
+    margin-left: 10px;
+}
+
+.socialmedia4 {
+    width: 60px;
+    height: 60px;
+    background: url("./../../../src/assets/socialmedia_googleplay.png");
+    background-size: 100% 100%;
+}
+
+.socialmedia5 {
+    width: 60px;
+    height: 60px;
+    background: url("./../../../src/assets/socialmedia_appstore.png");
+    background-size: 100% 100%;
+    margin-left: 10px;
+}
+
+.logo_section8_content5_lang {
+    width: 150px;
+    height: 40px;
+    border-radius: 20px;
+    background: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.black_downarrow {
+    width: 12px;
+    height: 8px;
+    background: url("./../../../src/assets/black_downarrow.png");
+    background-size: 100% 100%;
+    margin-left: 10px;
+}
+
