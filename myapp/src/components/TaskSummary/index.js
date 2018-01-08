@@ -237,10 +237,13 @@ export default class TaskSummary extends React.Component {
   };
   
   createMessageLink = (offer_user) => {
-    debugger;
     console.info(reactLocalStorage.get('loggedEmail'));
     console.info(offer_user.email);
     this.requests.createMsgLink(reactLocalStorage.get('loggedEmail'), offer_user.email);
+  };
+
+  createMessageLink_Tasker = (poster_email) => {
+    this.requests.createMsgLink(reactLocalStorage.get('loggedEmail'), poster_email);
   };
   
   renderItem = (index, key) => {
@@ -699,7 +702,7 @@ export default class TaskSummary extends React.Component {
         to_me = true;
       }
     }
-    
+
     return (
       <div>
         {
@@ -760,7 +763,7 @@ export default class TaskSummary extends React.Component {
                   {
                     to_me ?
                       <div className="summary-dlg-top1-budgetcontainer">
-                        <div className="summary-tasker-messagebtn" onClick={() => { this.setState({ redirect: 1221 }) }}>
+                        <div className="summary-tasker-messagebtn" onClick={() => { this.createMessageLink_Tasker(task.user_posteremail) }}>
                           <div className="msgimg"/>
                           <div className="msgtxt">Message</div>
                         </div>
@@ -777,7 +780,7 @@ export default class TaskSummary extends React.Component {
                         :
                         isPoster === '0' &&
                           <div className="summary-dlg-top1-budgetcontainer">
-                            <div className="summary-tasker-messagebtn" onClick={() => { this.setState({ redirect: 1221 }) }}>
+                            <div className="summary-tasker-messagebtn" onClick={() => { this.createMessageLink_Tasker(task.user_posteremail) }}>
                               <div className="msgimg"/>
                               <div className="msgtxt">Message</div>
                             </div>
@@ -869,7 +872,7 @@ export default class TaskSummary extends React.Component {
                           <div className="summary_task_assigned_fullcontainer">
     
                             <div className="summary_task_assigned_leftcontainer">
-                              <div className="lefttext">YOUR OFFER_x</div>
+                              <div className="lefttext">YOUR OFFER</div>
                               <div className="summary-dlg-top2-leftside-top1">
                                 <div className="summary-dlg-top2-leftside-top1-avatar">
                                   {

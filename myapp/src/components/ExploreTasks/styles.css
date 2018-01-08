@@ -720,18 +720,18 @@
 }
 
 .exploretasks_mapview_supercontainer1 {
-    width: 90%;
+    width: 95%;
     height: calc(100vh - 80px - 35px - 50px - 155px);
-    display: inline-block;
+    display: flex;
 
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
 .exploretasks_mapview_supercontainer3 {
-    width: 90%;
+    width: 95%;
     height: calc(100vh - 80px - 35px - 50px - 225px);
-    display: inline-block;
+    display: flex;
 
     padding-top: 20px;
     padding-bottom: 20px;
@@ -739,50 +739,56 @@
 
 
 .exploretasks_mapview_supercontainer2 {
-    width: 90%;
+    width: 95%;
     height: calc(100vh - 80px - 35px - 50px);
-    display: inline-block;
+    display: flex;
 
     padding-bottom: 20px;
 }
 
 .mapcontainer1 {
-    width: calc(100vh - 80px - 35px - 50px - 155px - 40px);
+    /*width: calc(100vh - 80px - 35px - 50px - 155px - 40px);*/
+    width: calc(90vw - 600px + 50px);
     height: calc(100vh - 80px - 35px - 50px - 155px - 40px);
-    display: inline-block;
+    /*display: inline-block;*/
 }
 
 .mapcontainer3 {
-    width: calc(100vh - 80px - 35px - 50px - 225px - 40px);
+    /*width: calc(100vh - 80px - 35px - 50px - 225px - 40px);*/
+    width: calc(90vw - 600px + 50px);
     height: calc(100vh - 80px - 35px - 50px - 225px - 40px);
-    display: inline-block;
+    /*display: inline-block;*/
 }
 
 .mapcontainer2 {
-    width: calc(100vh - 80px - 35px - 50px - 40px);
+    /*width: calc(100vh - 80px - 35px - 50px - 40px);*/
+    width: calc(90vw - 600px + 50px);
     height: calc(100vh - 80px - 35px - 50px - 40px);
-    display: inline-block;
+    /*display: inline-block;*/
 }
 
 .listcontainer1 {
     overflow: auto;
-    width: calc(100% - (100vh - 80px - 35px - 50px - 155px - 40px));
+    /*width: calc(100% - (100vh - 80px - 35px - 50px - 155px - 40px));*/
+    width: 600px;
     height: calc(100vh - 80px - 35px - 50px - 155px - 40px);
-    display: inline-block;
+    margin-left: calc(5vw - 20px);
 }
 
 .listcontainer3 {
     overflow: auto;
-    width: calc(100% - (100vh - 80px - 35px - 50px - 225px - 40px));
+    /*width: calc(100% - (100vh - 80px - 35px - 50px - 225px - 40px));*/
+    width: 600px;
     height: calc(100vh - 80px - 35px - 50px - 225px - 40px);
-    display: inline-block;
+    margin-left: calc(5vw - 20px);
 }
 
 .listcontainer2 {
     overflow: auto;
-    width: calc(100% - (100vh - 80px - 35px - 50px - 40px));
+    /*width: calc(100% - (100vh - 80px - 35px - 50px - 40px));*/
+    width: 600px;
     height: calc(100vh - 80px - 35px - 50px - 40px);
-    display: inline-block;
+    margin-left: calc(5vw - 20px);
 }
 
 .map {

@@ -6,6 +6,8 @@ import applozic from "applozic";
 import config from "../../config";
 import {reactLocalStorage} from "reactjs-localstorage";
 import ChatUser1 from "./ChatUser1";
+import { eng, fre } from '../../lang';
+
 
 const base_url_public = config.baseUrl;
 import Promise from 'promise';
@@ -25,6 +27,7 @@ export default class Messages extends React.Component {
       message_links: [],
       message_links_avatars: [],
       my_avatar: "",
+      lang: eng,
     };
     this.chat_timeout = window.setTimeout(() => {this.updateChatUsers()}, 300);
     this.requests = {
@@ -272,6 +275,7 @@ export default class Messages extends React.Component {
       chat_str,
       display_messages,
       message_links,
+      lang,
     } = this.state;
     if (chat_users.length === 0) {
       return(null);
@@ -282,19 +286,19 @@ export default class Messages extends React.Component {
     let customer_username = "";
 
     if (message_links.length === 0) {
-      header_str = "You don't have any customer";
+      header_str = lang.donhavecustomer;
     } else {
       let flag = false;
       for (let j = 0; j < chat_users.length; j++) {
         if (chat_users[j].userId === message_links[selected_index]) {
-          header_str = "Conversation with " + chat_users[j].userName;
+          header_str = lang.conversation_with + " " + chat_users[j].userName;
           customer_username = chat_users[j].userName;
           flag = true;
         }
       }
 
       if (!flag) {
-        header_str = "Conversation with new user";
+        header_str = lang.conversation_with + " new user";
         customer_username = "";
       }
     }
@@ -344,7 +348,7 @@ export default class Messages extends React.Component {
         <div className="col-sm-12 centerContent">
           <div className="messages_top_selector">
             <div className="tasks_messages_txt">
-              Tasks Messages
+              { lang.tasks_messages }
             </div>
           </div>
           <div className="message_container">
@@ -416,9 +420,9 @@ export default class Messages extends React.Component {
                       <div className="sendbtncontainer">
                         <div className="addattachments">
                           <div className="paperclip"/>
-                          <div className="marginLeft_5px">Add Attachments</div>
+                          <div className="marginLeft_5px">{lang.add_attachments}</div>
                         </div>
-                        <div className="reply" onClick={this.testSendMsg}>Reply</div>
+                        <div className="reply" onClick={this.testSendMsg}>{ lang.reply }</div>
                       </div>
                     </div>
                 }

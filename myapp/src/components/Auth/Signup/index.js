@@ -170,6 +170,7 @@ export default class Signup extends React.Component {
   }
   
   componentDidMount() {
+    reactLocalStorage.set('sign_state', 'true');
     reactLocalStorage.set('dahsboard_loaded', "false");
     this.props.updateHeader(0);
     setTimeout(() => {

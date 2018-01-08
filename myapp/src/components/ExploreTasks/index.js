@@ -31,6 +31,7 @@ export default class ExploreTasks extends React.Component {
   constructor() {
     super();
     this.state = {
+      lang: eng,
       pageState: 0,
       marginLeft: 0,
       leftIcon: false,
@@ -128,7 +129,14 @@ export default class ExploreTasks extends React.Component {
   }
   
   componentDidMount() {
-    this.props.updateHeader(10);
+    setTimeout(() => {
+      if (reactLocalStorage.get("sign_state") === "false") {
+        this.props.updateHeader(1);
+        this.setState({ pageState: 1 });
+      } else {
+        this.props.updateHeader(10);
+      }
+    }, 100);
     this.requests.fetchDatas()
   }
   
@@ -748,6 +756,7 @@ export default class ExploreTasks extends React.Component {
   
   render() {
     const {
+      lang,
       pageState,
       marginLeft,
       leftIcon,
@@ -885,7 +894,7 @@ export default class ExploreTasks extends React.Component {
                 <div className={pageState === 0 ? "listview_img_on" : "listview_img_off"}/>
               </div>
               <div className={ pageState === 0 ? "listview_txt texton" : "listview_txt textoff"}>
-                ListView
+                { lang.listview }
               </div>
             </div>
             
@@ -894,14 +903,14 @@ export default class ExploreTasks extends React.Component {
                 <div className={pageState === 1 ? "mapview_img_on" : "mapview_img_off"}/>
               </div>
               <div className={ pageState === 1 ? "listview_txt texton" : "listview_txt textoff"}>
-                MapView
+                { lang.mapview }
               </div>
             </div>
             
             <div className="exploretasks_top_allcategories" onClick={this.onAllCategory}>
               <div className={onAllCategory ? "exploretasks_top_allcategories1_on" : "exploretasks_top_allcategories1"}>
                 <div className="listview_txt textall">
-                  All Categories
+                  { lang.all_categories }
                 </div>
                 <div className="listview_txt">
                   <div className={onAllCategory ? "uparrow_img" : "downarrow_img"}/>
@@ -912,7 +921,7 @@ export default class ExploreTasks extends React.Component {
             <div className="exploretasks_top_allcategories" onClick={this.onShowFilter}>
               <div className={onFilter ? "exploretasks_top_allcategories1_on" : "exploretasks_top_allcategories1"}>
                 <div className="listview_txt textall">
-                  Show Filters
+                  { lang.show_filters }
                 </div>
                 <div className="listview_txt">
                   <div className={onFilter ? "uparrow_img" : "downarrow_img"}/>
@@ -929,7 +938,7 @@ export default class ExploreTasks extends React.Component {
                   <div className="line_img"/>
                 </div>
                 <div className="listview_txt textall marginLeft_10px">
-                  Search
+                  { lang.search }
                 </div>
               </div>
             </div>
@@ -956,67 +965,67 @@ export default class ExploreTasks extends React.Component {
                     <div className={category1 ? "scrollitem_selected" : "scrollitem"} onClick={() => { this.setAllCategory(1); }}>
                       <div className={category1 ? "categoryimage_1_selected" : "categoryimage_1"}/>
                     </div>
-                    <div className="scrollitem_desc">All Categories</div>
+                    <div className="scrollitem_desc">{ lang.all_categories }</div>
                   </div>
                   <div className="scrollitem_container">
                     <div className={category2 ? "scrollitem_selected" : "scrollitem"} onClick={() => { this.setAllCategory(2); }}>
                       <div className={category2 ? "categoryimage_2_selected" : "categoryimage_2"}/>
                     </div>
-                    <div className="scrollitem_desc">House Cleaning</div>
+                    <div className="scrollitem_desc">{ lang.house_cleaning }</div>
                   </div>
                   <div className="scrollitem_container">
                     <div className={category3 ? "scrollitem_selected" : "scrollitem"} onClick={() => { this.setAllCategory(3); }}>
                       <div className={category3 ? "categoryimage_3_selected" : "categoryimage_3"}/>
                     </div>
-                    <div className="scrollitem_desc">Assembly Services</div>
+                    <div className="scrollitem_desc">{ lang.assembly_services }</div>
                   </div>
                   <div className="scrollitem_container">
                     <div className={category4 ? "scrollitem_selected" : "scrollitem"} onClick={() => { this.setAllCategory(4); }}>
                       <div className={category4 ? "categoryimage_4_selected" : "categoryimage_4"}/>
                     </div>
-                    <div className="scrollitem_desc">Handyman</div>
+                    <div className="scrollitem_desc">{ lang.handyman }</div>
                   </div>
                   <div className="scrollitem_container">
                     <div className={category5 ? "scrollitem_selected" : "scrollitem"} onClick={() => { this.setAllCategory(5); }}>
                       <div className={category5 ? "categoryimage_5_selected" : "categoryimage_5"}/>
                     </div>
-                    <div className="scrollitem_desc">Delivery</div>
+                    <div className="scrollitem_desc">{ lang.delivery }</div>
                   </div>
                   <div className="scrollitem_container">
                     <div className={category6 ? "scrollitem_selected" : "scrollitem"} onClick={() => { this.setAllCategory(6); }}>
                       <div className={category6 ? "categoryimage_6_selected" : "categoryimage_6"}/>
                     </div>
-                    <div className="scrollitem_desc">Gardening</div>
+                    <div className="scrollitem_desc">{ lang.gardening }</div>
                   </div>
                   <div className="scrollitem_container">
                     <div className={category7 ? "scrollitem_selected" : "scrollitem"} onClick={() => { this.setAllCategory(7); }}>
                       <div className={category7 ? "categoryimage_7_selected" : "categoryimage_7"}/>
                     </div>
-                    <div className="scrollitem_desc">IT & Admin Services</div>
+                    <div className="scrollitem_desc">{ lang.it_and_admin_services }</div>
                   </div>
                   <div className="scrollitem_container">
                     <div className={category8 ? "scrollitem_selected" : "scrollitem"} onClick={() => { this.setAllCategory(8); }}>
                       <div className={category8 ? "categoryimage_8_selected" : "categoryimage_8"}/>
                     </div>
-                    <div className="scrollitem_desc">Beauty & Care</div>
+                    <div className="scrollitem_desc">{ lang.beauty_and_care }</div>
                   </div>
                   <div className="scrollitem_container">
                     <div className={category9 ? "scrollitem_selected" : "scrollitem"} onClick={() => { this.setAllCategory(9); }}>
                       <div className={category9 ? "categoryimage_9_selected" : "categoryimage_9"}/>
                     </div>
-                    <div className="scrollitem_desc">Photography</div>
+                    <div className="scrollitem_desc">{ lang.photography }</div>
                   </div>
                   <div className="scrollitem_container">
                     <div className={category10 ? "scrollitem_selected" : "scrollitem"} onClick={() => { this.setAllCategory(10); }}>
                       <div className={category10 ? "categoryimage_10_selected" : "categoryimage_10"}/>
                     </div>
-                    <div className="scrollitem_desc">Decoration</div>
+                    <div className="scrollitem_desc">{ lang.decoration }</div>
                   </div>
                   <div className="scrollitem_container">
                     <div className={category11 ? "scrollitem_selected" : "scrollitem"} onClick={() => { this.setAllCategory(11); }}>
                       <div className={category11 ? "categoryimage_11_selected" : "categoryimage_11"}/>
                     </div>
-                    <div className="scrollitem_desc">Other Services</div>
+                    <div className="scrollitem_desc">{ lang.other_services }</div>
                   </div>
                 </div>
               </div>
@@ -1028,81 +1037,81 @@ export default class ExploreTasks extends React.Component {
                 <div className="exploretasks_top_selector_filter1">
                   
                   <div className="exp_filter_leftside">
-                    <div className="filter_txt1">Task Status</div>
+                    <div className="filter_txt1">{ lang.task_status }</div>
                     <div className="filter_con1">
                       <div className={filter_status === 0 ? "filter_check_on" : "filter_check_off"} onClick={() => { this.setFilterStatus(0); }}/>
-                      <div className="filter_txt2">All</div>
+                      <div className="filter_txt2">{ lang.all }</div>
                     </div>
                     <div className="filter_con1">
                       <div className={filter_status === 1 ? "filter_check_on" : "filter_check_off"} onClick={() => { this.setFilterStatus(1); }}/>
-                      <div className="filter_txt2">Tasks Receiving Offers</div>
+                      <div className="filter_txt2">{ lang.tasks_receiving_offers }</div>
                     </div>
                     <div className="filter_con1">
                       <div className={filter_status === 2 ? "filter_check_on" : "filter_check_off"} onClick={() => { this.setFilterStatus(2); }}/>
-                      <div className="filter_txt2">Tasks Assigned</div>
+                      <div className="filter_txt2">{ lang.tasks_assigned }</div>
                     </div>
                     <div className="filter_con1">
                       <div className={filter_status === 3 ? "filter_check_on" : "filter_check_off"} onClick={() => { this.setFilterStatus(3); }}/>
-                      <div className="filter_txt2">Tasks Completed</div>
+                      <div className="filter_txt2">{ lang.tasks_completed }</div>
                     </div>
                   </div>
                   
                   <div className="exp_filter_verticalbar"/>
                   
                   <div className="exp_filter_mediumside">
-                    <div className="filter_txt1">Sort By</div>
+                    <div className="filter_txt1">{ lang.sort_by }</div>
                     <div className="filter_con2">
                       <div className="filter_con2_1">
                         <div className="filter_con1">
                           <div className={filter_sort === 0 ? "filter_radio_on" : "filter_radio_off"} onClick={() => {this.setFilterSort(0);}}/>
-                          <div className="filter_txt2">Most Recent</div>
+                          <div className="filter_txt2">{ lang.most_recent }</div>
                         </div>
                         <div className="filter_con1">
                           <div className={filter_sort === 1 ? "filter_radio_on" : "filter_radio_off"} onClick={() => {this.setFilterSort(1);}}/>
-                          <div className="filter_txt2">Oldest</div>
+                          <div className="filter_txt2">{ lang.oldest }</div>
                         </div>
                         <div className="filter_con1">
                           <div className={filter_sort === 2 ? "filter_radio_on" : "filter_radio_off"} onClick={() => {this.setFilterSort(2);}}/>
-                          <div className="filter_txt2">Highest Amount</div>
+                          <div className="filter_txt2">{ lang.highest_amount }</div>
                         </div>
                       </div>
                       <div className="filter_con2_1">
                         <div className="filter_con1">
                           <div className={filter_sort === 3 ? "filter_radio_on" : "filter_radio_off"} onClick={() => {this.setFilterSort(3);}}/>
-                          <div className="filter_txt2">Less Offers</div>
+                          <div className="filter_txt2">{ lang.less_offers }</div>
                         </div>
                         <div className="filter_con1">
                           <div className={filter_sort === 4 ? "filter_radio_on" : "filter_radio_off"} onClick={() => {this.setFilterSort(4);}}/>
-                          <div className="filter_txt2">More Offers</div>
+                          <div className="filter_txt2">{ lang.more_offers }</div>
                         </div>
                         <div className="filter_con1">
                           <div className={filter_sort === 5 ? "filter_radio_on" : "filter_radio_off"} onClick={() => {this.setFilterSort(5);}}/>
-                          <div className="filter_txt2">Lowest Amount</div>
+                          <div className="filter_txt2">{ lang.lowest_amount }</div>
                         </div>
                       </div>
                     </div>
-                    <div className="filter_apply_btn" onClick={this.onFilterApply}>Apply</div>
+                    <div className="filter_apply_btn" onClick={this.onFilterApply}>{ lang.apply }</div>
                   </div>
                   
                   <div className="exp_filter_verticalbar"/>
                   
                   <div className="exp_filter_rightside">
-                    <div className="filter_txt1">Task Location</div>
+                    <div className="filter_txt1">{ lang.task_location }</div>
                     <div className="filter_con1">
                       <div className={filter_distance === 0 ? "filter_radio_on" : "filter_radio_off"} onClick={() => { this.setFilterDistance(0); }}/>
-                      <div className="filter_txt2">All</div>
+                      <div className="filter_txt2">{ lang.all }</div>
                     </div>
                     <div className="filter_con1">
                       <div className={filter_distance === 1 ? "filter_radio_on" : "filter_radio_off"} onClick={() => { this.setFilterDistance(1); }}/>
-                      <div className="filter_txt2">Less than 10KM</div>
+                      <div className="filter_txt2">{ lang.less_than } 10KM</div>
                     </div>
                     <div className="filter_con1">
                       <div className={filter_distance === 2 ? "filter_radio_on" : "filter_radio_off"} onClick={() => { this.setFilterDistance(2); }}/>
-                      <div className="filter_txt2">Less than 20KM</div>
+                      <div className="filter_txt2">{ lang.less_than } 20KM</div>
                     </div>
                     <div className="filter_con1">
                       <div className={filter_distance === 3 ? "filter_radio_on" : "filter_radio_off"} onClick={() => { this.setFilterDistance(3); }}/>
-                      <div className="filter_txt2">Less than 50KM</div>
+                      <div className="filter_txt2">{ lang.less_than } 50KM</div>
                     </div>
                   </div>
                 </div>
@@ -1155,7 +1164,7 @@ export default class ExploreTasks extends React.Component {
         >
           <Modal.Header closeButton>
             <Modal.Title>
-              <div>Make Your Offer!</div>
+              <div>{ lang.make_your_offer }</div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -1177,21 +1186,21 @@ export default class ExploreTasks extends React.Component {
                       <div>{ this.categoryLists[tasks_datas[task_index].task_category - 1] } - { tasks_datas[task_index].task_title }</div>
                       <div className="makeoffer-dlg-top1-desc1">
                         <div className="clockimage"/>
-                        <div className="postedtext">POSTED : </div>
+                        <div className="postedtext">{ lang.posted_uppercase } : </div>
                         <div className="difftext">{ modal_duration }</div>
                       </div>
                       <div className="makeoffer-dlg-top1-desc2">
                         {
                           tasks_datas[task_index].user_avatar === '' ? <div className="avatarimage1"/> : <img src={tasks_datas[task_index].user_avatar} className="avatarimage2"/>
                         }
-                        <div className="postername">{tasks_datas[task_index].user_postername} ( Poster )</div>
+                        <div className="postername">{tasks_datas[task_index].user_postername} ( {lang.poster} )</div>
                         <div className="message">
                           <div className="msgimg"/>
-                          <div className="msgtxt">Message</div>
+                          <div className="msgtxt">{lang.poster}</div>
                         </div>
                         {
                           offer_modal_type === 1 &&
-                            <div className="postername">Previous Offer Amount : ${prev_offer_amount}</div>
+                            <div className="postername">{lang.previous_offer_amount} : ${prev_offer_amount}</div>
                         }
                         
                       </div>
@@ -1203,7 +1212,7 @@ export default class ExploreTasks extends React.Component {
                       </div>
         
                       <div className="offercount21">
-                        Budget
+                        { lang.budget }
                       </div>
                     </div>
     
@@ -1216,7 +1225,7 @@ export default class ExploreTasks extends React.Component {
       
                     <div className="makeoffer-dlg-top1-descontainer11">
                       <div className="emaountleftside">
-                        <div>ENTER OFFER AMOUNT</div>
+                        <div>{ lang.enter_offer_amount }</div>
                         <input
                           className="form-control enteramountinput"
                           ref={ref => (this._input_amount = ref)}
@@ -1224,7 +1233,7 @@ export default class ExploreTasks extends React.Component {
                           value={amounttext}
                         />
                         <div className="youroffercontainer">
-                          <div className="youroffer">Your Offer</div>
+                          <div className="youroffer">{ lang.your_offer }</div>
                           <div className="yourofferval">${amounttext}</div>
                         </div>
                         <div className="youroffercontainer">
@@ -1232,16 +1241,16 @@ export default class ExploreTasks extends React.Component {
                           <div className="yourofferval">${taxamount}</div>
                         </div>
                         <div className="youroffercontainer">
-                          <div className="youroffer">Total</div>
+                          <div className="youroffer">{ lang.total1 }</div>
                           <div className="yourofferval">${totalamount}</div>
                         </div>
                         <div className="youroffercontainer">
-                          <div className="youroffer">Commission</div>
+                          <div className="youroffer">{ lang.commission }</div>
                           <div className="yourofferval">${commissionamount}</div>
                         </div>
                         <div className="yourofferbar"/>
                         <div className="youroffercontainer">
-                          <div className="youroffer redtext">Your Earning</div>
+                          <div className="youroffer redtext">{ lang.your_earning }</div>
                           <div className="yourofferval redtext">${taskerearning}</div>
                         </div>
                       </div>
@@ -1249,8 +1258,8 @@ export default class ExploreTasks extends React.Component {
                       </div>
                       <div className="descrightside">
                         <div className="flexview">
-                          <div className="youroffer">DESCRIPTION</div>
-                          <div className="yourofferval exgraytext">Upto 500 Characters</div>
+                          <div className="youroffer">{ lang.description }</div>
+                          <div className="yourofferval exgraytext">{ lang.up_to_500_characters }</div>
                         </div>
                         <textarea
                           className="form-control descarea"
@@ -1258,7 +1267,7 @@ export default class ExploreTasks extends React.Component {
                         />
                         <div>
                           <div className="submitbtn" onClick={() => { this.submitMakeOffer(tasks_datas[task_index]._id, offer_modal_type); }}>
-                            { offer_modal_type === 0 ? "Make Offer" : "Update Offer" }
+                            { offer_modal_type === 0 ? lang.make_offer : lang.update_offer }
                           </div>
                         </div>
                       </div>
@@ -1272,7 +1281,7 @@ export default class ExploreTasks extends React.Component {
             
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.hideOfferModal}>Close</Button>
+            <Button onClick={this.hideOfferModal}>{ lang.close }</Button>
           </Modal.Footer>
         </Modal>
         

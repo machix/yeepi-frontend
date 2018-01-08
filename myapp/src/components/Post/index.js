@@ -136,6 +136,7 @@ export default class Post extends React.Component {
         user_token: reactLocalStorage.get('loggedToken'),
         user_avatar: this.state.personal_datas.imagePreviewUrl,
         user_postername: this.state.personal_datas.username,
+        user_posteremail: this.state.personal_datas.email,
         task_category: this.state.selectIndex,
         task_title: this.uploadValue.post_title,
         task_description: this.uploadValue.description,
@@ -233,7 +234,14 @@ export default class Post extends React.Component {
   componentDidMount() {
     this.requests.fetchDatas();
     this.requests.fetchSettingInfos();
-    this.props.updateHeader(2);
+    setTimeout(() => {
+      if (reactLocalStorage.get("sign_state") === "false") {
+        this.props.updateHeader(1);
+      } else {
+        this.props.updateHeader(2);
+      }
+    }, 100);
+
   }
   
   update = () => {
