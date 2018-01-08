@@ -862,7 +862,7 @@ export default class Signup extends React.Component {
       
       return (
         <div className="row basicontainer">
-          <div className="col-sm-5">
+          <div className="col-sm-5 basicontainer111">
             <Swiper {...params}>
               <div className="image1" />
               <div className="image2" />

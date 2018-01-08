@@ -246,7 +246,7 @@ export default class Signin extends React.Component {
         {/*</div>*/}
         
         <div className="row basicontainer">
-          <div className="col-sm-5 basicontainer1">
+          <div className="col-sm-5 basicontainer1 basiccontainer111">
             <Swiper
               {...this.params}
             >
