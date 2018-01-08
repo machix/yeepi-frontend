@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './styles.css';
 import moment from 'moment';
 import {reactLocalStorage} from "reactjs-localstorage";
+import {eng, fre} from "../../lang";
 import ReactList from 'react-list';
 import config from "../../config";
 import Promise from 'promise';
@@ -18,6 +19,7 @@ export default class TasksCancelled extends Component {
     super();
     this.state = {
       tasks_datas: [],
+      lang: eng,
     };
     this.requests = {
       fetchTasksFilteredByCancelled: () =>
@@ -36,7 +38,7 @@ export default class TasksCancelled extends Component {
   }
   
   renderItem = (index, key) => {
-    const { tasks_datas } = this.state;
+    const { tasks_datas, lang } = this.state;
     let today = moment();
     let deadline = moment(tasks_datas[index].task_postline);
     let duration1 = moment.duration(today.diff(deadline));
@@ -46,7 +48,7 @@ export default class TasksCancelled extends Component {
     let duration = duration1.asMinutes().toFixed(0); // as minute
     let duration_subfix = " Minutes Ago";
     if (duration === '0' || duration === 0) {
-      duration = "Just Before";
+      duration = lang.just_before;
       duration_subfix = "";
     } else {
       if (duration > 59) { // as hour
@@ -88,22 +90,22 @@ export default class TasksCancelled extends Component {
               { tasks_datas[index].task_description }
             </div>
             <div className="task_title3">
-              POSTED:
+              {lang.posted_uppercase}:
             </div>
             <div className="task_title4">
               { duration }{ duration_subfix }
             </div>
             <div className="task_title5">
-              DEADLINE:
+              {lang.deadline}:
             </div>
             <div className="task_title6">
               { dead }
             </div>
             <div className="task_title5">
-              STATUS:
+              {lang.status_uppercase}:
             </div>
             <div className="task_title6 redtext">
-              Task Cancelled
+              {lang.tasks_cancelled}
             </div>
           </div>
           <div className="tasklist_item_budgetcontainer">
@@ -111,7 +113,7 @@ export default class TasksCancelled extends Component {
               ${tasks_datas[index].task_budget}
             </div>
             <div className="offercount2">
-              Budget Amount
+              {lang.budget_amount}
             </div>
           </div>
           <div className="taskposted_bar"/>
@@ -120,7 +122,7 @@ export default class TasksCancelled extends Component {
               {tasks_datas[index].offerarray.length}
             </div>
             <div className="offercount2">
-              All Offers
+              {lang.all_offers}
             </div>
           </div>
         </div>
@@ -130,7 +132,7 @@ export default class TasksCancelled extends Component {
   };
   
   render() {
-    const { tasks_datas } = this.state;
+    const { tasks_datas, lang } = this.state;
     return (
       <div>
         {
@@ -138,22 +140,22 @@ export default class TasksCancelled extends Component {
             <div>
               <div className="no_tasks_img"/>
               <div className="no_tasks_title">
-                Great Going!
+                {lang.great_going}!
               </div>
               <div className="no_tasks_subtitle">
-                You are doing great! Great Record of not cancelling any Task.  Continue the winning streak and let us know how to improve via the Contact us.
+                {lang.great_going_description}
               </div>
               <div className="no_tasks_button_container">
                 <Link to="/post">
                   <div className="no_tasks_button">
-                    Post a Task
+                    {lang.post_a_task}
                   </div>
                 </Link>
               </div>
             </div>
             :
             <div>
-              <div className="totaltext">Total {tasks_datas.length} tasks are active</div>
+              <div className="totaltext">{lang.total1} {tasks_datas.length} {lang.tasks_are_active}</div>
               <div className="react_list_container1_state1">
                 <ReactList
                   itemRenderer={this.renderItem}

@@ -7,6 +7,7 @@ import TasksAssigned from './TasksAssigned';
 import TasksCancelled from './TasksCancelled';
 import TasksCompleted from './TasksCompleted';
 import MyOffers from './MyOffers';
+import {eng, fre} from "../../lang";
 
 export default class MyTasks extends React.Component {
   
@@ -14,6 +15,7 @@ export default class MyTasks extends React.Component {
     super();
     this.state = {
       pageState: 0,
+      lang: eng,
     };
   }
   
@@ -22,7 +24,7 @@ export default class MyTasks extends React.Component {
   }
   
   render() {
-    const { pageState } = this.state;
+    const { pageState, lang } = this.state;
     let render_page = [];
     if (pageState === 0) {
       render_page.push(
@@ -49,11 +51,11 @@ export default class MyTasks extends React.Component {
       <div>
         <div className="col-sm-12 centerContent">
           <div className="mytasks_top_selector">
-            <div className={pageState === 0 ? "mytasks_top_selector1 borderbottom" : "mytasks_top_selector1"} onClick={() => { this.setState({ pageState: 0 }) }}>Tasks Posted</div>
-            <div className={pageState === 1 ? "mytasks_top_selector1 borderbottom" : "mytasks_top_selector1"} onClick={() => { this.setState({ pageState: 1 }) }}>My Offers</div>
-            <div className={pageState === 2 ? "mytasks_top_selector1 borderbottom" : "mytasks_top_selector1"} onClick={() => { this.setState({ pageState: 2 }) }}>Tasks Assigned</div>
-            <div className={pageState === 3 ? "mytasks_top_selector1 borderbottom" : "mytasks_top_selector1"} onClick={() => { this.setState({ pageState: 3 }) }}>Tasks Cancelled</div>
-            <div className={pageState === 4 ? "mytasks_top_selector1 borderbottom" : "mytasks_top_selector1"} onClick={() => { this.setState({ pageState: 4 }) }}>Tasks Completed</div>
+            <div className={pageState === 0 ? "mytasks_top_selector1 borderbottom" : "mytasks_top_selector1"} onClick={() => { this.setState({ pageState: 0 }) }}>{ lang.tasks_posted }</div>
+            <div className={pageState === 1 ? "mytasks_top_selector1 borderbottom" : "mytasks_top_selector1"} onClick={() => { this.setState({ pageState: 1 }) }}>{ lang.my_offers }</div>
+            <div className={pageState === 2 ? "mytasks_top_selector1 borderbottom" : "mytasks_top_selector1"} onClick={() => { this.setState({ pageState: 2 }) }}>{ lang.tasks_assigned }</div>
+            <div className={pageState === 3 ? "mytasks_top_selector1 borderbottom" : "mytasks_top_selector1"} onClick={() => { this.setState({ pageState: 3 }) }}>{ lang.tasks_cancelled }</div>
+            <div className={pageState === 4 ? "mytasks_top_selector1 borderbottom" : "mytasks_top_selector1"} onClick={() => { this.setState({ pageState: 4 }) }}>{ lang.tasks_completed }</div>
           </div>
           { render_page }
         </div>

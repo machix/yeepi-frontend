@@ -157,7 +157,7 @@ export default class ExploreTasks extends React.Component {
   };
   
   renderItem = (index, key) => {
-    const { tasks_datas } = this.state;
+    const { tasks_datas, lang } = this.state;
     let today = moment();
     let deadline = moment(tasks_datas[index].task_postline);
     let duration1 = moment.duration(today.diff(deadline));
@@ -226,13 +226,13 @@ export default class ExploreTasks extends React.Component {
               { tasks_datas[index].task_description }
             </div>
             <div className="task_title3">
-              POSTED:
+              {lang.posted_uppercase}:
             </div>
             <div className="task_title4">
               { duration }{ duration_subfix }
             </div>
             <div className="task_title5">
-              DEADLINE:
+              {lang.deadline}:
             </div>
             <div className="task_title6">
               { dead }
@@ -243,7 +243,7 @@ export default class ExploreTasks extends React.Component {
               ${tasks_datas[index].task_budget}
             </div>
             <div className="offercount2">
-              Budget Amount
+              {lang.budget_amount}
             </div>
           </div>
           <div className="tasklist_item_offerscontainer">
@@ -251,33 +251,33 @@ export default class ExploreTasks extends React.Component {
               {tasks_datas[index].offerarray.length}
             </div>
             <div className="offercount2">
-              All Offers
+              {lang.all_offers}
             </div>
           </div>
           <div className="tasklist_item_buttoncontainer">
             {
               (isPoster > 0) ?
                 <div className="buttoncontainer1">
-                  {isPoster === 1 ? "Posted" : "Assigned"}
+                  {isPoster === 1 ? lang.posted_normalcase : lang.assigned}
                 </div>
                 :
                 offer_state === 0 ?
                   <div className="buttoncontainer" onClick={() => { this.onMakeOffer(index, duration + " " + duration_subfix, offer_state, prev_offer); }}>
-                    Make Offer
+                    {lang.make_offer}
                   </div>
                   :
                   offer_state === 1 ?
                     <div className="buttoncontainer" onClick={() => { this.onMakeOffer(index, duration + " " + duration_subfix, offer_state, prev_offer); }}>
-                      Update Offer
+                      {lang.update_offer}
                     </div>
                     :
                     offer_state === 2 ?
                       <div className="buttoncontainer grayback1">
-                        Assigned
+                        {lang.assigned}
                       </div>
                       :
                       <div className="buttoncontainer" onClick={() => { this.onMakeOffer(index, duration + " " + duration_subfix, offer_state, prev_offer); }}>
-                        Completed
+                        {lang.completed}
                       </div>
             }
             
@@ -313,7 +313,7 @@ export default class ExploreTasks extends React.Component {
   };
   
   renderItem_mapview = (index, key) => {
-    const { tasks_datas } = this.state;
+    const { tasks_datas, lang } = this.state;
     let today = moment();
     let deadline = moment(tasks_datas[index].task_postline);
     let duration1 = moment.duration(today.diff(deadline));
@@ -323,7 +323,7 @@ export default class ExploreTasks extends React.Component {
     let duration = duration1.asMinutes().toFixed(0); // as minute
     let duration_subfix = duration === '1' ? " Minute Ago" : " Minutes Ago";
     if (duration === '0' || duration === 0) {
-      duration = "Just Before";
+      duration = lang.just_before;
       duration_subfix = "";
     } else {
       if (duration > 59) { // as hour
@@ -390,26 +390,26 @@ export default class ExploreTasks extends React.Component {
               {
                 (isPoster > 0) ?
                   <div className="task_title_btn1">
-                    {isPoster === 1 ? "Posted" : "Assigned"}
+                    {isPoster === 1 ? lang.posted_normalcase : lang.assigned}
                   </div>
                   :
                   offer_state === 0 ?
                     <div className="task_title_btn" onClick={() => { this.onMakeOffer(index, duration + " " + duration_subfix, offer_state, prev_offer); }}>
-                      Make Offer
+                      {lang.make_offer}
                     </div>
                     :
                     offer_state === 1 ?
                       <div className="task_title_btn" onClick={() => { this.onMakeOffer(index, duration + " " + duration_subfix, offer_state, prev_offer); }}>
-                        Update Offer
+                        {lang.update_offer}
                       </div>
                       :
                       offer_state === 2 ?
                         <div className="task_title_btn grayback1">
-                          Assigned
+                          {lang.assigned}
                         </div>
                         :
                         <div className="task_title_btn" onClick={() => { this.onMakeOffer(index, duration + " " + duration_subfix, offer_state, prev_offer); }}>
-                          Completed
+                          {lang.completed}
                         </div>
               }
               
@@ -488,7 +488,7 @@ export default class ExploreTasks extends React.Component {
     let duration = duration1.asMinutes().toFixed(0); // as minute
     let duration_subfix = duration === '1' ? " Minute Ago" : " Minutes Ago";
     if (duration === '0' || duration === 0) {
-      duration = "Just Before";
+      duration = this.state.lang.just_before;
       duration_subfix = "";
     } else {
       if (duration > 59) { // as hour
@@ -526,9 +526,9 @@ export default class ExploreTasks extends React.Component {
     }
     
     if (offer_state === 0) {
-      return "Make Offer"
+      return this.state.lang.make_offer;
     } else {
-      return "Update Offer"
+      return this.state.lang.update_offer;
     }
   };
   

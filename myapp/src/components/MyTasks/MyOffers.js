@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './styles.css';
 import {reactLocalStorage} from "reactjs-localstorage";
 import { Redirect } from 'react-router';
+import {eng, fre} from "../../lang";
 import moment from 'moment';
 import ReactList from 'react-list';
 import config from "../../config";
@@ -20,6 +21,7 @@ export default class MyOffers extends Component {
     this.state = {
       tasks_datas: [],
       redirect: 0,
+      lang: eng,
     };
     this.requests = {
       fetchTasksFilteredByPost: () =>
@@ -44,7 +46,7 @@ export default class MyOffers extends Component {
   };
   
   renderItem = (index, key) => {
-    const { tasks_datas } = this.state;
+    const { tasks_datas, lang } = this.state;
     let today = moment();
     let deadline = moment(tasks_datas[index].task_postline);
     let duration1 = moment.duration(today.diff(deadline));
@@ -102,16 +104,16 @@ export default class MyOffers extends Component {
               { duration }{ duration_subfix }
             </div>
             <div className="task_title5">
-              DEADLINE:
+              {lang.deadline}:
             </div>
             <div className="task_title6">
               { dead }
             </div>
             <div className="task_title5">
-              STATUS:
+              { lang.status_uppercase }:
             </div>
             <div className="task_title6">
-              { tasks_datas[index].task_state === 1 ? "Posted" : tasks_datas[index].task_state === 2 ? "Assigned" : "Completed" }
+              { tasks_datas[index].task_state === 1 ? lang.posted_normalcase : tasks_datas[index].task_state === 2 ? lang.assigned : lang.completed }
               
             </div>
           </div>
@@ -120,7 +122,7 @@ export default class MyOffers extends Component {
               ${tasks_datas[index].task_budget}
             </div>
             <div className="offercount2">
-              Budget Amount
+              { lang.budget_amount }
             </div>
           </div>
           <div className="taskposted_bar"/>
@@ -129,7 +131,7 @@ export default class MyOffers extends Component {
               ${ prev_offer }
             </div>
             <div className="offercount2">
-              Your Offer
+              { lang.your_offer }
             </div>
           </div>
         </div>
@@ -139,7 +141,7 @@ export default class MyOffers extends Component {
   };
   
   render() {
-    const { tasks_datas, redirect } = this.state;
+    const { tasks_datas, redirect, lang } = this.state;
     if (redirect === 1223) {
       return <Redirect push to="/tasksummary"/>;
     }
@@ -150,22 +152,22 @@ export default class MyOffers extends Component {
             <div>
               <div className="no_tasks_img"/>
               <div className="no_tasks_title">
-                No Offers Made!
+                {lang.no_offers_made}!
               </div>
               <div className="no_tasks_subtitle">
-                Your journey started just now! Continue with Yeepi by Exploring hundereds of  tasks and earn money by completing the task.
+                { lang.no_offer_description }
               </div>
               <div className="no_tasks_button_container">
                 <Link to="/exploretasks">
                   <div className="no_tasks_button">
-                    Explore Tasks
+                    { lang.explore_tasks }
                   </div>
                 </Link>
               </div>
             </div>
             :
             <div>
-              <div className="totaltext">Total {tasks_datas.length} offers are active</div>
+              <div className="totaltext">{lang.total1} {tasks_datas.length} {lang.offers_are_active}</div>
               <div className="react_list_container1_state1">
                 <ReactList
                   itemRenderer={this.renderItem}

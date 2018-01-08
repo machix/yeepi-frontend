@@ -5,6 +5,7 @@ import './styles.css';
 import moment from 'moment';
 import {reactLocalStorage} from "reactjs-localstorage";
 import { Redirect } from 'react-router';
+import {eng, fre} from "../../lang";
 import ReactList from 'react-list';
 import config from "../../config";
 import Promise from 'promise';
@@ -20,6 +21,7 @@ export default class TasksAssigned extends Component {
     this.state = {
       tasks_datas: [],
       redirect: 0,
+      lang: eng,
     };
     this.requests = {
       fetchTasksFilteredByAssigned: () =>
@@ -44,7 +46,7 @@ export default class TasksAssigned extends Component {
   };
   
   renderItem = (index, key) => {
-    const { tasks_datas } = this.state;
+    const { tasks_datas, lang } = this.state;
     let today = moment();
     let deadline = moment(tasks_datas[index].task_postline);
     let duration1 = moment.duration(today.diff(deadline));
@@ -54,7 +56,7 @@ export default class TasksAssigned extends Component {
     let duration = duration1.asMinutes().toFixed(0); // as minute
     let duration_subfix = " Minutes Ago";
     if (duration === '0' || duration === 0) {
-      duration = "Just Before";
+      duration = lang.just_before;
       duration_subfix = "";
     } else {
       if (duration > 59) { // as hour
@@ -73,7 +75,6 @@ export default class TasksAssigned extends Component {
       if (tasks_datas[index].offerarray[i].user_token === reactLocalStorage.get('loggedToken')) {
         prev_offer = tasks_datas[index].offerarray[i].offer_amount;
         offer_state = 1;
-        break;
       }
     }
     
@@ -96,22 +97,22 @@ export default class TasksAssigned extends Component {
               { tasks_datas[index].task_description }
             </div>
             <div className="task_title3">
-              POSTED:
+              {lang.posted_uppercase}:
             </div>
             <div className="task_title4">
               { duration }{ duration_subfix }
             </div>
             <div className="task_title5">
-              DEADLINE:
+              {lang.deadline}:
             </div>
             <div className="task_title6">
               { dead }
             </div>
             <div className="task_title5">
-              STATUS:
+              {lang.status_uppercase}:
             </div>
             <div className="task_title6">
-              Assigned To You
+              {lang.assigned_to_you}
             </div>
           </div>
           <div className="tasklist_item_budgetcontainer">
@@ -119,7 +120,7 @@ export default class TasksAssigned extends Component {
               ${tasks_datas[index].task_budget}
             </div>
             <div className="offercount2">
-              Budget Amount
+              {lang.budget_amount}
             </div>
           </div>
           <div className="taskposted_bar"/>
@@ -128,7 +129,7 @@ export default class TasksAssigned extends Component {
               {tasks_datas[index].offerarray.length}
             </div>
             <div className="offercount2">
-              All Offers
+              {lang.all_offers}
             </div>
           </div>
         </div>
@@ -138,7 +139,7 @@ export default class TasksAssigned extends Component {
   };
   
   render() {
-    const { tasks_datas, redirect } = this.state;
+    const { tasks_datas, redirect, lang } = this.state;
     if (redirect === 1223) {
       return <Redirect push to="/tasksummary"/>;
     }
@@ -149,22 +150,22 @@ export default class TasksAssigned extends Component {
             <div>
               <div className="no_tasks_img"/>
               <div className="no_tasks_title">
-                No Tasks Are Assigned!
+                {lang.no_tasks_are_assigned}!
               </div>
               <div className="no_tasks_subtitle">
-                Your journey started just now! Continue with Yeepi by posting a task and get as many offers from taskers aruOnd you to pick from to and assign the Task.
+                {lang.no_assigned_description}
               </div>
               <div className="no_tasks_button_container">
                 <Link to="/post">
                   <div className="no_tasks_button">
-                    Post a Task
+                    {lang.post_a_task}
                   </div>
                 </Link>
               </div>
             </div>
             :
             <div>
-              <div className="totaltext">Total {tasks_datas.length} tasks are active</div>
+              <div className="totaltext">{lang.total1} {tasks_datas.length} {lang.tasks_are_active}</div>
               <div className="react_list_container1_state1">
                 <ReactList
                   itemRenderer={this.renderItem}
