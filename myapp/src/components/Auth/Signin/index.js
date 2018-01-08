@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import Swiper from 'react-id-swiper';
 import "./styles.css";
 import "./../../../../public/styles.css";
+import { eng, fre } from '../../../lang';
 import config from './../../../config';
 import {reactLocalStorage} from 'reactjs-localstorage';
 import { Link } from 'react-router-dom';
@@ -52,6 +53,7 @@ export default class Signin extends React.Component {
       loginState: 0, // 0: active, 1: inactive, 2: suspended
       showAlert: false,
       alertText: "",
+      lang: eng,
     };
     
     this._code = "";
@@ -230,7 +232,7 @@ export default class Signin extends React.Component {
   };
   
   render() {
-    const { pageIndex, sendType, redirect, loginState, showAlert, alertText } = this.state;
+    const { pageIndex, sendType, redirect, loginState, showAlert, alertText, lang } = this.state;
     if (redirect === 1) {
       return <Redirect push to="/signup/stripe" />;
     } else if (redirect === 2) {
@@ -262,10 +264,10 @@ export default class Signin extends React.Component {
                 <div className="signinContent">
                   <div className="leftSideContainer">
             
-                    <h4 className="title1">Login to your account</h4>
+                    <h4 className="title1">{lang.login_to_your_account}</h4>
             
                     <form>
-                      <div className="title1">Email Address</div>
+                      <div className="title1">{lang.email_address}</div>
                       <form onSubmit={this.handleSubmit}>
                         <input
                           type="text"
@@ -277,7 +279,7 @@ export default class Signin extends React.Component {
                     </form>
             
                     <form>
-                      <div className="title1">Password</div>
+                      <div className="title1">{lang.password}</div>
                       <form onSubmit={this.handleSubmit}>
                         <input
                           type="password"
@@ -288,7 +290,7 @@ export default class Signin extends React.Component {
                       </form>
                     </form>
             
-                    <h6 className="forgot" onClick={() => { this.onForgot(); }}>Forgot password?</h6>
+                    <h6 className="forgot" onClick={() => { this.onForgot(); }}>{lang.forgot_password}?</h6>
           
                   </div>
                 </div>
@@ -297,7 +299,7 @@ export default class Signin extends React.Component {
                   loginState === 1 &&
                   <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
                     <div className="suspendState">
-                      Your account is inactive.
+                      {lang.your_account_is_inactive}
                     </div>
                   </Animated>
                 }
@@ -305,13 +307,13 @@ export default class Signin extends React.Component {
                   loginState === 2 &&
                   <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
                     <div className="suspendState">
-                      Your account is suspended.
+                      {lang.your_account_is_suspended}
                     </div>
                   </Animated>
                 }
         
                 <div className="loginViewContainer">
-                  <div className="loginBtn" onClick={() => {this.onLogin();}}>Login</div>
+                  <div className="loginBtn" onClick={() => {this.onLogin();}}>{lang.login}</div>
                 </div>
         
                 <div className="loginViewContainer">
@@ -322,7 +324,7 @@ export default class Signin extends React.Component {
                   <div className="fb">
                   </div>
                   <div className="fbText">
-                    Login with facebook
+                    {lang.login_with_facebook}
                   </div>
                 </div>
       
@@ -335,18 +337,18 @@ export default class Signin extends React.Component {
                   <div className="signinContent">
                     <div className="leftSideContainer">
               
-                      <h4 className="title1">Forgot Password?</h4>
+                      <h4 className="title1">{lang.forgot_password}?</h4>
               
                       <form>
                         <div className="title2" />
                       </form>
               
                       <form>
-                        <div className="title2">Enter your email or mobile number.</div>
+                        <div className="title2">{lang.enter_your_email_or_mobile}</div>
                       </form>
               
                       <form>
-                        <div className="title2">We will send instructions to reset your password in the form of a secret code.password.</div>
+                        <div className="title2">{lang.we_will_send_instructions_to_reset__}</div>
                       </form>
               
                       <form>
@@ -355,12 +357,12 @@ export default class Signin extends React.Component {
               
                       <form>
                         <label className="radio-inline">
-                          <input type="radio" name="optradio" checked={sendType === 0} onClick={() => {this.onUpdate(0);}} /> Phone Number
+                          <input type="radio" name="optradio" checked={sendType === 0} onClick={() => {this.onUpdate(0);}} /> {lang.phonenumber}
                         </label>
                         <label className="radio-inline">
                         </label>
                         <label className="radio-inline">
-                          <input type="radio" name="optradio" checked={sendType === 1} onClick={() => {this.onUpdate(1);}} /> Email
+                          <input type="radio" name="optradio" checked={sendType === 1} onClick={() => {this.onUpdate(1);}} /> {lang.email}
                         </label>
                       </form>
               
@@ -369,7 +371,7 @@ export default class Signin extends React.Component {
                       </form>
               
                       <form>
-                        <div className="title1">{ sendType === 0 ? "ENTER YOUR PHONE NUMBER" : "ENTER YOUR EMAIL" }</div>
+                        <div className="title1">{ sendType === 0 ? lang.enter_your_phone_number : lang.enter_your_email }</div>
                         <form onSubmit={this.handleSubmit}>
                           <input
                             type="text"
@@ -385,7 +387,7 @@ export default class Signin extends React.Component {
                   </div>
           
                   <div className="loginViewContainer">
-                    <div className="sendCodeBtn" onClick={() => {this.onSendMe();}}>Send me the Code</div>
+                    <div className="sendCodeBtn" onClick={() => {this.onSendMe();}}>{lang.send_me_the_code}</div>
                   </div>
         
                 </div>
@@ -398,14 +400,14 @@ export default class Signin extends React.Component {
                     <div className="signinContent">
                       <div className="leftSideContainer">
                 
-                        <h4 className="title1">Forgot Password?</h4>
+                        <h4 className="title1">{lang.forgot_password}?</h4>
                 
                         <form>
                           <div className="title2" />
                         </form>
                 
                         <form>
-                          <div className="title2">Enter the secret code sent to your phone or email below and reset your password</div>
+                          <div className="title2">{lang.enter_the_secret_code_sent__}</div>
                         </form>
                 
                         <form>
@@ -413,7 +415,7 @@ export default class Signin extends React.Component {
                         </form>
                 
                         <form>
-                          <div className="title1">ENTER YOUR SECRET CODE</div>
+                          <div className="title1">{lang.enter_secret_code_short_string}</div>
                           <form onSubmit={this.handleSubmit}>
                             <input
                               type="text"
@@ -429,7 +431,7 @@ export default class Signin extends React.Component {
                     </div>
             
                     <div className="loginViewContainer">
-                      <div className="sendCodeBtn" onClick={() => {this.onVerify();}}>Verify</div>
+                      <div className="sendCodeBtn" onClick={() => {this.onVerify();}}>{lang.verify}</div>
                     </div>
           
                   </div>
@@ -440,7 +442,7 @@ export default class Signin extends React.Component {
                     <div className="signinContent">
                       <div className="leftSideContainer">
                 
-                        <h4 className="title1">Reset your password</h4>
+                        <h4 className="title1">{lang.reset_your_password}</h4>
                 
                         {/*<form>*/}
                         {/*<div className="title1">ENTER CURRENT PASSWORD</div>*/}
@@ -455,7 +457,7 @@ export default class Signin extends React.Component {
                         {/*</form>*/}
                 
                         <form>
-                          <div className="title1">ENTER NEW PASSWORD</div>
+                          <div className="title1">{lang.enter_new_password}</div>
                           <form onSubmit={this.handleSubmit}>
                             <input
                               type="password"
@@ -467,7 +469,7 @@ export default class Signin extends React.Component {
                         </form>
                 
                         <form>
-                          <div className="title1">CONFIRM PASSWORD</div>
+                          <div className="title1">{lang.confirm_password}</div>
                           <form onSubmit={this.handleSubmit}>
                             <input
                               type="password"
@@ -482,18 +484,18 @@ export default class Signin extends React.Component {
                     </div>
             
                     <div className="loginViewContainer">
-                      <div className="sendCodeBtn" onClick={() => {this.onReset();}}>Reset</div>
+                      <div className="sendCodeBtn" onClick={() => {this.onReset();}}>{lang.reset}</div>
                     </div>
           
                   </div>
           }
           <div className="switchContainer">
             <div className="donhaveaccount">
-              Don't have an account?
+              {lang.don_have_an_account}
             </div>
             <Link to="/signup">
               <div className="signupButton">
-                Sign Up
+                {lang.sign_up}
               </div>
             </Link>
           </div>
@@ -503,7 +505,7 @@ export default class Signin extends React.Component {
           <Modal show={showAlert} onHide={this.closeAlert}>
             <Modal.Header closeButton>
               <Modal.Title>
-                <h5>Alert</h5>
+                <h5>{lang.alert}</h5>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -512,7 +514,7 @@ export default class Signin extends React.Component {
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.closeAlert}>Close</Button>
+              <Button onClick={this.closeAlert}>{lang.close}</Button>
             </Modal.Footer>
           </Modal>
         </div>

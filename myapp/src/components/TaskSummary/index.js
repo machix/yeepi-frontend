@@ -57,6 +57,7 @@ export default class TaskSummary extends React.Component {
       modal_duration: '',
       offer_modal_type: 0,
       prev_offer_amount: 0,
+      lang: eng,
     };
     this.requests = {
       fetchDatas: () =>
@@ -247,7 +248,7 @@ export default class TaskSummary extends React.Component {
   };
   
   renderItem = (index, key) => {
-    const { task, offer_users } = this.state;
+    const { task, offer_users, lang } = this.state;
     
     
     let offer_amount = "";
@@ -271,7 +272,7 @@ export default class TaskSummary extends React.Component {
     let duration = duration1.asMinutes().toFixed(0); // as minute
     let duration_subfix = duration === '1' ? " Minute Ago" : " Minutes Ago";
     if (duration === '0' || duration === 0) {
-      duration = "Just Before";
+      duration = lang.just_before;
       duration_subfix = "";
     } else {
       if (duration > 59) { // as hour
@@ -304,7 +305,7 @@ export default class TaskSummary extends React.Component {
               <div className="offerlist_star"/>
               <div className="offerlist_section1_mediumside_txt1 greentext margin-left-5px">4.5/5</div>
             </div>
-            <div className="offerlist_section1_mediumside_txt1">Task Completion Rate: 4.5/5</div>
+            <div className="offerlist_section1_mediumside_txt1">{lang.task_completion_rate}: 4.5/5</div>
           </div>
           <div className="offerlist_section1_rightside">
             {
@@ -312,12 +313,12 @@ export default class TaskSummary extends React.Component {
                 task.task_state === 2 ?
                   <div className="offer_message_disabled">
                     <div className="msgimg_white"/>
-                    <div className="msgtxt whitetext">Message</div>
+                    <div className="msgtxt whitetext">{lang.message}</div>
                   </div>
                   :
                   <div className="offer_message" onClick={() => { this.createMessageLink(offer_users[index]); }}>
                     <div className="msgimg"/>
-                    <div className="msgtxt">Message</div>
+                    <div className="msgtxt">{lang.message}</div>
                   </div>
                 :
                 null
@@ -325,7 +326,7 @@ export default class TaskSummary extends React.Component {
           </div>
         </div>
         <div className="offerlist_section2">
-          <div className="offerlist_section2_txt">Hi! I'm available.</div>
+          <div className="offerlist_section2_txt">{lang.hi_i_am_available}</div>
           <div className="offerlist_section2_flex">
             <div className="offerlist_clock"/>
             <div className="offerlist_section2_txt1">{ dur }</div>
@@ -333,12 +334,12 @@ export default class TaskSummary extends React.Component {
           <div className="offerlist_section2_txt">{ offer_desc }</div>
           <div className="offerlist_section2_flex">
             <div className="offerlist_section2_flex_leftside">
-              <div className="offerlist_section2_txt offeredamount">Offered Amount: ${offer_amount}</div>
+              <div className="offerlist_section2_txt offeredamount">{lang.offered_amount}: ${offer_amount}</div>
             </div>
             <div className="offerlist_section2_flex_leftside">
               {
                 this.state.isPoster === '1' ?
-                  task.task_state === 2 ? <div className="offerlist_acceptbtn_disabled">Accept Offer</div> : <div className="offerlist_acceptbtn" onClick={() => { this.acceptOffer(offer_username, offer_amount, offer_desc, dur, offer_users[index].imagePreviewUrl, offer_usertoken) }}>Accept Offer</div>
+                  task.task_state === 2 ? <div className="offerlist_acceptbtn_disabled">{lang.accept_offer}</div> : <div className="offerlist_acceptbtn" onClick={() => { this.acceptOffer(offer_username, offer_amount, offer_desc, dur, offer_users[index].imagePreviewUrl, offer_usertoken) }}>{lang.accept_offer}</div>
                   :
                   null
               }
@@ -452,6 +453,7 @@ export default class TaskSummary extends React.Component {
       modal_duration,
       offer_modal_type,
       prev_offer_amount,
+      lang,
     } = this.state;
     if (redirect === 1221) {
       return <Redirect push to="/messages"/>;
@@ -471,7 +473,7 @@ export default class TaskSummary extends React.Component {
     let duration = duration1.asMinutes().toFixed(0); // as minute
     let duration_subfix = duration === '1' ? " Minute Ago" : " Minutes Ago";
     if (duration === '0' || duration === 0) {
-      duration = "Just Before";
+      duration = lang.just_before;
       duration_subfix = "";
     } else {
       if (duration > 59) { // as hour
@@ -628,7 +630,7 @@ export default class TaskSummary extends React.Component {
               <div className="cleaningoptions1_container_flex">
                 <div className="summary_cleaning_option_item_img1_checked"/>
               </div>
-              <div className="centertext">Laundry</div>
+              <div className="centertext">{lang.laundry}</div>
             </div>
           );
         }
@@ -638,7 +640,7 @@ export default class TaskSummary extends React.Component {
               <div className="cleaningoptions1_container_flex">
                 <div className="summary_cleaning_option_item_img2_checked"/>
               </div>
-              <div className="centertext">Oven</div>
+              <div className="centertext">{lang.oven}</div>
             </div>
           );
         }
@@ -648,7 +650,7 @@ export default class TaskSummary extends React.Component {
               <div className="cleaningoptions1_container_flex">
                 <div className="summary_cleaning_option_item_img3_checked"/>
               </div>
-              <div className="centertext">Cabinet</div>
+              <div className="centertext">{lang.cabinet}</div>
             </div>
           );
         }
@@ -658,7 +660,7 @@ export default class TaskSummary extends React.Component {
               <div className="cleaningoptions1_container_flex">
                 <div className="summary_cleaning_option_item_img4_checked"/>
               </div>
-              <div className="centertext">Carpet</div>
+              <div className="centertext">{lang.carpet}</div>
             </div>
           );
         }
@@ -668,7 +670,7 @@ export default class TaskSummary extends React.Component {
               <div className="cleaningoptions1_container_flex">
                 <div className="summary_cleaning_option_item_img5_checked"/>
               </div>
-              <div className="centertext">Windows</div>
+              <div className="centertext">{lang.windows}</div>
             </div>
           );
         }
@@ -727,7 +729,7 @@ export default class TaskSummary extends React.Component {
                       {
                         task.user_avatar === '' ? <div className="avatarimage1"/> : <img src={task.user_avatar} className="avatarimage2"/>
                       }
-                      <div className="postername">{task.user_postername} { isPoster === '1' ? "( You )" : "( Poster )"}</div>
+                      <div className="postername">{task.user_postername} { isPoster === '1' ? "( " + lang.you1 + " )" : "( " + lang.poster + " )"}</div>
                     </div>
                   </div>
   
@@ -756,7 +758,7 @@ export default class TaskSummary extends React.Component {
                     </div>
         
                     <div className="offercount21 floatright centertext">
-                      Budget
+                      { lang.budget }
                     </div>
                   </div>
   
@@ -765,7 +767,7 @@ export default class TaskSummary extends React.Component {
                       <div className="summary-dlg-top1-budgetcontainer">
                         <div className="summary-tasker-messagebtn" onClick={() => { this.createMessageLink_Tasker(task.user_posteremail) }}>
                           <div className="msgimg"/>
-                          <div className="msgtxt">Message</div>
+                          <div className="msgtxt">{lang.message}</div>
                         </div>
                       </div>
                       :
@@ -774,7 +776,7 @@ export default class TaskSummary extends React.Component {
                           <div className="summary-dlg-top1-budgetcontainer">
                             <div className="summary-tasker-messagebtn darkgrayback">
                               <div className="msgimg"/>
-                              <div className="msgtxt darkgraytxt">Message</div>
+                              <div className="msgtxt darkgraytxt">{lang.message}</div>
                             </div>
                           </div>
                         :
@@ -782,7 +784,7 @@ export default class TaskSummary extends React.Component {
                           <div className="summary-dlg-top1-budgetcontainer">
                             <div className="summary-tasker-messagebtn" onClick={() => { this.createMessageLink_Tasker(task.user_posteremail) }}>
                               <div className="msgimg"/>
-                              <div className="msgtxt">Message</div>
+                              <div className="msgtxt">{lang.message}</div>
                             </div>
                           </div>
                   }
@@ -791,7 +793,7 @@ export default class TaskSummary extends React.Component {
                     to_me ?
                       <div className="summary-dlg-top1-budgetcontainer" onClick={this.startTask}>
                         {
-                          task.task_start && <div className="summary-taskstarted-txt greentext">Task Completed ?</div>
+                          task.task_start && <div className="summary-taskstarted-txt greentext">{lang.task_completed} ?</div>
                         }
                         <div className="summary-tasker-cancelbtn">
                           { task.task_start ? "Request Payment" : "Start Task" }
@@ -809,7 +811,7 @@ export default class TaskSummary extends React.Component {
                         isPoster === '0' &&
                           <div className="summary-dlg-top1-budgetcontainer">
                             <div className="summary-tasker-cancelbtn" onClick={() => {this.showNewOfferModal(duration + " " + duration_subfix, offer_state, prev_offer); }}>
-                              { offer_state === 1 ? "Modify the Offer" : "Make the Offer" }
+                              { offer_state === 1 ? lang.modify_the_offer : lang.make_the_offer }
                             </div>
                           </div>
                   }
@@ -820,7 +822,7 @@ export default class TaskSummary extends React.Component {
                   <div className="summary_info_sub1">
                     <div className="summary-dlg-top1-desc1">
                       <div className="clockimage"/>
-                      <div className="postedtext">POSTED : </div>
+                      <div className="postedtext">{lang.posted_uppercase} : </div>
                       <div className="difftext">{ dur }</div>
                     </div>
                   </div>
@@ -830,7 +832,7 @@ export default class TaskSummary extends React.Component {
                   <div className="summary_info_sub2">
                     <div className="summary-dlg-top1-desc1">
                       <div className="summary_stopwatch"/>
-                      <div className="postedtext">DEADLINE : </div>
+                      <div className="postedtext">{lang.deadline} : </div>
                       <div className="difftext">{ dead }</div>
                     </div>
                   </div>
@@ -839,8 +841,8 @@ export default class TaskSummary extends React.Component {
                   
                   <div className="summary_info_sub3">
                     <div className="summary-dlg-top1-desc1">
-                      <div className="summary-status1">STATUS : </div>
-                      <div className="summary-status2">Open</div>
+                      <div className="summary-status1">{lang.status_uppercase} : </div>
+                      <div className="summary-status2">{lang.open1}</div>
                     </div>
                   </div>
   
@@ -849,15 +851,15 @@ export default class TaskSummary extends React.Component {
                   <div className="summary_info_sub4">
                     <div className="margintop5">
                       <div className="post_toptitle_center1_1 marginleft" >
-                        SHARE ON :
+                        {lang.share_on} :
                       </div>
                       <div className="post_toptitle_center1_1_fb" />
                       <div className="post_toptitle_center1_1" >
-                        Facebook
+                        {lang.facebook}
                       </div>
                       <div className="post_toptitle_center1_1_mail" />
                       <div className="post_toptitle_center1_1" >
-                        Email
+                        {lang.email}
                       </div>
                     </div>
                   </div>
@@ -872,7 +874,7 @@ export default class TaskSummary extends React.Component {
                           <div className="summary_task_assigned_fullcontainer">
     
                             <div className="summary_task_assigned_leftcontainer">
-                              <div className="lefttext">YOUR OFFER</div>
+                              <div className="lefttext">{lang.your_offer}</div>
                               <div className="summary-dlg-top2-leftside-top1">
                                 <div className="summary-dlg-top2-leftside-top1-avatar">
                                   {
@@ -881,7 +883,7 @@ export default class TaskSummary extends React.Component {
                                 </div>
                                 <div className="summary-dlg-top2-leftside-top1-text">
                                   <div className="offerlist_section1_mediumside_txt1 lineheight-25">{me.username}</div>
-                                  <div className="offerlist_section1_mediumside_txt1 lineheight-25">Need to be updated</div>
+                                  <div className="offerlist_section1_mediumside_txt1 lineheight-25">{lang.need_to_be_updated}</div>
                                 </div>
                               </div>
                             </div>
@@ -891,7 +893,7 @@ export default class TaskSummary extends React.Component {
                                 ${ prev_offer }
                               </div>
                               <div className="righttext">
-                                Offer Amount
+                                {lang.offer_amount}
                               </div>
                             </div>
                           </div>
@@ -909,7 +911,7 @@ export default class TaskSummary extends React.Component {
         
                           <div className="summary_task_assigned_leftcontainer">
                             {
-                              to_me ? <div className="lefttext redtext">TASK ASSIGNED TO YOU</div> : <div className="lefttext">TASK ASSIGNED TO</div>
+                              to_me ? <div className="lefttext redtext">{lang.task_assigned_to_you}</div> : <div className="lefttext">{lang.task_assigned_to}</div>
                             }
                             <div className="summary-dlg-top2-leftside-top1">
                               <div className="summary-dlg-top2-leftside-top1-avatar">
@@ -927,8 +929,8 @@ export default class TaskSummary extends React.Component {
                                   <div className="offerlist_star"/>
                                   <div className="offerlist_section1_mediumside_txt1 greentext margin-left-5px">4.5/5</div>
                                 </div>
-                                <div className="offerlist_section1_mediumside_txt1">Task Completion Rate: 4.5/5</div>
-                                <div className="offerlist_section1_mediumside_txt1">Location: {assigned_user.city}</div>
+                                <div className="offerlist_section1_mediumside_txt1">{lang.task_completion_rate}: 4.5/5</div>
+                                <div className="offerlist_section1_mediumside_txt1">{lang.location}: {assigned_user.city}</div>
                               </div>
                             </div>
                           </div>
@@ -942,7 +944,7 @@ export default class TaskSummary extends React.Component {
                             </div>
                             <div className="assigned_message" onClick={() => { this.setState({ redirect: 1221 }) }}>
                               <div className="msgimg"/>
-                              <div className="msgtxt">Message</div>
+                              <div className="msgtxt">{lang.message}</div>
                             </div>
                           </div>
                         </div>
@@ -958,13 +960,13 @@ export default class TaskSummary extends React.Component {
                     }
                     <div className={ pageState === 0 ? "summary_leftline1" : "summary_leftline1_gray" }>
                       <div className={ pageState === 0 ? "allofferscontainer" : "allofferscontainer_withoutbottom"}>
-                        <div className="allofferstxt">ALL OFFERS</div>
+                        <div className="allofferstxt">{lang.all_offers}</div>
                         {
                           render_offer_avatars
                         }
                         {
                           (pageState === 0 && offer_users.length > 0) &&
-                            <div className="viewofferbtn" onClick={this.onViewOffers}>View Offers</div>
+                            <div className="viewofferbtn" onClick={this.onViewOffers}>{lang.view_offers}</div>
                         }
                         {
                           pageState === 1 &&
@@ -976,7 +978,7 @@ export default class TaskSummary extends React.Component {
                       <div className="summary_desccontainer">
                         
                         <div className="taskdesctxt">
-                          TASK DESCRIPTION
+                          {lang.task_description}
                         </div>
                         
                         <div className="taskdesctxt1">
@@ -1004,10 +1006,10 @@ export default class TaskSummary extends React.Component {
                                 </div>
                                 <div className="summary_taskdetail_container1">
                                   <div className="summary_taskdetail_txt">
-                                    NUMBER OF BEDROOMS
+                                    {lang.number_of_bedrooms}
                                   </div>
                                   <div className="summary_taskdetail_txt greentext">
-                                    { task.task_bedroomcount } - Bedrooms
+                                    { task.task_bedroomcount } - {lang.bedrooms}
                                   </div>
                                 </div>
                               </div>
@@ -1015,18 +1017,18 @@ export default class TaskSummary extends React.Component {
                               <div className="summary_taskdetail_container">
                                 <div className="summary_taskdetail_container1">
                                   <div className="summary_taskdetail_txt">
-                                    NUMBER OF BATHROOMS
+                                    {lang.number_of_bathrooms}
                                   </div>
                                   <div className="summary_taskdetail_txt greentext">
-                                    { task.task_bathroomcount } - Bathrooms
+                                    { task.task_bathroomcount } - {lang.bathrooms}
                                   </div>
                                 </div>
                                 <div className="summary_taskdetail_container1">
                                   <div className="summary_taskdetail_txt">
-                                    TASKERS NEEDED
+                                    {lang.taskers_needed}
                                   </div>
                                   <div className="summary_taskdetail_txt greentext">
-                                    { task.task_numberoftasker } - Taskers Needed
+                                    { task.task_numberoftasker } - {lang.taskers_needed}
                                   </div>
                                 </div>
                               </div>
@@ -1034,7 +1036,7 @@ export default class TaskSummary extends React.Component {
                               <div className="tasksummary_bar"/>
   
                               <div className="taskdesctxt">
-                                ADDITIONAL CLEANING OPTIONS
+                                {lang.additional_cleaning_options}
                               </div>
   
                               <div className="cleaningoption">
@@ -1055,15 +1057,15 @@ export default class TaskSummary extends React.Component {
                               <div className="summary_taskdetail_container">
                                 <div className="summary_taskdetail_container1">
                                   <div className="summary_taskdetail_txt">
-                                    TASKERS NEEDED
+                                    {lang.taskers_needed}
                                   </div>
                                   <div className="summary_taskdetail_txt greentext">
-                                    { task.task_numberoftasker } - Taskers Needed
+                                    { task.task_numberoftasker } - {lang.taskers_needed}
                                   </div>
                                 </div>
                                 <div className="summary_taskdetail_container1">
                                   <div className="summary_taskdetail_txt">
-                                    DISTANCE
+                                    {lang.distance}
                                   </div>
                                   <div className="summary_taskdetail_txt greentext">
                                     15 KILOMETERS
@@ -1074,7 +1076,7 @@ export default class TaskSummary extends React.Component {
                               <div className="summary_taskdetail_container">
                                 <div className="summary_taskdetail_container1">
                                   <div className="summary_taskdetail_txt">
-                                    FROM LOCATION
+                                    {lang.from_locations}
                                   </div>
                                   <div className="summary_taskdetail_txt greentext">
                                     { task.task_from_location_zip }
@@ -1082,7 +1084,7 @@ export default class TaskSummary extends React.Component {
                                 </div>
                                 <div className="summary_taskdetail_container1">
                                   <div className="summary_taskdetail_txt">
-                                    TO LOCATION
+                                    {lang.to_location}
                                   </div>
                                   <div className="summary_taskdetail_txt greentext">
                                     { task.task_to_location_zip }
@@ -1100,18 +1102,18 @@ export default class TaskSummary extends React.Component {
                             <div className="summary_taskdetail_container">
                               <div className="summary_taskdetail_container1">
                                 <div className="summary_taskdetail_txt">
-                                  TASKERS NEEDED
+                                  {lang.taskers_needed}
                                 </div>
                                 <div className="summary_taskdetail_txt greentext">
-                                  { task.task_numberoftasker } - Taskers Needed
+                                  { task.task_numberoftasker } - {lang.taskers_needed}
                                 </div>
                               </div>
                               <div className="summary_taskdetail_container1">
                                 <div className="summary_taskdetail_txt">
-                                  TASK TYPE
+                                  {lang.task_type}
                                 </div>
                                 <div className="summary_taskdetail_txt">
-                                  Task { task.task_type === 0 ? "isn't" : "is" } in specific location
+                                  {lang.task} { task.task_type === 0 ? lang.is_not : lang.is } {lang.in_specific_location}
                                 </div>
                               </div>
                             </div>
@@ -1119,7 +1121,7 @@ export default class TaskSummary extends React.Component {
                         
   
                         <div className="taskdesctxt2">
-                          ATTACHMENTS
+                          {lang.attachments}
                         </div>
                         
                         <div className="summary_attachcontainer">
@@ -1134,21 +1136,21 @@ export default class TaskSummary extends React.Component {
                     {
                       this.state.isPoster === '1' &&
                         <div className="summary_leftline3">
-                          <div className="canceltaskbtn" onClick={this.showCancelTaskModal}>Cancel the Task</div>
+                          <div className="canceltaskbtn" onClick={this.showCancelTaskModal}>{lang.cancel_the_task}</div>
                         </div>
                     }
                     
                     {
                       this.state.isPoster === '1' &&
                         <div className="summary_leftline3">
-                          <div className="edittaskbtn">Edit the Task</div>
+                          <div className="edittaskbtn">{lang.edit_the_task}</div>
                         </div>
                     }
   
                     {
                       (this.state.isPoster === '0' && to_me) &&
                         <div className="summary_leftline3" onClick={this.withdrawTask}>
-                          <div className="withdrawbtn">Withdraw from Task</div>
+                          <div className="withdrawbtn">{lang.withdraw_from_task}</div>
                         </div>
                     }
                     
@@ -1160,7 +1162,7 @@ export default class TaskSummary extends React.Component {
                   {
                     pageState === 0 ?
                       <div className="summary_top_2_rightside">
-                        <div className="summary_mapside_toptext">Task Location</div>
+                        <div className="summary_mapside_toptext">{lang.task_location}</div>
                         <div className="summary_mapside_top">
                           <div className="summary_mapicon"/>
                           <div className="summary_map_location">{ task.task_category === 4 ? task.task_from_location : task.task_location === '' ? 'No Task' : task.task_location}</div>
@@ -1176,7 +1178,7 @@ export default class TaskSummary extends React.Component {
                       <div className="summary_top_2_rightside">
                         <div className="allofferscontainer1">
                           <div className="summary_mapside_toptext">All Offers</div>
-                          <div className="summary_mapside_toptext1 graytext">Total {offer_users.length} {offer_users.length === 1 ? "offer" : "offers"} received</div>
+                          <div className="summary_mapside_toptext1 graytext">{lang.total1} {offer_users.length} {offer_users.length === 1 ? lang.offer_lowercase : lang.offers_lowercase} {lang.received}</div>
                           <div className="closeImg" onClick={this.onCloseOffers}/>
                         </div>
                         <div className="listcontainer">
@@ -1195,7 +1197,7 @@ export default class TaskSummary extends React.Component {
         <Modal show={showImageSlider} onHide={this.closeImageSlider}>
           <Modal.Header closeButton>
             <Modal.Title>
-              <div>Attachments</div>
+              <div>{lang.attachments}</div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -1210,7 +1212,7 @@ export default class TaskSummary extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.closeImageSlider}>Close</Button>
+            <Button onClick={this.closeImageSlider}>{lang.close}</Button>
           </Modal.Footer>
         </Modal>
   
@@ -1222,7 +1224,7 @@ export default class TaskSummary extends React.Component {
         >
           <Modal.Header closeButton>
             <Modal.Title>
-              <div className="modalheader">ASSIGNING THE TASK</div>
+              <div className="modalheader">{lang.assigning_the_task}</div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -1243,7 +1245,7 @@ export default class TaskSummary extends React.Component {
                       <div>{ this.categoryLists[task.task_category - 1] } - { task.task_title }</div>
                       <div className="makeoffer-dlg-top1-desc1">
                         <div className="clockimage"/>
-                        <div className="postedtext">POSTED : </div>
+                        <div className="postedtext">{lang.posted_uppercase} : </div>
                         <div className="difftext">{ dur }</div>
                       </div>
                     </div>
@@ -1254,7 +1256,7 @@ export default class TaskSummary extends React.Component {
                       </div>
                 
                       <div className="offercount21">
-                        Budget
+                        {lang.budget}
                       </div>
                     </div>
             
@@ -1264,7 +1266,7 @@ export default class TaskSummary extends React.Component {
                   
                   <div className="summary-dlg-top2">
                     <div className="summary-dlg-top2-leftside">
-                      <div>TASK ASSIGNING TO</div>
+                      <div>{lang.task_assigned_to}</div>
                       <div className="summary-dlg-top2-leftside-top1">
                         <div className="summary-dlg-top2-leftside-top1-avatar">
                           {
@@ -1281,20 +1283,20 @@ export default class TaskSummary extends React.Component {
                             <div className="offerlist_star"/>
                             <div className="offerlist_section1_mediumside_txt1 greentext margin-left-5px">4.5/5</div>
                           </div>
-                          <div className="offerlist_section1_mediumside_txt1">Task Completion Rate: 4.5/5</div>
-                          <div className="offerlist_section1_mediumside_txt1">Location: Montreal</div>
+                          <div className="offerlist_section1_mediumside_txt1">{lang.task_completion_rate}: 4.5/5</div>
+                          <div className="offerlist_section1_mediumside_txt1">{lang.location}: Montreal</div>
                           <div className="offer_message" onClick={() => { this.setState({ redirect: 1221 }) }}>
                             <div className="msgimg"/>
-                            <div className="msgtxt">Message</div>
+                            <div className="msgtxt">{lang.message}</div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="summary-dlg-top2-rightside">
-                      <div className="offerfromtext">OFFER FROM TASKER</div>
+                      <div className="offerfromtext">{lang.offer_from_tasker}</div>
                       <div className="summary-dlg-top2-rightside-txt1 margintop10">
                         <div className="summary-dlg-top2-rightside-txt2">
-                          Hi! I'm available
+                          {lang.hi_i_am_available}
                         </div>
                         <div className="summary-dlg-top2-rightside-txt2">
                           <div className="righttext">{ this.offer_dur }</div>
@@ -1305,7 +1307,7 @@ export default class TaskSummary extends React.Component {
                       
                       <div className="summary-dlg-top2-rightside-txt1 margintop20">
                         <div className="summary-dlg-top2-rightside-txt2 bigtext">
-                          Offer Amount:
+                          {lang.offer_amount}:
                         </div>
                         <div className="summary-dlg-top2-rightside-txt2">
                           <div className="righttext bigtext">${ this.offer_amount }</div>
@@ -1313,7 +1315,7 @@ export default class TaskSummary extends React.Component {
                       </div>
                       <div className="summary-dlg-top2-rightside-txt1 margintop5">
                         <div className="summary-dlg-top2-rightside-txt2 bigtext">
-                          Transaction Fee:
+                          {lang.transaction_fee}:
                         </div>
                         <div className="summary-dlg-top2-rightside-txt2">
                           <div className="righttext bigtext">$1.50</div>
@@ -1322,7 +1324,7 @@ export default class TaskSummary extends React.Component {
                       <div className="summary-dlg-top2-rightside-txt-bar margintop5"/>
                       <div className="summary-dlg-top2-rightside-txt1 margintop5">
                         <div className="summary-dlg-top2-rightside-txt2 bigtext redtext">
-                          Total Fee Amount:
+                          {lang.total_fee_amount}:
                         </div>
                         <div className="summary-dlg-top2-rightside-txt2">
                           <div className="righttext bigtext redtext">${ this.offer_amount }</div>
@@ -1333,13 +1335,13 @@ export default class TaskSummary extends React.Component {
                   </div>
                   
                   <div className="summary_acceptoffermodal_info">
-                    Note : At this stage we assume that you made your choice and ready to book your Tasker. To proceed please hold the agreed funds  into YEEPI Account. Your funds will be released when your task is completed. You are in Control with Yeepi. For more details please visit <a className="redtext" href="#">Terms and Conditions</a>
+                    {lang.accept_offer_info_description_1} <a className="redtext" href="#">{lang.accept_offer_info_description_2}</a>
                   </div>
                   
                   <div className="assignbtn" onClick={() => {
                     this.requests.assignTask()
                   }}>
-                    Assign And Review Funds
+                    {lang.assign_and_review_funds}
                   </div>
                   
                 </div>
@@ -1348,7 +1350,7 @@ export default class TaskSummary extends React.Component {
     
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.hideOfferModal}>Close</Button>
+            <Button onClick={this.hideOfferModal}>{lang.close}</Button>
           </Modal.Footer>
         </Modal>
   
@@ -1365,7 +1367,7 @@ export default class TaskSummary extends React.Component {
               <div className="assignedheader_container">
                 <div className="assignedheader_checkon"/>
                 <div className="assignedheader_txt">
-                  TASK SUCCESSFULLY ASSIGNED!
+                  {lang.task_successfully_assigned}!
                 </div>
               </div>
             </Modal.Title>
@@ -1388,7 +1390,7 @@ export default class TaskSummary extends React.Component {
                     <div>{ this.categoryLists[task.task_category - 1] } - { task.task_title }</div>
                     <div className="makeoffer-dlg-top1-desc1">
                       <div className="clockimage"/>
-                      <div className="postedtext">POSTED : </div>
+                      <div className="postedtext">{lang.posted_uppercase} : </div>
                       <div className="difftext">{ dur }</div>
                     </div>
                   </div>
@@ -1399,7 +1401,7 @@ export default class TaskSummary extends React.Component {
                     </div>
               
                     <div className="offercount21">
-                      Budget
+                      {lang.budget}
                     </div>
                   </div>
           
@@ -1409,7 +1411,7 @@ export default class TaskSummary extends React.Component {
           
                 <div className="summary-dlg-top2">
                   <div className="summary-dlg-top2-leftside">
-                    <div>TASK ASSIGNED TO</div>
+                    <div>{lang.task_assigned_to}</div>
                     <div className="summary-dlg-top2-leftside-top1">
                       <div className="summary-dlg-top2-leftside-top1-avatar">
                         {
@@ -1426,19 +1428,19 @@ export default class TaskSummary extends React.Component {
                           <div className="offerlist_star"/>
                           <div className="offerlist_section1_mediumside_txt1 greentext margin-left-5px">4.5/5</div>
                         </div>
-                        <div className="offerlist_section1_mediumside_txt1">Task Completion Rate: 4.5/5</div>
-                        <div className="offerlist_section1_mediumside_txt1">Location: Montreal</div>
+                        <div className="offerlist_section1_mediumside_txt1">{lang.task_completion_rate}: 4.5/5</div>
+                        <div className="offerlist_section1_mediumside_txt1">{lang.location}: Montreal</div>
                       </div>
                     </div>
                   </div>
                   <div className="summary-dlg-top2-rightside_withoutborder">
-                    <div className="offerfromtext agreedamount">Agreed Amount: ${ this.offer_amount }</div>
+                    <div className="offerfromtext agreedamount">{lang.agreed_amount}: ${ this.offer_amount }</div>
                     <div className="assign_msg" onClick={() => {
                       this.hideOfferAssigned();
                       this.setState({ redirect: 1221 });
                     }}>
                       <div className="messagetxt">
-                        Message
+                        {lang.message}
                       </div>
                       <div className="messageicon"/>
                     </div>
@@ -1448,7 +1450,7 @@ export default class TaskSummary extends React.Component {
             }
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.hideOfferAssigned}>Close</Button>
+            <Button onClick={this.hideOfferAssigned}>{lang.close}</Button>
           </Modal.Footer>
         </Modal>
   
@@ -1464,7 +1466,7 @@ export default class TaskSummary extends React.Component {
                 <div className="assignedheader_alarm"/>
                 <div className="assignedheader_txt">
                   {
-                    this.isWithdraw ? "ARE YOU SURE YOU WANT WITHDRAW FROM THIS TASK?" : "ARE YOU SURE YOU WANT CANCEL THE TASK?"
+                    this.isWithdraw ? lang.are_you_sure_withdraw_from_task : lang.are_you_sure_want_cancel_task
                   }
                 </div>
               </div>
@@ -1488,7 +1490,7 @@ export default class TaskSummary extends React.Component {
                     <div>{ this.categoryLists[task.task_category - 1] } - { task.task_title }</div>
                     <div className="makeoffer-dlg-top1-desc1">
                       <div className="clockimage"/>
-                      <div className="postedtext">POSTED : </div>
+                      <div className="postedtext">{lang.posted_uppercase} : </div>
                       <div className="difftext">{ dur }</div>
                     </div>
                   </div>
@@ -1499,7 +1501,7 @@ export default class TaskSummary extends React.Component {
                     </div>
               
                     <div className="offercount21">
-                      Budget
+                      {lang.budget}
                     </div>
                   </div>
 
@@ -1509,7 +1511,7 @@ export default class TaskSummary extends React.Component {
                   {
                     task.user_avatar === '' ? <div className="avatarimage1"/> : <img src={task.user_avatar} className="avatarimage2"/>
                   }
-                  <div className="postername">{task.user_postername} { this.isWithdraw ? "( Poster )" : "( You )" }</div>
+                  <div className="postername">{task.user_postername} { this.isWithdraw ? "( " + lang.poster + " )" : "( " + lang.you1 + " )" }</div>
                 </div>
           
                 <div className="summary-dlg-top1-bar"/>
@@ -1519,12 +1521,12 @@ export default class TaskSummary extends React.Component {
                     <div className="summary-dlg-top3_assigned">
                       {
                         !this.isWithdraw &&
-                          <div className="cancelthetaskbtn_txt redtext">Note :</div>
+                          <div className="cancelthetaskbtn_txt redtext">{lang.note__}</div>
                       }
   
                       {
                         !this.isWithdraw &&
-                          <div className="cancelthetaskbtn_txt1">An amount of</div>
+                          <div className="cancelthetaskbtn_txt1">{lang.an_amount_of}</div>
                       }
   
                       {
@@ -1534,27 +1536,27 @@ export default class TaskSummary extends React.Component {
   
                       {
                         !this.isWithdraw &&
-                          <div className="cancelthetaskbtn_txt1">applies for the cancellation of assigned tasks</div>
+                          <div className="cancelthetaskbtn_txt1">{lang.applies_for_the_cancellation__}</div>
                       }
                       
                       {
                         this.isWithdraw &&
                           <div>
-                            <div className="cancelthetaskbtn_txt2">We suggest that you communicate the poster before making this decision.</div>
-                            <div className="cancelthetaskbtn_txt2 redtext">Warning: This action may will affect your cancellation rate.</div>
+                            <div className="cancelthetaskbtn_txt2">{lang.we_suggest_that_you_communicate_the_poster__}</div>
+                            <div className="cancelthetaskbtn_txt2 redtext">{lang.warning_this_action_may_will_affect__}</div>
                           </div>
                       }
                       {
                         this.isWithdraw ?
-                          <div className="cancelthetaskbtn" onClick={() => { this.requests.withdrawFromTask(); }}>Yes! Withdraw From Task</div>
+                          <div className="cancelthetaskbtn" onClick={() => { this.requests.withdrawFromTask(); }}>{lang.yes_withdraw_from_task}</div>
                           :
-                          <div className="cancelthetaskbtn" onClick={() => { this.requests.cancelTask(); }}>Yes! Cancel The Task</div>
+                          <div className="cancelthetaskbtn" onClick={() => { this.requests.cancelTask(); }}>{lang.yes_cancel_the_task}</div>
                       }
                       
                     </div>
                     :
                     <div className="summary-dlg-top3">
-                      <div className="cancelthetaskbtn_assigned" onClick={() => { this.requests.cancelTask(); }}>Yes! Cancel The Task</div>
+                      <div className="cancelthetaskbtn_assigned" onClick={() => { this.requests.cancelTask(); }}>{lang.yes_cancel_the_task}</div>
                     </div>
                 }
                 
@@ -1563,7 +1565,7 @@ export default class TaskSummary extends React.Component {
             }
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.hideCancelTaskModal}>Close</Button>
+            <Button onClick={this.hideCancelTaskModal}>{lang.close}</Button>
           </Modal.Footer>
         </Modal>
   
@@ -1575,7 +1577,7 @@ export default class TaskSummary extends React.Component {
         >
           <Modal.Header closeButton>
             <Modal.Title>
-              <div>{ offer_modal_type === 0 ? "Make Your Offer!" : "Modify Your Offer!" }</div>
+              <div>{ offer_modal_type === 0 ? lang.make_your_offer + "!" : lang.modify_your_offer + "!" }</div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -1596,21 +1598,21 @@ export default class TaskSummary extends React.Component {
                     <div>{ this.categoryLists[task.task_category - 1] } - { task.task_title }</div>
                     <div className="makeoffer-dlg-top1-desc1">
                       <div className="clockimage"/>
-                      <div className="postedtext">POSTED : </div>
+                      <div className="postedtext">{lang.posted_uppercase} : </div>
                       <div className="difftext">{ modal_duration }</div>
                     </div>
                     <div className="makeoffer-dlg-top1-desc2">
                       {
                         task.user_avatar === '' ? <div className="avatarimage1"/> : <img src={task.user_avatar} className="avatarimage2"/>
                       }
-                      <div className="postername">{task.user_postername} ( Poster )</div>
+                      <div className="postername">{task.user_postername} ( {lang.poster} )</div>
                       <div className="message">
                         <div className="msgimg"/>
-                        <div className="msgtxt">Message</div>
+                        <div className="msgtxt">{lang.message}</div>
                       </div>
                       {
                         offer_modal_type !== 0 &&
-                        <div className="postername">Previous Offer Amount : ${prev_offer_amount}</div>
+                        <div className="postername">{lang.previous_offer_amount} : ${prev_offer_amount}</div>
                       }
               
                     </div>
@@ -1622,7 +1624,7 @@ export default class TaskSummary extends React.Component {
                     </div>
               
                     <div className="offercount21">
-                      Budget
+                      {lang.budget}
                     </div>
                   </div>
           
@@ -1635,7 +1637,7 @@ export default class TaskSummary extends React.Component {
             
                   <div className="makeoffer-dlg-top1-descontainer11">
                     <div className="emaountleftside">
-                      <div>ENTER OFFER AMOUNT</div>
+                      <div>{lang.enter_offer_amount}</div>
                       <input
                         className="form-control enteramountinput"
                         ref={ref => (this._input_amount = ref)}
@@ -1643,24 +1645,24 @@ export default class TaskSummary extends React.Component {
                         value={amounttext}
                       />
                       <div className="youroffercontainer">
-                        <div className="youroffer">Your Offer</div>
+                        <div className="youroffer">{lang.your_offer}</div>
                         <div className="yourofferval">${amounttext}</div>
                       </div>
                       <div className="youroffercontainer">
-                        <div className="youroffer">Taxes</div>
+                        <div className="youroffer">{lang.taxes}</div>
                         <div className="yourofferval">${taxamount}</div>
                       </div>
                       <div className="youroffercontainer">
-                        <div className="youroffer">Total</div>
+                        <div className="youroffer">{lang.total1}</div>
                         <div className="yourofferval">${totalamount}</div>
                       </div>
                       <div className="youroffercontainer">
-                        <div className="youroffer">Commission</div>
+                        <div className="youroffer">{lang.commission}</div>
                         <div className="yourofferval">${commissionamount}</div>
                       </div>
                       <div className="yourofferbar"/>
                       <div className="youroffercontainer">
-                        <div className="youroffer redtext">Your Earning</div>
+                        <div className="youroffer redtext">{lang.your_earning}</div>
                         <div className="yourofferval redtext">${taskerearning}</div>
                       </div>
                     </div>
@@ -1668,8 +1670,8 @@ export default class TaskSummary extends React.Component {
                     </div>
                     <div className="descrightside">
                       <div className="flexview">
-                        <div className="youroffer">DESCRIPTION</div>
-                        <div className="yourofferval exgraytext">Upto 500 Characters</div>
+                        <div className="youroffer">{lang.description}</div>
+                        <div className="yourofferval exgraytext">{lang.up_to_500_characters}</div>
                       </div>
                       <textarea
                         className="form-control descarea"
@@ -1677,7 +1679,7 @@ export default class TaskSummary extends React.Component {
                       />
                       <div>
                         <div className="submitbtn" onClick={() => { this.submitMakeOffer(task._id, offer_modal_type); }}>
-                          { offer_modal_type === 0 ? "Make Offer" : "Update Offer" }
+                          { offer_modal_type === 0 ? lang.make_offer : lang.update_offer }
                         </div>
                       </div>
                     </div>
@@ -1689,7 +1691,7 @@ export default class TaskSummary extends React.Component {
             }
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.hideNewOfferModal}>Close</Button>
+            <Button onClick={this.hideNewOfferModal}>{lang.close}</Button>
           </Modal.Footer>
         </Modal>
         

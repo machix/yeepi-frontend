@@ -18,6 +18,7 @@ import PlacesAutocomplete, { geocodeByPlaceId } from 'react-places-autocomplete'
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import ip from 'public-ip';
+import { eng, fre } from '../../../lang';
 
 import Promise from 'promise';
 import superagentPromise from 'superagent-promise';
@@ -50,7 +51,8 @@ export default class Signup extends React.Component {
       placeId: "",
       lat: 0,
       lng: 0,
-      zipcode: ""
+      zipcode: "",
+      lang: eng,
     };
     this.localValues = {
       code: "",
@@ -721,7 +723,7 @@ export default class Signup extends React.Component {
       }
     };
   
-    let { signupFlow, redirect, address_input_state, inputType, showAlert, alertText } = this.state;
+    let { signupFlow, redirect, address_input_state, inputType, showAlert, alertText, lang } = this.state;
   
     if (redirect === 1) {
       return <Redirect push to="/post"/>;
@@ -848,11 +850,11 @@ export default class Signup extends React.Component {
         } else {
           if (this.directType === 1) {
             render_inputType5.push(
-              <div className="skillItem">No</div>
+              <div className="skillItem">{lang.no}</div>
             )
           } else {
             render_inputType5.push(
-              <div className="skillItem">Yes</div>
+              <div className="skillItem">{lang.yes}</div>
             )
           }
         }
@@ -1010,11 +1012,11 @@ export default class Signup extends React.Component {
           </div>
           <div className="switchContainer">
             <div className="donhaveaccount">
-              Already have an account?
+              {lang.already_have_an_account}
             </div>
             <Link to="/signin">
               <div className="signupButton">
-                Sign In
+                {lang.sign_in}
               </div>
             </Link>
           </div>
@@ -1023,7 +1025,7 @@ export default class Signup extends React.Component {
           <Modal show={showAlert} onHide={this.closeAlert}>
             <Modal.Header closeButton>
               <Modal.Title>
-                <h5>Alert</h5>
+                <h5>{lang.alert}</h5>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -1032,7 +1034,7 @@ export default class Signup extends React.Component {
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.closeAlert}>Close</Button>
+              <Button onClick={this.closeAlert}>{lang.close}</Button>
             </Modal.Footer>
           </Modal>
           
