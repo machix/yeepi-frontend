@@ -81,7 +81,6 @@ export default class EditProfile2 extends React.Component {
           }
         }),
       updateProfile: () => {
-        debugger;
         superagent.post(base_url_public + '/frontend/user/editSave2', {
           token: reactLocalStorage.get('loggedToken'),
           skill: this.state.skill,
@@ -176,7 +175,7 @@ export default class EditProfile2 extends React.Component {
   };
   
   render() {
-    let { showAlert, alertText, personal_datas, redirect, skill, trans, policecheck } = this.state;
+    let { showAlert, alertText, personal_datas, redirect, skill, trans, policecheck, lang } = this.state;
     
     let render_skills = [];
     for (let i = 0; i < skill.length; i++) {
@@ -243,13 +242,13 @@ export default class EditProfile2 extends React.Component {
   
         <div className="col-sm-12 editprofile2_centerContent">
           <div className="editprofile2_addskills">
-            ADD SKILLS
+            {lang.add_skills}
           </div>
         </div>
         
         <div className="col-sm-12 editprofile2_centerContent">
           <select className="form-control editprofile2_addskills" onChange={this.onChangeSkill} ref={ref=>{this._ref_select1 = ref;}}>
-            <option value="DoNothing">Choose...</option>
+            <option value="DoNothing">{lang.choose1}...</option>
             { render_restskills }
           </select>
         </div>
@@ -260,7 +259,7 @@ export default class EditProfile2 extends React.Component {
   
         <div className="col-sm-12 editprofile2_centerContent">
           <div className="editprofile2_addskills">
-            ADD TRANS
+            {lang.add_trans}
           </div>
         </div>
   
@@ -278,7 +277,7 @@ export default class EditProfile2 extends React.Component {
   
         <div className="col-sm-12 editprofile2_centerContent">
           <div className="editprofile2_addskills">
-            RBQ LICENSE NUMBER
+            {lang.rbq_license_number}
           </div>
         </div>
   
@@ -294,27 +293,27 @@ export default class EditProfile2 extends React.Component {
         <div className="col-sm-12 editprofile2_centerContent">
           <div className={policecheck ? "policecheck_editprofile2" : "policecheck_editprofile2_off"} onClick={this.onPoliceCheck}/>
           <div className="editprofile2_policecheck">
-            POLICE CHECK REQUIRED?
+            {lang.police_check_required}
           </div>
         </div>
   
         <div className="col-sm-12 editprofile2_centerContent">
           <div className="editprofile2_policecheck">
-            Check discription...
+            {lang.check_description}...
           </div>
         </div>
         
         
         <div className="bottomContent_editProfile">
-          <div className="clear" onClick={this.onClear}>Clear</div>
-          <div className="next" onClick={() => {this.onDone();}}>Done</div>
+          <div className="clear" onClick={this.onClear}>{lang.clear1}</div>
+          <div className="next" onClick={() => {this.onDone();}}>{lang.done1}</div>
         </div>
         
         
         <Modal show={showAlert} onHide={this.closeAlert}>
           <Modal.Header closeButton>
             <Modal.Title>
-              <h5>Alert</h5>
+              <h5>{lang.alert}</h5>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -323,7 +322,7 @@ export default class EditProfile2 extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.closeAlert}>Close</Button>
+            <Button onClick={this.closeAlert}>{lang.close}</Button>
           </Modal.Footer>
         </Modal>
       

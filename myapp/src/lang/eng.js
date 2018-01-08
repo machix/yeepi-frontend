@@ -213,6 +213,27 @@ export default {
   task_type__: 'TASK TYPE :',
   attachments: 'Attachments',
 
+  // Edit Profile Page
+  change_my_picture: 'Change my Picture',
+  user_name: 'USER NAME',
+  email_uppercase: 'EMAIL',
+  your_address: 'YOUR ADDRESS',
+  connect_the_following: 'CONNECT THE FOLLOWING',
+  select_your_role: 'SELECT YOUR ROLE',
+  tasker: 'TASKER',
+  poster_uppercase: 'POSTER',
+  both: 'BOTH',
+  describe_yourself: 'DESCRIBE YOURSELF',
+  add_items_to_your_portfolio_description: 'ADD ITEMS TO YOUR PORTFOLIO. MAXIMUM OF 10 ITEMS.',
+  clear1: 'Clear',
+  upload_image: 'Upload Image',
+  alert: 'Alert',
+  choose1: 'Choose',
+  add_skills: 'ADD SKILLS',
+  add_trans: 'ADD TRANS',
+  check_description: 'Check description',
+  done1: 'Done',
+
   // Services
   house_cleaning: 'House Cleaning',
   assembly_services: 'Assembly Services',

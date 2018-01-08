@@ -266,6 +266,7 @@ export default class EditProfile extends React.Component {
   
   render() {
     let {
+      lang,
       imagePreviewUrl,
       showAlert,
       alertText,
@@ -293,19 +294,19 @@ export default class EditProfile extends React.Component {
     let render_langs = [];
     if (availablelanguage.length === 0) {
       render_restlangs.push(
-        <option value="English"> English </option>
+        <option value="English"> {lang.english} </option>
       );
       render_restlangs.push(
-        <option value="French"> French </option>
+        <option value="French"> {lang.french} </option>
       );
     } else if (availablelanguage.length === 1) {
       if (availablelanguage[0] === "English") {
         render_restlangs.push(
-          <option value="French"> French </option>
+          <option value="French"> {lang.french} </option>
         );
       } else {
         render_restlangs.push(
-          <option value="English"> English </option>
+          <option value="English"> {lang.english} </option>
         );
       }
     }
@@ -343,7 +344,7 @@ export default class EditProfile extends React.Component {
               :
               <div className="uploadavatar" onClick={this.onUploadPicture} />
           }
-          <div>Change my Picture</div>
+          <div>{lang.change_my_picture}</div>
         </div>
   
         
@@ -351,7 +352,7 @@ export default class EditProfile extends React.Component {
     
           <div className="leftRange rightPadding">
             <div className="about">
-              USER NAME
+              {lang.user_name}
             </div>
             <label className="redLabel">*</label>
             <form onSubmit={this.handleSubmit}>
@@ -386,7 +387,7 @@ export default class EditProfile extends React.Component {
   
           <div className="leftRange rightPadding">
             <div className="about topMargin">
-              EMAIL
+              {lang.email_uppercase}
             </div>
             <label className="redLabel">*</label>
             <form onSubmit={this.handleSubmit}>
@@ -403,7 +404,7 @@ export default class EditProfile extends React.Component {
   
           <div className="leftRange rightPadding">
             <div className="about topMargin">
-              PHONE NUMBER
+              {lang.phone_number}
             </div>
             <form onSubmit={this.handleSubmit}>
               <input
@@ -420,7 +421,7 @@ export default class EditProfile extends React.Component {
   
           <div className="leftRange rightPadding">
             <div className="about topMargin">
-              YOUR ADDRESS
+              {lang.your_address}
             </div>
             {/*<form onSubmit={this.handleSubmit}>*/}
               {/*<input*/}
@@ -440,14 +441,14 @@ export default class EditProfile extends React.Component {
           
           <div className="leftRange">
             <div className="about topMargin2">
-              CONNECT THE FOLLOWING:
+              {lang.connect_the_following}:
             </div>
             <div>
               <div className="fb"/>
               <div className="fbText">
               
               </div>
-              <div className="connect_editprofile" onClick={() => {this.onVerifiyEmail();}}>Connect</div>
+              <div className="connect_editprofile" onClick={() => {this.onVerifiyEmail();}}>{lang.connect}</div>
             </div>
           </div>
     
@@ -459,7 +460,7 @@ export default class EditProfile extends React.Component {
     
           <div className="rightRange">
             <div className="rightabout">
-              SELECT YOUR ROLE
+              {lang.select_your_role}
             </div>
           </div>
   
@@ -469,14 +470,14 @@ export default class EditProfile extends React.Component {
                 <div className="rightRangeContent">
                   <div className="policecheckon"/>
                   <div className="aboutcontent3">
-                    TASKER
+                    {lang.tasker}
                   </div>
                 </div>
                 :
                 <div className="rightRangeContent">
                   <div className="policecheckoff" onClick={() => {this.onUpdateAccountType(1);}}/>
                   <div className="aboutcontent3">
-                    TASKER
+                    {lang.tasker}
                   </div>
                 </div>
             }
@@ -485,14 +486,14 @@ export default class EditProfile extends React.Component {
                 <div className="rightRangeContent">
                   <div className="policecheckon" />
                   <div className="aboutcontent3">
-                    POSTER
+                    {lang.poster_uppercase}
                   </div>
                 </div>
                 :
                 <div className="rightRangeContent">
                   <div className="policecheckoff" onClick={() => {this.onUpdateAccountType(2);}}/>
                   <div className="aboutcontent3">
-                    POSTER
+                    {lang.poster_uppercase}
                   </div>
                 </div>
             }
@@ -501,14 +502,14 @@ export default class EditProfile extends React.Component {
                 <div className="rightRangeContent">
                   <div className="policecheckon" />
                   <div className="aboutcontent3">
-                    BOTH
+                    {lang.both}
                   </div>
                 </div>
                 :
                 <div className="rightRangeContent">
                   <div className="policecheckoff" onClick={() => {this.onUpdateAccountType(3);}}/>
                   <div className="aboutcontent3">
-                    BOTH
+                    {lang.both}
                   </div>
                 </div>
             }
@@ -516,7 +517,7 @@ export default class EditProfile extends React.Component {
     
           <div className="rightRange topMargin">
             <div className="rightabout">
-              SPOKEN LANGUAGES
+              {lang.spoken_languages}
             </div>
   
             <form>
@@ -526,7 +527,7 @@ export default class EditProfile extends React.Component {
                 ref={ref=>{this._input_language = ref;}}
                 onChange={this.onChangeLang}
               >
-                <option value="DoNothing">Choose...</option>
+                <option value="DoNothing">{lang.choose1}...</option>
                 { render_restlangs }
               </select>
             </form>
@@ -541,7 +542,7 @@ export default class EditProfile extends React.Component {
   
           <div className="rightRange topMargin">
             <div className="rightabout">
-              DESCRIBE YOURSELF
+              {lang.describe_yourself}
             </div>
             <textarea className="form-control topSmallMargin leftMargin" rows="5" id="comment" ref={ref=>{this._input_textarea = ref;}}/>
           </div>
@@ -549,10 +550,10 @@ export default class EditProfile extends React.Component {
           <div className="rightRange topMargin">
             
             <div className="rightabout">
-              PORTFOLIO
+              {lang.portfolio}
             </div>
             
-            <div className="smallfont leftMargin">ADD ITEMS TO YOUR PORTFOLIO. MAXIMUM OF 10 ITEMS.</div>
+            <div className="smallfont leftMargin">{lang.add_items_to_your_portfolio_description}</div>
             
             {
               render_portfolios
@@ -580,20 +581,20 @@ export default class EditProfile extends React.Component {
                    onChange={(e)=>this._handleImageChange(e)} />
             <button className="submitButton"
                     type="submit"
-                    onClick={(e)=>this._handleSubmit(e)}>Upload Image</button>
+                    onClick={(e)=>this._handleSubmit(e)}>{lang.upload_image}</button>
           </form>
         </div>
         
         <div className="bottomContent_editProfile">
-          <div className="clear" onClick={this.onClear}>Clear</div>
-          <div className="next" onClick={() => {this.onNext();}}>Next</div>
+          <div className="clear" onClick={this.onClear}>{lang.clear1}</div>
+          <div className="next" onClick={() => {this.onNext();}}>{lang.next1}</div>
         </div>
   
   
         <Modal show={showAlert} onHide={this.closeAlert}>
           <Modal.Header closeButton>
             <Modal.Title>
-              <div>Alert</div>
+              <div>{lang.alert}</div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -602,7 +603,7 @@ export default class EditProfile extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.closeAlert}>Close</Button>
+            <Button onClick={this.closeAlert}>{lang.close}</Button>
           </Modal.Footer>
         </Modal>
         
