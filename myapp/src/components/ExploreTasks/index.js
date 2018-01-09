@@ -821,7 +821,7 @@ export default class ExploreTasks extends React.Component {
       props => {
         return(
           <GoogleMap
-            defaultZoom={3}
+            defaultZoom={9}
             defaultCenter={ isOpenIndex !== -1 ? { lat: props.tasks_datas[isOpenIndex].task_location_lat, lng: props.tasks_datas[isOpenIndex].task_location_lng } : { lat: props.tasks_datas[0].task_location_lat, lng: props.tasks_datas[0].task_location_lng }}
             defaultOptions={{ styles: demoFancyMapStyles }}
           >

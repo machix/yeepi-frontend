@@ -3,6 +3,7 @@ import { Animated } from "react-animated-css";
 import Autocomplete from 'react-google-autocomplete';
 import { DateRange } from 'react-date-range';
 import config from "./../../config";
+import {eng, fre} from "../../lang";
 import moment from 'moment';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import DatePicker from 'react-datepicker';
@@ -26,7 +27,7 @@ let superagent = superagentPromise(_superagent, Promise);
 
 const MapWithAMarker = withGoogleMap(props =>
   <GoogleMap
-    defaultZoom={8}
+    defaultZoom={9}
     defaultCenter={{ lat: props.lat, lng: props.lng }}
   >
     <Marker
@@ -40,6 +41,7 @@ export default class Post extends React.Component {
   constructor() {
     super();
     this.state = {
+      lang: eng,
       selectIndex: 0,
       step: 0,
       step1_blank: false,
@@ -584,6 +586,7 @@ export default class Post extends React.Component {
   
   render() {
     const {
+      lang,
       selectIndex,
       step,
       step1_blank,
@@ -751,15 +754,15 @@ export default class Post extends React.Component {
               :
               step === 4 ?
                 <div className="post_toptitle_center" >
-                  Your Task has been Successfully Posted!
+                  {lang.your_task_has_been_successfully_posted}!
                 </div>
                 :
                 <div className="post_toptitle_left">
-                  <div className="post_toptitle_1">Categories</div>
+                  <div className="post_toptitle_1">{lang.categories}</div>
                   <div className="post_toptitle_1_leftmargin">{">"}</div>
                   <div className="post_toptitle_1_leftmargin">{this.categoryLists[selectIndex - 1]}</div>
                   <div className="post_toptitle_1_leftmargin">{">"}</div>
-                  <div className="post_toptitle_1_leftmargin">Describe your task</div>
+                  <div className="post_toptitle_1_leftmargin">{lang.describe_your_task}</div>
                 </div>
           }
           <div className="post_bar" />
@@ -864,7 +867,7 @@ export default class Post extends React.Component {
           step === 1 &&
           <div className="col-sm-12 centerContent">
             <div>
-              Step 1 : Add Details
+              {lang.step1_add_details}
             </div>
             <div className="post_toptitle_center">
               <div className="post_toptitle_center_bar_on"/>
@@ -873,7 +876,7 @@ export default class Post extends React.Component {
             </div>
             
             <div className="post_toptitle_center">
-              <div className="post_title">POST TITLE</div>
+              <div className="post_title">{lang.post_title}</div>
             </div>
             <div className="post_toptitle_center">
               <input
@@ -887,13 +890,13 @@ export default class Post extends React.Component {
               post_title_bad &&
               <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
                 <div className="post_toptitle_center">
-                  <div className="post_title_withoutmargin">Minimum 10 characters required</div>
+                  <div className="post_title_withoutmargin">{lang.minimum_10_chars_required}</div>
                 </div>
               </Animated>
             }
             
             <div className="post_toptitle_center">
-              <div className="post_title">DESCRIPTION</div>
+              <div className="post_title">{lang.description}</div>
             </div>
             <div className="post_toptitle_center">
                 <textarea
@@ -907,14 +910,14 @@ export default class Post extends React.Component {
               post_desc_bad &&
               <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
                 <div className="post_toptitle_center">
-                  <div className="post_title_withoutmargin">Minimum 25 characters required</div>
+                  <div className="post_title_withoutmargin">{lang.minimum_25_chars_required}</div>
                 </div>
               </Animated>
             }
             
             <div className="post_toptitle_center_big">
               <div className="attach_inside_container">
-                <div className="attachment" onClick={this.onAddAttachments}>ADD ATTACHMENTS</div>
+                <div className="attachment" onClick={this.onAddAttachments}>{lang.add_attachments}</div>
                 {
                   render_attachments
                 }
@@ -927,13 +930,13 @@ export default class Post extends React.Component {
               step1_blank &&
               <div className="post_toptitle_center">
                 <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
-                  <div className="margintop redText">Please Fill In The Blanks</div>
+                  <div className="margintop redText">{lang.please_fill_in_the_blanks}</div>
                 </Animated>
               </div>
             }
             <div className="post_toptitle_center_withpadding">
-              <div className="button1" onClick={this.onCancel1}>Cancel</div>
-              <div className="button2" onClick={this.onNext1}>Next</div>
+              <div className="button1" onClick={this.onCancel1}>{lang.cancel1}</div>
+              <div className="button2" onClick={this.onNext1}>{lang.next1}</div>
             </div>
           </div>
         }
@@ -942,7 +945,7 @@ export default class Post extends React.Component {
           <div className="col-sm-12 centerContent">
             <div className="post_toptitle_center">
               <div>
-                Step 2 : Add Location
+                {lang.step2_add_location}
               </div>
             </div>
             <div className="post_toptitle_center">
@@ -956,7 +959,7 @@ export default class Post extends React.Component {
               <div className="post_toptitle_center">
                 <div className="post_title">
                   <div className="cleaning_toggle_title">
-                    IS THIS END OF LEASE CLEANING?
+                    {lang.is_this_end_of_lease_cleaning}
                   </div>
                   <div className="cleaning_toggle">
                     <div className="cleaning_toggle_x1">
@@ -979,33 +982,33 @@ export default class Post extends React.Component {
                 <div className="post_title">
                   <div className="cleaning_toggle_pt_image"/>
                   <div className="cleaning_toggle_pt_title">
-                    PROPERTY TYPE
+                    {lang.property_type}
                   </div>
                   {
                     cleaning_toggle2 ? <div className="cleaning_toggle_pt_img1_off" onClick={() => {this.setState({cleaning_toggle2: false})}}/> : <div className="cleaning_toggle_pt_img1_on" onClick={() => {this.setState({cleaning_toggle2: false})}}/>
                   }
                   <div className="cleaning_toggle_pt_img1_title">
-                    HOUSE
+                    {lang.house}
                   </div>
                   {
                     cleaning_toggle2 ? <div className="cleaning_toggle_pt_img2_on" onClick={() => {this.setState({cleaning_toggle2: true})}}/> : <div className="cleaning_toggle_pt_img2_off" onClick={() => {this.setState({cleaning_toggle2: true})}}/>
                   }
                   <div className="cleaning_toggle_pt_img2_title">
-                    APARTMENT
+                    {lang.apartment}
                   </div>
                 </div>
               </div>
             }
             
             <div className="post_toptitle_center">
-              <div className="post_title">TASK TYPE</div>
+              <div className="post_title">{lang.task_type}</div>
             </div>
             <div className="post_toptitle_center">
               <label className="radio-inline marginview">
-                <input type="radio" name="optradio" checked={ step2_checked === 0 } onClick={() => {this.onUpdateTaskType(0);}}/> Virtual Task
+                <input type="radio" name="optradio" checked={ step2_checked === 0 } onClick={() => {this.onUpdateTaskType(0);}}/> {lang.virtual_task}
               </label>
               <label className="radio-inline marginview">
-                <input type="radio" name="optradio" checked={ step2_checked === 1 } onClick={() => {this.onUpdateTaskType(1);}}/> Task is in specific Location
+                <input type="radio" name="optradio" checked={ step2_checked === 1 } onClick={() => {this.onUpdateTaskType(1);}}/> {lang.task_is_in_spec_loc}
               </label>
             </div>
             
@@ -1013,7 +1016,7 @@ export default class Post extends React.Component {
               selectIndex === 4 ?
                 <div>
                   <div className="post_toptitle_center">
-                    <div className="post_title">FROM LOCATIONS</div>
+                    <div className="post_title">{lang.from_locations}</div>
                   </div>
                   <div className="post_toptitle_center">
                     <div className="post_title_input">
@@ -1024,7 +1027,7 @@ export default class Post extends React.Component {
                   </div>
                   
                   <div className="post_toptitle_center">
-                    <div className="post_title">TO LOCATION</div>
+                    <div className="post_title">{lang.to_location}</div>
                   </div>
                   <div className="post_toptitle_center paddingbottom">
                     <div className="post_title_input">
@@ -1037,7 +1040,7 @@ export default class Post extends React.Component {
                 :
                 <div>
                   <div className="post_toptitle_center">
-                    <div className="post_title">ADD DEADLINE</div>
+                    <div className="post_title">{lang.add_deadline}</div>
                   </div>
                   <div className="post_toptitle_center">
                     <DatePicker
@@ -1048,7 +1051,7 @@ export default class Post extends React.Component {
                   </div>
                   
                   <div className="post_toptitle_center">
-                    <div className="post_title">ADD LOCATIONS</div>
+                    <div className="post_title">{lang.add_locations}</div>
                   </div>
                   <div className="post_toptitle_center paddingbottom">
                     <div className="post_title_input">
@@ -1070,13 +1073,13 @@ export default class Post extends React.Component {
               step2_blank &&
               <div className="post_toptitle_center">
                 <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
-                  <div className="margintop redText">Please Fill In The Blanks</div>
+                  <div className="margintop redText">{lang.please_fill_in_the_blanks}</div>
                 </Animated>
               </div>
             }
             <div className="post_toptitle_center_withpadding">
-              <div className="button1" onClick={this.onCancel2}>Back</div>
-              <div className="button2" onClick={this.onNext2}>NEXT</div>
+              <div className="button1" onClick={this.onCancel2}>{lang.back1}</div>
+              <div className="button2" onClick={this.onNext2}>{lang.next1}</div>
             </div>
           </div>
         }
@@ -1085,7 +1088,7 @@ export default class Post extends React.Component {
           <div className="col-sm-12 centerContent">
             <div className="post_toptitle_center">
               <div>
-                Step 3 : Add Budget
+                {lang.step3_add_budget}
               </div>
             </div>
             <div className="post_toptitle_center">
@@ -1097,7 +1100,7 @@ export default class Post extends React.Component {
             <div className="post_toptitle_center margintop">
               <div className="post_title">
                 <div className="post_title_content1">
-                  NUMBER OF TASKERS NEEDED
+                  {lang.number_of_taskers_needed}
                 </div>
                 <div className="post_title_content2">
                   <div className="post_content2_plus" onClick={this.onTaskerCountDown}>
@@ -1120,7 +1123,7 @@ export default class Post extends React.Component {
               <div className="post_toptitle_center margintop">
                 <div className="post_title">
                   <div className="post_title_content1">
-                    NUMBER OF BEDROOMS
+                    {lang.number_of_bedrooms}
                   </div>
                   <div className="post_title_content2">
                     <div className="post_content2_plus" onClick={this.onBedroomCountDown}>
@@ -1143,7 +1146,7 @@ export default class Post extends React.Component {
               <div className="post_toptitle_center margintop">
                 <div className="post_title">
                   <div className="post_title_content1">
-                    NUMBER OF BATHROOMS
+                    {lang.number_of_bathrooms}
                   </div>
                   <div className="post_title_content2">
                     <div className="post_content2_plus" onClick={this.onBathroomCountDown}>
@@ -1165,7 +1168,7 @@ export default class Post extends React.Component {
               selectIndex === 1 &&
               <div>
                 <div className="post_toptitle_center margintop">
-                  <div className="post_title">ADDITIONAL CLEANING OPTIONS</div>
+                  <div className="post_title">{lang.additional_cleaning_options}</div>
                 </div>
                 <div className="post_toptitle_center">
                   <div className="cleaning_option_item_container">
@@ -1175,14 +1178,14 @@ export default class Post extends React.Component {
                           this.setState({ cleaning_option1: !cleaning_option1 })
                         }}>
                           <div className="cleaning_option_item_img1_checked"/>
-                          <div className="cleaning_option_item_title1">Laundry</div>
+                          <div className="cleaning_option_item_title1">{lang.laundry}</div>
                         </div>
                         :
                         <div className="cleaning_option_item" onClick={() => {
                           this.setState({ cleaning_option1: !cleaning_option1 })
                         }}>
                           <div className="cleaning_option_item_img1"/>
-                          <div className="cleaning_option_item_title1">Laundry</div>
+                          <div className="cleaning_option_item_title1">{lang.laundry}</div>
                         </div>
                     }
                     
@@ -1192,14 +1195,14 @@ export default class Post extends React.Component {
                           this.setState({ cleaning_option2: !cleaning_option2 })
                         }}>
                           <div className="cleaning_option_item_img2_checked"/>
-                          <div className="cleaning_option_item_title2">Oven</div>
+                          <div className="cleaning_option_item_title2">{lang.oven}</div>
                         </div>
                         :
                         <div className="cleaning_option_item" onClick={() => {
                           this.setState({ cleaning_option2: !cleaning_option2 })
                         }}>
                           <div className="cleaning_option_item_img2"/>
-                          <div className="cleaning_option_item_title2">Oven</div>
+                          <div className="cleaning_option_item_title2">{lang.oven}</div>
                         </div>
                     }
                     
@@ -1209,14 +1212,14 @@ export default class Post extends React.Component {
                           this.setState({ cleaning_option3: !cleaning_option3 })
                         }}>
                           <div className="cleaning_option_item_img3_checked"/>
-                          <div className="cleaning_option_item_title3">Cabinet</div>
+                          <div className="cleaning_option_item_title3">{lang.cabinet}</div>
                         </div>
                         :
                         <div className="cleaning_option_item" onClick={() => {
                           this.setState({ cleaning_option3: !cleaning_option3 })
                         }}>
                           <div className="cleaning_option_item_img3"/>
-                          <div className="cleaning_option_item_title3">Cabinet</div>
+                          <div className="cleaning_option_item_title3">{lang.cabinet}</div>
                         </div>
                     }
                     
@@ -1226,14 +1229,14 @@ export default class Post extends React.Component {
                           this.setState({ cleaning_option4: !cleaning_option4 })
                         }}>
                           <div className="cleaning_option_item_img4_checked"/>
-                          <div className="cleaning_option_item_title4">Carpet</div>
+                          <div className="cleaning_option_item_title4">{lang.carpet}</div>
                         </div>
                         :
                         <div className="cleaning_option_item" onClick={() => {
                           this.setState({ cleaning_option4: !cleaning_option4 })
                         }}>
                           <div className="cleaning_option_item_img4"/>
-                          <div className="cleaning_option_item_title4">Carpet</div>
+                          <div className="cleaning_option_item_title4">{lang.carpet}</div>
                         </div>
                     }
                     
@@ -1243,14 +1246,14 @@ export default class Post extends React.Component {
                           this.setState({ cleaning_option5: !cleaning_option5 })
                         }}>
                           <div className="cleaning_option_item_img5_checked"/>
-                          <div className="cleaning_option_item_title5">Windows</div>
+                          <div className="cleaning_option_item_title5">{lang.windows}</div>
                         </div>
                         :
                         <div className="cleaning_option_item" onClick={() => {
                           this.setState({ cleaning_option5: !cleaning_option5 })
                         }}>
                           <div className="cleaning_option_item_img5"/>
-                          <div className="cleaning_option_item_title5">Windows</div>
+                          <div className="cleaning_option_item_title5">{lang.windows}</div>
                         </div>
                     }
                   
@@ -1266,10 +1269,10 @@ export default class Post extends React.Component {
                 </div>
                 <div className="post_title_content2 margintop">
                   <label className="radio-inline hourlyview1">
-                    <input type="radio" name="optradio" checked={ hourly_checked === 0 } onClick={() => {this.onHourly(0);}}/> Hourly
+                    <input type="radio" name="optradio" checked={ hourly_checked === 0 } onClick={() => {this.onHourly(0);}}/> {lang.hourly}
                   </label>
                   <label className="radio-inline hourlyview2">
-                    <input type="radio" name="optradio" checked={ hourly_checked === 1 } onClick={() => {this.onHourly(1);}}/> Total Budget
+                    <input type="radio" name="optradio" checked={ hourly_checked === 1 } onClick={() => {this.onHourly(1);}}/> {lang.total_budget}
                   </label>
                 </div>
               </div>
@@ -1278,7 +1281,7 @@ export default class Post extends React.Component {
               hourly_checked === 0 &&
               <div>
                 <div className="post_toptitle_center margintop">
-                  <div className="post_title">NB OF HOURS</div>
+                  <div className="post_title">{lang.nb_of_hours}</div>
                 </div>
                 <div className="post_toptitle_center">
                   <input
@@ -1289,7 +1292,7 @@ export default class Post extends React.Component {
                   />
                 </div>
                 <div className="post_toptitle_center">
-                  <div className="post_title">HOURLY RATE</div>
+                  <div className="post_title">{lang.hourly_rate}</div>
                 </div>
                 <div className="post_toptitle_center">
                   <input
@@ -1305,7 +1308,7 @@ export default class Post extends React.Component {
               hourly_checked === 1 &&
               <div>
                 <div className="post_toptitle_center margintop">
-                  <div className="post_title">AMOUNT</div>
+                  <div className="post_title">{lang.amount}</div>
                 </div>
                 <div className="post_toptitle_center">
                   <input
@@ -1319,7 +1322,7 @@ export default class Post extends React.Component {
             }
             <div className="post_toptitle_center margintop">
               <div className="redText">
-                ESTIMATED BUDGET : ${ estimated_budget }
+                {lang.estimated_budget} : ${ estimated_budget }
               </div>
             </div>
             {
@@ -1327,7 +1330,7 @@ export default class Post extends React.Component {
               <div className="post_toptitle_center margintop">
                 <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
                   <div className="redText">
-                    ERROR: AMOUNTS ACCEPTED ARE BETWEEN ${settingInfos.min_amount} AND ${settingInfos.max_amount}
+                    {lang.error}: {lang.amounts_accepted_are_between} ${settingInfos.min_amount} {lang.and1} ${settingInfos.max_amount}
                   </div>
                 </Animated>
               </div>
@@ -1339,13 +1342,13 @@ export default class Post extends React.Component {
               step2_blank &&
               <div className="post_toptitle_center">
                 <Animated animationIn="shake" animationOut="fadeOut" isVisible={true}>
-                  <div className="margintop redText">Please Fill In The Blanks</div>
+                  <div className="margintop redText">{lang.please_fill_in_the_blanks}</div>
                 </Animated>
               </div>
             }
             <div className="post_toptitle_center_withpadding">
-              <div className="button1" onClick={this.onCancel3}>Back</div>
-              <div className="button2" onClick={this.onNext3}>{ editing ? "UPDATE THE TASK" : "POST THE TASK" }</div>
+              <div className="button1" onClick={this.onCancel3}>{lang.back1}</div>
+              <div className="button2" onClick={this.onNext3}>{ editing ? lang.update_the_task : lang.post_the_task }</div>
             </div>
           </div>
         }
@@ -1377,7 +1380,7 @@ export default class Post extends React.Component {
                         
                         <div className="myavatartext">
                           <div className="myavatartext_1">
-                            Alexander Ignacz ( You )
+                            Alexander Ignacz ( {lang.you1} )
                           </div>
                         </div>
                       </div>
@@ -1399,17 +1402,17 @@ export default class Post extends React.Component {
                   
                   <div className="post_toptitle_center1_1_clock" />
                   <div className="post_toptitle_center1_1" >
-                    POSTED :
+                    {lang.posted_uppercase} :
                   </div>
                   <div className="post_toptitle_center1_2" >
-                    Just Before
+                    {lang.just_before}
                   </div>
                   
                   <div className="marginBar"/>
                   
                   <div className="post_toptitle_center1_1_stopwatch" />
                   <div className="post_toptitle_center1_1" >
-                    DEADLINE :
+                    {lang.deadline} :
                   </div>
                   <div className="post_toptitle_center1_2" >
                     { deadline.format() }
@@ -1418,24 +1421,24 @@ export default class Post extends React.Component {
                   <div className="marginBar"/>
                   
                   <div className="post_toptitle_center1_1 marginleft" >
-                    STATUS :
+                    {lang.status_uppercase} :
                   </div>
                   <div className="post_toptitle_center1_2" >
-                    OPEN
+                    {lang.open1}
                   </div>
                   
                   <div className="marginBar"/>
                   
                   <div className="post_toptitle_center1_1 marginleft" >
-                    SHARE ON :
+                    {lang.share_on} :
                   </div>
                   <div className="post_toptitle_center1_1_fb" />
                   <div className="post_toptitle_center1_1" >
-                    Facebook
+                    {lang.facebook}
                   </div>
                   <div className="post_toptitle_center1_1_mail" />
                   <div className="post_toptitle_center1_1" >
-                    Email
+                    {lang.email}
                   </div>
                 </div>
                 
@@ -1446,17 +1449,17 @@ export default class Post extends React.Component {
                     <div className="post_leftRange_drumroll">
                       <div className="post_leftRange_drumroll_icon"/>
                       <div className="post_leftRange_drumroll_text1">
-                        DRUMROLL PLEASE!
+                        {lang.drumroll_please}!
                       </div>
                       <div className="post_leftRange_drumroll_text2">
-                        No Offers yet! Please wait and check after sometime.
+                        {lang.no_offers_yet_description}
                       </div>
                     </div>
                     
                     <div className="post_left_horibar"/>
                     
                     <div className="post_leftRange_taskdesc">
-                      TASK DESCRIPTION
+                      {lang.task_description}
                     </div>
                     
                     <div className="post_leftRange_taskdesc_content">
@@ -1464,43 +1467,43 @@ export default class Post extends React.Component {
                     </div>
                     
                     <div className="post_leftRange_new_endleasing">
-                      { cleaning_toggle1 ? "THIS IS AN END LEASING CLEANING" : "THIS IS NOT AN END LEASING CLEANING" }
+                      { cleaning_toggle1 ? lang.this_is_an_end_leasing_cleaning : lang.this_is_not_an_end_leasing_cleaning }
                     </div>
                     
                     <div className="post_leftRange_new_propertytype">
-                      PROPERTY TYPE
+                      {lang.property_type}
                     </div>
                     
                     <div className="post_leftRange_new_bedroomnum">
-                      NUMBER OF BEDROOMS
+                      {lang.number_of_bedrooms}
                     </div>
                     
                     <div className="post_leftRange_new_propertytype_value">
-                      { cleaning_toggle2 ? "House" : "Apartment" }
+                      { cleaning_toggle2 ? lang.house : lang.apartment }
                     </div>
                     
                     <div className="post_leftRange_new_bedroomnum_value">
-                      { bedroomcount } - Bedrooms
+                      { bedroomcount } - {lang.bedrooms}
                     </div>
                     
                     <div className="post_leftRange_new_bathroomnum">
-                      NUMBER OF BATHROOMS
+                      {lang.number_of_bathrooms}
                     </div>
                     
                     <div className="post_leftRange_new_taskernum">
-                      TASKERS NEEDED
+                      {lang.taskers_needed}
                     </div>
                     
                     <div className="post_leftRange_new_bathroomnum_value">
-                      { bathroomcount } - Bathrooms
+                      { bathroomcount } - {lang.bathrooms}
                     </div>
                     
                     <div className="post_leftRange_new_taskernum_value">
-                      { taskercount } - Taskers Needed
+                      { taskercount } - {lang.taskers_needed}
                     </div>
                     
                     <div className="post_leftRange_new_cleaningoptions">
-                      ADDITIONAL CLEANING OPTIONS
+                      {lang.additional_cleaning_options}
                     </div>
                     
                     {
@@ -1518,7 +1521,7 @@ export default class Post extends React.Component {
                       </div>
                       <div className="post_rightRange_drumroll_text2_icon"/>
                       <div className="post_rightRange_drumroll_text2">
-                        { task_info.task_location === "" ? "No Location" : task_info.task_location }
+                        { task_info.task_location === "" ? lang.no_location : task_info.task_location }
                       </div>
                       <div className="locationwindow">
                         {
@@ -1534,7 +1537,7 @@ export default class Post extends React.Component {
                     </div>
                     
                     <div className="post_leftRange_view_new">
-                      VIEW ATTACHMENTS
+                      {lang.view_attachments}
                     </div>
                     
                     <div className="post_done_viewattach_container_new">
@@ -1546,10 +1549,10 @@ export default class Post extends React.Component {
                 
                 <div className="post_toptitle_new_center3" />
                 <div className="post_canceltaskbtn_new" onClick={this.cancelTask}>
-                  Cancel the Task
+                  {lang.cancel_the_task}
                 </div>
                 <div className="post_edittaskbtn_new" onClick={this.editTask}>
-                  Edit the Task
+                  {lang.edit_the_task}
                 </div>
                 <div className="post_marginBottom" />
               </div>
@@ -1579,7 +1582,7 @@ export default class Post extends React.Component {
                         
                         <div className="myavatartext">
                           <div className="myavatartext_1">
-                            Alexander Ignacz ( You )
+                            Alexander Ignacz ( {lang.you1} )
                           </div>
                         </div>
                       </div>
@@ -1590,7 +1593,7 @@ export default class Post extends React.Component {
                         ${task_info.task_budget}
                       </div>
                       <div className="categoryiconcontainer3_2">
-                        Budget
+                        {lang.budget}
                       </div>
                     </div>
                   
@@ -1601,17 +1604,17 @@ export default class Post extends React.Component {
                   
                   <div className="post_toptitle_center1_1_clock" />
                   <div className="post_toptitle_center1_1" >
-                    POSTED :
+                    {lang.posted_uppercase} :
                   </div>
                   <div className="post_toptitle_center1_2" >
-                    Just Before
+                    {lang.just_before}
                   </div>
                   
                   <div className="marginBar"/>
                   
                   <div className="post_toptitle_center1_1_stopwatch" />
                   <div className="post_toptitle_center1_1" >
-                    DEADLINE :
+                    {lang.deadline} :
                   </div>
                   <div className="post_toptitle_center1_2" >
                     { deadline.format() }
@@ -1620,24 +1623,24 @@ export default class Post extends React.Component {
                   <div className="marginBar"/>
                   
                   <div className="post_toptitle_center1_1 marginleft" >
-                    STATUS :
+                    {lang.status_uppercase} :
                   </div>
                   <div className="post_toptitle_center1_2" >
-                    OPEN
+                    {lang.open1}
                   </div>
                   
                   <div className="marginBar"/>
                   
                   <div className="post_toptitle_center1_1 marginleft" >
-                    SHARE ON :
+                    {lang.share_on} :
                   </div>
                   <div className="post_toptitle_center1_1_fb" />
                   <div className="post_toptitle_center1_1" >
-                    Facebook
+                    {lang.facebook}
                   </div>
                   <div className="post_toptitle_center1_1_mail" />
                   <div className="post_toptitle_center1_1" >
-                    Facebook
+                    {lang.facebook}
                   </div>
                 </div>
                 
@@ -1648,17 +1651,17 @@ export default class Post extends React.Component {
                     <div className="post_leftRange_drumroll">
                       <div className="post_leftRange_drumroll_icon"/>
                       <div className="post_leftRange_drumroll_text1">
-                        DRUMROLL PLEASE!
+                        {lang.drumroll_please}!
                       </div>
                       <div className="post_leftRange_drumroll_text2">
-                        No Offers yet! Please wait and check after sometime.
+                        {lang.no_offers_yet_description}
                       </div>
                     </div>
                     
                     <div className="post_left_horibar"/>
                     
                     <div className="post_leftRange_taskdesc">
-                      TASK DESCRIPTION
+                      {lang.task_description}
                     </div>
                     
                     <div className="post_leftRange_taskdesc_content">
@@ -1666,15 +1669,15 @@ export default class Post extends React.Component {
                     </div>
                     
                     <div className="post_leftRange_taskersneeded">
-                      TASKERS NEEDED :
+                      {lang.taskers_needed} :
                     </div>
                     
                     <div className="post_leftRange_tasktype">
-                      { selectIndex === 4 ? "DISTANCE :" : "TASK TYPE :" }
+                      { selectIndex === 4 ? lang.distance__ : lang.task_type__ }
                     </div>
                     
                     <div className="post_leftRange_taskersneeded_content">
-                      { task_info.task_numberoftasker } - Taskers Needed
+                      { task_info.task_numberoftasker } - {lang.taskers_needed}
                     </div>
                     
                     <div className="post_leftRange_tasktype_content">
@@ -1683,9 +1686,9 @@ export default class Post extends React.Component {
                           "15 Kilometers"
                           :
                           task_info.task_type === 0 ?
-                            "Virtual Task"
+                            lang.virtual_task
                             :
-                            "Task is in specific location"
+                            lang.task_is_in_spec_loc
                       }
                     </div>
                     
@@ -1693,11 +1696,11 @@ export default class Post extends React.Component {
                       selectIndex === 4 &&
                         <div>
                           <div className="post_leftRange_taskersneeded_margintop1">
-                            FROM LOCATION :
+                            {lang.from_locations} :
                           </div>
   
                           <div className="post_leftRange_tasktype_margintop1">
-                            TO LOCATION :
+                            {lang.to_location} :
                           </div>
   
                           <div className="post_leftRange_taskersneeded_content_margintop1">
@@ -1713,7 +1716,7 @@ export default class Post extends React.Component {
                       selectIndex === 4 ?
                         <div>
                           <div className="post_leftRange_view_margintop1">
-                            View Attachments
+                            {lang.view_attachments}
                           </div>
   
                           <div className="post_done_viewattach_container_margintop1">
@@ -1723,7 +1726,7 @@ export default class Post extends React.Component {
                         :
                         <div>
                           <div className="post_leftRange_view">
-                            View Attachments
+                            {lang.view_attachments}
                           </div>
     
                           <div className="post_done_viewattach_container">
@@ -1739,11 +1742,11 @@ export default class Post extends React.Component {
                     <div className="post_leftRange_drumroll">
                       <div className="post_gps_icon" onClick={this.navigateCurrentLoc}/>
                       <div>
-                        TASK LOCATION
+                        {lang.task_location}
                       </div>
                       <div className="post_rightRange_drumroll_text2_icon"/>
                       <div className="post_rightRange_drumroll_text2">
-                        { task_info.task_location === "" ? "No Location" : task_info.task_location }
+                        { task_info.task_location === "" ? lang.no_location : task_info.task_location }
                       </div>
                       <div className="locationwindow">
                         {
@@ -1771,10 +1774,10 @@ export default class Post extends React.Component {
                 
                 <div className="post_toptitle_center3" />
                 <div className="post_canceltaskbtn" onClick={this.cancelTask}>
-                  Cancel the Task
+                  {lang.cancel_the_task}
                 </div>
                 <div className="post_edittaskbtn" onClick={this.editTask}>
-                  Edit the Task
+                  {lang.edit_the_task}
                 </div>
                 <div className="post_marginBottom" />
               </div> : null
@@ -1795,7 +1798,7 @@ export default class Post extends React.Component {
         <Modal show={showImageSlider} onHide={this.closeImageSlider}>
           <Modal.Header closeButton>
             <Modal.Title>
-              <div>Attachments</div>
+              <div>{lang.attachments}</div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -1810,7 +1813,7 @@ export default class Post extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.closeAlert}>Close</Button>
+            <Button onClick={this.closeAlert}>{lang.close}</Button>
           </Modal.Footer>
         </Modal>
       

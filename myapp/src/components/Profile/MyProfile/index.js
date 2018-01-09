@@ -439,7 +439,7 @@ export default class MyProfile extends React.Component {
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
             <Modal.Title>
-              <div>Verify Phone Number</div>
+              <div>{lang.verify_phone_number}</div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -473,7 +473,7 @@ export default class MyProfile extends React.Component {
         <Modal show={showAlert} onHide={this.closeAlert}>
           <Modal.Header closeButton>
             <Modal.Title>
-              <div>Alert</div>
+              <div>{lang.alert}</div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -482,11 +482,11 @@ export default class MyProfile extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.closeAlert}>Close</Button>
+            <Button onClick={this.closeAlert}>{lang.close}</Button>
           </Modal.Footer>
         </Modal>
   
-        <div className="editprofile" onClick={() => {this.onEditProfile();}}>Edit Profile</div>
+        <div className="editprofile" onClick={() => {this.onEditProfile();}}>{lang.edit_profile}</div>
       </div>
     );
   }

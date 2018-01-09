@@ -741,15 +741,15 @@ export default class SignupStripe extends Component {
         
         <div className="col-sm-12 bottomContent">
           <form>
-            <div className="clear" onClick={this.onClear}>Clear</div>
-            <div className="next" onClick={() => {this.onNext();}}>Next</div>
+            <div className="clear" onClick={this.onClear}>{lang.clear1}</div>
+            <div className="next" onClick={() => {this.onNext();}}>{lang.next1}</div>
           </form>
         </div>
   
         <Modal show={showAlert} onHide={this.closeAlert}>
           <Modal.Header closeButton>
             <Modal.Title>
-              <h5>Alert</h5>
+              <h5>{lang.alert}</h5>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -758,7 +758,7 @@ export default class SignupStripe extends Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.closeAlert}>Close</Button>
+            <Button onClick={this.closeAlert}>{lang.close}</Button>
           </Modal.Footer>
         </Modal>
         

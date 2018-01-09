@@ -3,6 +3,7 @@ import "./styles.css";
 import {reactLocalStorage} from 'reactjs-localstorage';
 import { Redirect } from 'react-router';
 import Scroll from "react-scroll";
+import { eng, fre } from '../../lang';
 
 export default class Landing extends React.Component {
   
@@ -12,6 +13,7 @@ export default class Landing extends React.Component {
       redirect: 0,
       lang_expand: false,
       lang: "english",
+      device_lang: eng,
     }
   }
   
@@ -137,7 +139,7 @@ export default class Landing extends React.Component {
   };
 
   render() {
-    const { redirect, lang_expand } = this.state;
+    const { redirect, lang_expand, device_lang } = this.state;
     if (redirect === 1) {
       return <Redirect push to="/signup"/>;
     }
@@ -156,25 +158,25 @@ export default class Landing extends React.Component {
         <div className="logo_section1">
           <div className="landing_header">
             <div className="landing_header_signupbtn" onClick={this.onCreate}>
-              Create Account
+              {device_lang.create_account}
             </div>
             <div className="landing_header_signupbtn" onClick={this.onLogin}>
-              Login
+              {device_lang.login}
             </div>
             <div className="landing_header_signupbtn">
-              FAQ
+              {device_lang.faq}
             </div>
             <div className="landing_header_signupbtn" onClick={this.goToDownload}>
-              Download App
+              {device_lang.download_app}
             </div>
             <div className="landing_header_signupbtn" onClick={this.goToHow}>
-              How it Works
+              {device_lang.how_it_works}
             </div>
             <div className="landing_header_signupbtn">
               <div className="landing_www" onClick={this.changeLangExpand}/>
               <div className="landing_langtxt" onClick={this.changeLangExpand}>
                 {
-                  this.state.lang === "english" ? "English" : "French"
+                  this.state.lang === "english" ? device_lang.english : device_lang.french
                 }
               </div>
               <div className="lang_downarrow"/>
@@ -182,14 +184,14 @@ export default class Landing extends React.Component {
                 lang_expand &&
                   <div className="landing_lang_expand">
                     <div className="landing_lang_expand_txt1">
-                      Change Language
+                      {device_lang.change_language}
                     </div>
                     <div className="landing_lang_expand_txt1_bar"/>
                     {
                       this.state.lang === "english" ?
                         <div className="landing_lang_expand_1_lightgray" onClick={this.onEnglish}>
                           <div className="landing_lang_expand_txt2">
-                            English
+                            {device_lang.english}
                           </div>
                           {
                             this.state.lang === "english" ? <div className="landing_lang_expand_check_on"/> : <div className="landing_lang_expand_check_off"/>
@@ -198,7 +200,7 @@ export default class Landing extends React.Component {
                         :
                         <div className="landing_lang_expand_1" onClick={this.onEnglish}>
                           <div className="landing_lang_expand_txt2">
-                            English
+                            {device_lang.english}
                           </div>
                           {
                             this.state.lang === "english" ? <div className="landing_lang_expand_check_on"/> : <div className="landing_lang_expand_check_off"/>
@@ -210,7 +212,7 @@ export default class Landing extends React.Component {
                       this.state.lang === "french" ?
                         <div className="landing_lang_expand_1_lightgray" onClick={this.onFrench}>
                           <div className="landing_lang_expand_txt2">
-                            French
+                            {device_lang.french}
                           </div>
                           {
                             this.state.lang === "french" ? <div className="landing_lang_expand_check_on"/> : <div className="landing_lang_expand_check_off"/>
@@ -219,7 +221,7 @@ export default class Landing extends React.Component {
                         :
                         <div className="landing_lang_expand_1" onClick={this.onFrench}>
                           <div className="landing_lang_expand_txt2">
-                            French
+                            {device_lang.french}
                           </div>
                           {
                             this.state.lang === "french" ? <div className="landing_lang_expand_check_on"/> : <div className="landing_lang_expand_check_off"/>
@@ -233,12 +235,12 @@ export default class Landing extends React.Component {
           </div>
           <div className="landing_section1_btncontain">
             <div className="landing_section1_explore" onClick={this.exploreTasks}>
-              Explore Tasks
+              {device_lang.explore_tasks}
             </div>
           </div>
           <div className="landing_section1_btncontain">
             <div className="landing_section1_post" onClick={this.onPost}>
-              Post a Task
+              {device_lang.post_a_task}
             </div>
           </div>
         </div>
@@ -246,13 +248,13 @@ export default class Landing extends React.Component {
         <div className="logo_section2">
           <div className="logo_section2_left">
             <div className="logo_section2_left_startearningtxt1">
-              Start Earning With Yeepi Today
+              {device_lang.start_earning_with_yeepi_today}
             </div>
             <div className="logo_section2_left_startearningtxt2">
-              Being your own boss and working for yourself is rewarding. Earn extra income while helping the people around you!  Get access to thousands of tasks posted by people in your own neighborhood.
+              {device_lang.being_your_own_boss_and_working__}
             </div>
             <div className="logo_section2_left_startearningtxt3" onClick={this.becomeTasker}>
-              Become a Tasker
+              {device_lang.become_a_tasker}
             </div>
           </div>
 
@@ -263,9 +265,9 @@ export default class Landing extends React.Component {
               <div className="logo_testimg3" onClick={this.onPost}/>
             </div>
             <div className="logo_section2_right2">
-              <div className="logo_testtxt">Moving & Delivery</div>
-              <div className="logo_testtxt">Assembly</div>
-              <div className="logo_testtxt">House Cleaning</div>
+              <div className="logo_testtxt">{device_lang.moving_and_delivery}</div>
+              <div className="logo_testtxt">{device_lang.assembly}</div>
+              <div className="logo_testtxt">{device_lang.house_cleaning}</div>
             </div>
             <div className="logo_section2_right1">
               <div className="logo_testimg4" onClick={this.onPost}/>
@@ -273,12 +275,12 @@ export default class Landing extends React.Component {
               <div className="logo_testimg6" onClick={this.onPost}/>
             </div>
             <div className="logo_section2_right2">
-              <div className="logo_testtxt">Painting</div>
-              <div className="logo_testtxt">Beauty & Care</div>
-              <div className="logo_testtxt">TV Mounting</div>
+              <div className="logo_testtxt">{device_lang.painting}</div>
+              <div className="logo_testtxt">{device_lang.beauty_and_care}</div>
+              <div className="logo_testtxt">{device_lang.tvmoving}</div>
             </div>
             <div className="logo_section2_right3">
-              And much more...
+              {device_lang.and_much_more__}...
             </div>
           </div>
         </div>
@@ -288,16 +290,16 @@ export default class Landing extends React.Component {
           <div className="landing_section3_left_graphics"/>
           <div className="landing_section3_right">
             <div className="logo_section2_left_startearningtxt1">
-              Start Earning With Yeepi Today
+              {device_lang.landing_section3_desc1}
             </div>
             <div className="logo_section2_left_startearningtxt2">
-              Being your own boss and working for yourself is rewarding. Earn extra income while helping the people around you!  Get access to thousands of tasks posted by people in your own neighborhood.
+              {device_lang.landing_section3_desc2}
             </div>
             <div className="logo_section2_left_startearningtxt3">
-              Learn More
+              {device_lang.learn_more}
             </div>
             <div className="logo_section2_left_startearningtxt1">
-              $2 Millions of Insurance covered in Bolt only on Yeepi!
+              {device_lang.landing_section3_desc3}
             </div>
           </div>
 
@@ -311,13 +313,13 @@ export default class Landing extends React.Component {
 
           <div className="logo_section2_left">
             <div className="logo_section2_left_startearningtxt1">
-              Hire Skilled Professionals within in minutes, to get al your work done.
+              {device_lang.landing_section4_desc1}
             </div>
             <div className="logo_section2_left_startearningtxt2">
-              Our skilled professionals go above and beyond on every job. Taskers are rated and reviewed after each task. Our trusted Yeepi Taskers are ready to complete your task today, just post it and we will do it.
+              {device_lang.landing_section4_desc2}
             </div>
             <div className="logo_section2_left_startearningtxt3" onClick={this.onPost}>
-              Post a Task
+              {device_lang.post_a_task}
             </div>
           </div>
 
@@ -328,7 +330,7 @@ export default class Landing extends React.Component {
                   <div className="top_rated_badge">
                     <div className="whitestar"/>
                     <div className="toprated">
-                      Top Rated
+                      {device_lang.top_rated}
                     </div>
                   </div>
                 </div>
@@ -415,20 +417,20 @@ export default class Landing extends React.Component {
 
         <div className="logo_section7">
           <div className="logo_section7_txt1">
-            Join Yeepi, the only platform with 2 million bolt insurance
+            {device_lang.landing_section7_desc1}
           </div>
           <div className="logo_section7_txt2">
-            Get Yeepi free forever!
+            {device_lang.landing_section7_desc2}
           </div>
           <div className="logo_section7_txt3">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+            {device_lang.landing_section7_desc3}
           </div>
           <div className="logo_section7_btncontainer">
             <div className="landing_wantpost_btn" onClick={this.onPost}>
-              I want to Post a Task
+              {device_lang.i_want_to_post_a_task}
             </div>
             <div className="landing_wanttask_btn" onClick={this.exploreTasks}>
-              I want to become a Tasker
+              {device_lang.i_want_to_become_a_tasker}
             </div>
           </div>
         </div>
@@ -441,23 +443,23 @@ export default class Landing extends React.Component {
             </div>
 
             <div className="logo_section8_content2">
-              <div className="logo_section8_content2_txt1">Discover</div>
-              <div className="logo_section8_content2_txt2">How Yeepi Works</div>
-              <div className="logo_section8_content2_txt3">Trust and Safety</div>
-              <div className="logo_section8_content2_txt3">Invite Friends</div>
-              <div className="logo_section8_content2_txt3">Carriers</div>
+              <div className="logo_section8_content2_txt1">{device_lang.discover}</div>
+              <div className="logo_section8_content2_txt2">{device_lang.how_yeepi_works}</div>
+              <div className="logo_section8_content2_txt3">{device_lang.trust_and_safety}</div>
+              <div className="logo_section8_content2_txt3">{device_lang.invite_friends}</div>
+              <div className="logo_section8_content2_txt3">{device_lang.carriers}</div>
             </div>
 
             <div className="logo_section8_content3">
-              <div className="logo_section8_content2_txt1">Company</div>
-              <div className="logo_section8_content2_txt2">About</div>
-              <div className="logo_section8_content2_txt3">Help</div>
-              <div className="logo_section8_content2_txt3">Terms and Conditions</div>
-              <div className="logo_section8_content2_txt3">Privacy Policy</div>
+              <div className="logo_section8_content2_txt1">{device_lang.company}</div>
+              <div className="logo_section8_content2_txt2">{device_lang.about}</div>
+              <div className="logo_section8_content2_txt3">{device_lang.help}</div>
+              <div className="logo_section8_content2_txt3">{device_lang.terms_and_conditions}</div>
+              <div className="logo_section8_content2_txt3">{device_lang.privacy_policy}</div>
             </div>
 
             <div className="logo_section8_content4">
-              <div className="logo_section8_content2_txt1">Social Media</div>
+              <div className="logo_section8_content2_txt1">{device_lang.social_media}</div>
               <div className="logo_section8_content4_socialcontainer">
                 <div className="socialmedia1"/>
                 <div className="socialmedia2"/>
@@ -471,21 +473,21 @@ export default class Landing extends React.Component {
 
             <div className="logo_section8_content5">
               <div className="logo_section8_content5_lang" onClick={this.changeLangExpand}>
-                <div>{ this.state.lang === "english" ? "English" : "French" }</div>
+                <div>{ this.state.lang === "english" ? device_lang.english : device_lang.french }</div>
                 <div className="black_downarrow"/>
               </div>
               {
                 lang_expand &&
                 <div className="landing_lang_expand">
                   <div className="landing_lang_expand_txt1">
-                    Change Language
+                    {device_lang.change_language}
                   </div>
                   <div className="landing_lang_expand_txt1_bar"/>
                   {
                     this.state.lang === "english" ?
                       <div className="landing_lang_expand_1_lightgray" onClick={this.onEnglish}>
                         <div className="landing_lang_expand_txt2">
-                          English
+                          {device_lang.english}
                         </div>
                         {
                           this.state.lang === "english" ? <div className="landing_lang_expand_check_on"/> : <div className="landing_lang_expand_check_off"/>
@@ -494,7 +496,7 @@ export default class Landing extends React.Component {
                       :
                       <div className="landing_lang_expand_1" onClick={this.onEnglish}>
                         <div className="landing_lang_expand_txt2">
-                          English
+                          {device_lang.english}
                         </div>
                         {
                           this.state.lang === "english" ? <div className="landing_lang_expand_check_on"/> : <div className="landing_lang_expand_check_off"/>
@@ -506,7 +508,7 @@ export default class Landing extends React.Component {
                     this.state.lang === "french" ?
                       <div className="landing_lang_expand_1_lightgray" onClick={this.onFrench}>
                         <div className="landing_lang_expand_txt2">
-                          French
+                          {device_lang.french}
                         </div>
                         {
                           this.state.lang === "french" ? <div className="landing_lang_expand_check_on"/> : <div className="landing_lang_expand_check_off"/>
@@ -515,7 +517,7 @@ export default class Landing extends React.Component {
                       :
                       <div className="landing_lang_expand_1" onClick={this.onFrench}>
                         <div className="landing_lang_expand_txt2">
-                          French
+                          {device_lang.french}
                         </div>
                         {
                           this.state.lang === "french" ? <div className="landing_lang_expand_check_on"/> : <div className="landing_lang_expand_check_off"/>
@@ -531,7 +533,7 @@ export default class Landing extends React.Component {
         </div>
 
         <div className="logo_section9">
-          <div className="logo_section9_txt1">All rights reserved. Copyrighted by Yeepi Inc.</div>
+          <div className="logo_section9_txt1">{device_lang.copyright}</div>
           <div className="copyright"/>
           <div className="logo_section9_txt2">2018</div>
         </div>

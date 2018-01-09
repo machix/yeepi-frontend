@@ -4,6 +4,7 @@ import {  Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { NavDropdown, MenuItem } from 'react-bootstrap';
 import config from './../config';
+import { eng, fre } from './../lang';
 import './styles.css';
 
 import Promise from 'promise';
@@ -73,23 +74,23 @@ const MyProfileView_Temp = props => {
       </Link>
     
       <Link to="/dashboard">
-        <div className={ props.headerType === 13 ? "normal_white" : "normal"} onClick={props.headerUpdated}>Dashboard</div>
+        <div className={ props.headerType === 13 ? "normal_white" : "normal"} onClick={props.headerUpdated}>{props.lang.dashboard}</div>
       </Link>
     
       <Link to="/exploretasks">
-        <div className={ props.headerType === 10 ? "normal_white" : "normal"} onClick={props.headerUpdated}>Explore Tasks</div>
+        <div className={ props.headerType === 10 ? "normal_white" : "normal"} onClick={props.headerUpdated}>{props.lang.explore_tasks}</div>
       </Link>
     
       <Link to="/mytasks">
-        <div className={ props.headerType === 9 ? "normal_white" : "normal"} onClick={props.headerUpdated}>My Tasks</div>
+        <div className={ props.headerType === 9 ? "normal_white" : "normal"} onClick={props.headerUpdated}>{props.lang.my_tasks}</div>
       </Link>
     
       <Link to="/payments">
-        <div className={ props.headerType === 11 ? "normal_white" : "normal"} onClick={props.headerUpdated}>Payments</div>
+        <div className={ props.headerType === 11 ? "normal_white" : "normal"} onClick={props.headerUpdated}>{props.lang.payments}</div>
       </Link>
     
       <Link to="/messages">
-        <div className={ props.headerType === 12 ? "normal_white" : "normal"} onClick={props.headerUpdated}>Messages</div>
+        <div className={ props.headerType === 12 ? "normal_white" : "normal"} onClick={props.headerUpdated}>{props.lang.messages}</div>
       </Link>
       
     </div>
@@ -158,6 +159,7 @@ class Header extends React.Component {
       profileClicked: false,
       langClicked: false,
       username: '',
+      lang: eng,
     };
     this.requests = {
       updateLanguage: (i) =>
@@ -256,7 +258,7 @@ class Header extends React.Component {
   };
   
   render() {
-    const { headerType, langState, profileClicked, langClicked, username } = this.state;
+    const { headerType, langState, profileClicked, langClicked, username, lang } = this.state;
     if (headerType === 2 || headerType === 9 || headerType === 10 || headerType === 11 || headerType === 12 || headerType === 13) { // 9: my tasks, 10: explore tasks, 11: payments, 12: messages, 13: dashboard , 2: my profile
       return (
         <div className="new_navbar_container">
@@ -264,7 +266,7 @@ class Header extends React.Component {
             <Link to="/dashboard">
               <div className="appheader-logo" onClick={this.headerUpdated} />
             </Link>
-            <MyProfileView_Temp onSignOut={this.onSignOut} onMenu={this.onMenu} onClickPost={this.onClickPost} headerUpdated={this.headerUpdated} headerType={headerType} />
+            <MyProfileView_Temp onSignOut={this.onSignOut} onMenu={this.onMenu} onClickPost={this.onClickPost} headerUpdated={this.headerUpdated} headerType={headerType} lang={lang} />
             <div className="new_header_rightcontainer">
               <div className="header_profile" onClick={this.onToggleProfile}/>
               <div className="bell" onClick={this.onToggleBell}/>
@@ -280,12 +282,12 @@ class Header extends React.Component {
                 <div className="expandview1">
                   <div className="triangle"/>
                   <div className="changelanguage">
-                    Change Language
+                    {lang.change_language}
                   </div>
                   <div className="changelangbar"/>
                   <div>
                     <div className={langState === 0 ? "changelanguage1 grayback" : "changelanguage1"} onClick={this.onEng}>
-                      English
+                      {lang.english}
                     </div>
                     {
                       langState === 0 &&
@@ -294,7 +296,7 @@ class Header extends React.Component {
                   </div>
                   <div>
                     <div className={langState === 1 ? "changelanguage1 grayback" : "changelanguage1"} onClick={this.onFre}>
-                      French
+                      {lang.french}
                     </div>
                     {
                       langState === 1 &&
@@ -310,28 +312,28 @@ class Header extends React.Component {
                   <div className="triangle2"/>
                   
                   <div className="hitxt redtext">
-                    Hi, { username }
+                    {lang.hi}, { username }
                   </div>
                   
                   <div className="hitxtbar"/>
   
                   <Link to="/myprofile">
                     <div className="hitxt1" onClick={this.onMyProfile}>
-                      My Profile
+                      {lang.my_profile}
                     </div>
                   </Link>
                   
                   <div className="hitxtbar"/>
   
                   <div className="hitxt1" onClick={this.onSettings}>
-                    Settings
+                    {lang.settings}
                   </div>
                   
                   <div className="hitxtbar"/>
                   
                   <Link to="/signin">
                     <div className="hitxt1" onClick={this.onLogOut}>
-                      Logout
+                      {lang.logout1}
                     </div>
                   </Link>
                   
@@ -366,12 +368,12 @@ class Header extends React.Component {
               <div className="expandview1">
                 <div className="triangle"/>
                 <div className="changelanguage">
-                  Change Language
+                  {lang.change_language}
                 </div>
                 <div className="changelangbar"/>
                 <div>
                   <div className={langState === 0 ? "changelanguage1 grayback" : "changelanguage1"} onClick={this.onEng}>
-                    English
+                    {lang.english}
                   </div>
                   {
                     langState === 0 &&
@@ -380,7 +382,7 @@ class Header extends React.Component {
                 </div>
                 <div>
                   <div className={langState === 1 ? "changelanguage1 grayback" : "changelanguage1"} onClick={this.onFre}>
-                    French
+                    {lang.french}
                   </div>
                   {
                     langState === 1 &&
@@ -396,28 +398,28 @@ class Header extends React.Component {
                 <div className="triangle2"/>
       
                 <div className="hitxt redtext">
-                  Hi, Alexander Ignacz!
+                  {lang.hi}, Alexander Ignacz!
                 </div>
       
                 <div className="hitxtbar"/>
       
                 <Link to="/myprofile">
                   <div className="hitxt1" onClick={this.onMyProfile}>
-                    My Profile
+                    {lang.my_profile}
                   </div>
                 </Link>
       
                 <div className="hitxtbar"/>
       
                 <div className="hitxt1" onClick={this.onSettings}>
-                  Settings
+                  {lang.settings}
                 </div>
       
                 <div className="hitxtbar"/>
       
                 <Link to="/signin">
                   <div className="hitxt1" onClick={this.onLogOut}>
-                    Logout
+                    {lang.logout1}
                   </div>
                 </Link>
     
@@ -425,7 +427,7 @@ class Header extends React.Component {
             }
             
             <div className="createyourprofiletxt">
-              Create Your Profile
+              {lang.create_your_profile}
             </div>
 
           </div>
@@ -442,11 +444,11 @@ class Header extends React.Component {
           
           <div className="landing_signup_container">
             <Link to="/signup">
-              <div className="landig_signup">Sign Up</div>
+              <div className="landig_signup">{lang.sign_up}</div>
             </Link>
             
             <Link to="/signin">
-              <div className="landig_signup">Sign In</div>
+              <div className="landig_signup">{lang.sign_in}</div>
             </Link>
           </div>
   
