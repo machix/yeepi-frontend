@@ -507,7 +507,7 @@ export default class TaskSummary extends React.Component {
       props => {
         return(
           <GoogleMap
-            defaultZoom={3}
+            defaultZoom={9}
             defaultCenter={ props.task.task_category === 4 ? { lat: props.task.task_from_location_lat, lng: props.task.task_from_location_lng } : { lat: props.task.task_location_lat, lng: props.task.task_location_lng }}
             defaultOptions={{ styles: demoFancyMapStyles }}
           >

@@ -27,7 +27,7 @@ let superagent = superagentPromise(_superagent, Promise);
 
 const MapWithAMarker = withGoogleMap(props =>
   <GoogleMap
-    defaultZoom={8}
+    defaultZoom={9}
     defaultCenter={{ lat: props.lat, lng: props.lng }}
   >
     <Marker
